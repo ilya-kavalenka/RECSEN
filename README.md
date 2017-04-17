@@ -1,3 +1,15 @@
+# RECSEN
+
+The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
+
+The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as define protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
+
+The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the client-server protocol handlers ready for use in an application or the XML protocol definition for further arbitrary processing. 
+
+The RECSEN protocol handlers provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
+
+The RECSEN runtime library supports a number of message formats, communication transports and platforms including FastBinaryEncoding, TCP sockets, UDP sockets, C++/Linux and is extensible for other alternatives.
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/ilya-kavalenka/recsen/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
