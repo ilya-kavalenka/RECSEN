@@ -319,6 +319,26 @@ message UnsubscribeSymbolAccept : SymbolResponse
 {
 }
 
+enum Side
+{
+    Bid,
+    Ask
+}
+
+group SnapshotRefreshEntry
+{
+    Side Side;
+    int32 Qty;
+    double Price;
+    int32 Orders;
+}
+
+message SnapshotRefresh : SymbolResponse
+{
+    string Symbol;
+    SnapshotRefreshEntry[] Entries;
+}
+
 message NewsRequest
 {
 }
@@ -348,6 +368,19 @@ message UnsubscribeNewsAccept : NewsResponse
 {
 }
 
+enum NewsSeverity
+{
+    Critical,
+    Warning,
+    Information
+}
+
+message NewsNotification : NewsResponse
+{
+    NewsSeverity Severity;
+    string Header;
+    string Text;
+}
 ```
 
 The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of its super processor. 
@@ -435,42 +468,58 @@ or recv (SymbolResponse, NewsResponse)
 
 In this version of the protocol the client and server implement two independent parallel workflows.
 
+### Sample Protocol 6
 
-## Welcome to GitHub Pages
+Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means the subscription workflows of different symbols may overlap in time and are to be handled in parallel.
+SampleProtocol_6_0.rs adds a string Symbol field to the SymbolRequest and SymbolResponse message to be inherited by all symbol messages. 
 
-You can use the [editor on GitHub](https://github.com/ilya-kavalenka/recsen/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+```
+message SymbolRequest
+{
+    string Symbol;
+}
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+message SymbolResponse
+{
+    string Symbol;
+}
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+It also modifies the SymbolClient processor to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
 
-### Jekyll Themes
+```
+processor SymbolClient(string) : Client
+(
+    SymbolRequest.Symbol,
+    SymbolResponse.Symbol
+) 
+{
+    send subscribeSymbol(SubscribeSymbolRequest)
+    {
+        recv onSymbolSubscribeAccept(SubscribeSymbolAccept)
+        {
+        }
+        or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+        {
+            return;
+        }
+    }
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/ilya-kavalenka/recsen/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+    recv onSnapshot(SnapshotRefresh)
+    {
+        repeat;
+    }
+    or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+    {
+        recv (SnapshotRefresh)
+        {
+            repeat;
+        }
+        or recv onUnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
+        {
+        }
+    }
+}
+```
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+In this version of the protocol the client and server implement multiple independent parallel workflows.
