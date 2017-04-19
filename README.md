@@ -152,7 +152,7 @@ message PasswordResponse
 }
 ```
 
-The client now has a choice to initiate either a public or a private login operation. In response to the LoginPrivate message the only message the client may receive is a PasswordRequest message containing an arbitrary binary token. The client has to encode the token with its private password and send the encoded binary token back to the server with a PasswordResponse message. It then receives either the LoginAccept or LoginReject message from the server as in the public login operation. Authenticated clients receive market data updates of additional symbols from the server.
+The client now has a choice to initiate either a public or a private login operation. In response to the LoginPrivateRequest message the only message the client may receive is a PasswordRequest message containing an arbitrary binary token. The client has to encode the token with its private password and send the encoded binary token back to the server with a PasswordResponse message. It then receives either a LoginAccept or LoginReject message from the server as in the public login operation. Authenticated clients receive market data updates of additional symbols from the server.
 
 ```
 send loginPublic(LoginPublicRequest)
