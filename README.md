@@ -503,27 +503,15 @@ In this version of the protocol the client and server implement multiple indepen
 rsc -t <target> -o <output_filename> <input_filename>
 ```
 
-XML is the only target currently supported by the RECSEN compiler.
+XML is the only target currently supported by the compiler.
 
 ### XML Output
 
 The XML output can be used for further arbitrary protocol processing, compiler verification and troubleshooting.
 
 SampleProtocol_1_0.xml
-
 SampleProtocol_2_0.xml
-
 SampleProtocol_3_0.xml
-
 SampleProtocol_4_0.xml
-
 SampleProtocol_5_0.xml
-
 SampleProtocol_6_0.xml
-
-
-
-
-
-
-
