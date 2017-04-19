@@ -287,7 +287,7 @@ In this version of the protocol the client and server implement an additional re
 
 Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs adds corresponding news messages to the protocol. 
 
-This version introduces four base synthetic messages SymbolRequestMessage, SymbolResponseMessage, NewsRequestMessage, NewsResponseMessage and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
+This version introduces four base synthetic messages SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
 
 ```
 message SymbolRequest
