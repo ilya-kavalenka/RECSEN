@@ -10,7 +10,7 @@ The RECSEN runtime library supports a number of message formats, communication t
 
 ## RECSEN Language
 
-The RECSEN language is designed to serve as a protocol definition. The protocol workflow is essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive market data updates from a market data publisher.
+The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive market data updates from a market data publisher.
 
 ### Sample Protocol 1
 
