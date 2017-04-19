@@ -14,7 +14,7 @@ The RECSEN language is designed to serve as protocol workflow definition. The pr
 
 ### Sample Protocol 1
 
-SampleProtocol_1_0.rs presents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (the order book). The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry.
+SampleProtocol_1_0.rs represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (the order book). The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry.
 
 ```
 message SnapshotRefresh
@@ -65,6 +65,8 @@ processor Server()
         repeat;
 }
 ```
+
+In this version of the protocol the client simply connects to the server and the server immediately starts sending the client snapshot refresh messages until the client disconnects. 
 
 
 ## Welcome to GitHub Pages
