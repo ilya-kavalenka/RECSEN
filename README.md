@@ -10,7 +10,7 @@ The RECSEN runtime library supports a number of message formats, communication t
 
 ## RECSEN Language
 
-The RECSEN language is designed to serve as protocol workflow definition. The protocol workflow is essential consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive market data updates from a market data publisher.
+The RECSEN language is designed to serve as a protocol workflow definition. The protocol workflow is essential consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive market data updates from a market data publisher.
 
 ### Sample Protocol 1
 
@@ -66,7 +66,11 @@ processor Server()
 }
 ```
 
-In this version of the protocol the client simply connects to the server and the server immediately starts sending the client snapshot refresh messages until the client disconnects. 
+In this version of the protocol the client simply connects to the server and the server immediately starts sending the client snapshot  messages until the client disconnects. 
+
+### Sample Protocol 2
+
+Let us add a basic client login/logout workflow to the protocol. SampleProtocol_2_0.rs adds four new messages as well as additional statements to the Client and Server processors. 
 
 
 ## Welcome to GitHub Pages
