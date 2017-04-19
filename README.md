@@ -185,6 +185,105 @@ or send loginPrivate(LoginPrivateRequest)
 
 In this version of the protocol the server sends a secondary request to the client.
 
+### Sample Protocol 3
+
+Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. SampleProtocol_4_0.rs introduces five new subscription message types and additional statments in the Client and Server processors.
+
+```
+message SubscribeRequest
+{
+}
+
+message SubscribeAccept
+{
+}
+
+message SubscribeReject
+{
+    string Text;
+}
+
+message UnsubscribeRequest
+{
+}
+
+message UnsubscribeAccept
+{
+}
+```
+
+Note that once logged in (@L1) the client may only receive a Logout message from the server, it may not receive SnapshotRefresh messages yet. It is allowed to either send a SubscribeRequest or Logout message to the server at this stage. In response to a SubscribeRequest message the client may receive a SubscribeAccept or SubscribeReject message from the server. The continue statement defines a repetition of the subscribe procedure in response to the SubscribeReject message. The control flow continues outside the subscribe operation upon receive of a SubscribeAccept message.
+
+Once subscribed (@L2) the client may receive multiple SnapshotRefresh messages or a Logout message from the server; or send a UnsubscribeRequest or Logout messages to the server. It may still receive SnapshotRefresh messages until the confirming UnsubscribeAccept or Logout message is received from the server. The return statement defines a control flow termination upon receive of a Logout from the server. The control flow continues outside the unsubscribe operation upon receive of a UnsubscribeAccept message from the server due to the loop construct.  The client may not receive any SnapshotRefresh messages anymore and is essentially in the same state as it was after the login procedure (@L1).
+
+```
+loop
+{
+    @L1 send subscribe(SubscribeRequest)
+    {
+        recv onSubscribeAccept(SubscribeAccept)
+        {
+        }
+        or recv onSubscribeReject(SubscribeReject)
+        {
+            continue;
+        }
+        or recv onLogout(Logout)
+        {
+            return;
+        }
+    }
+    or send logout(Logout)
+    {
+        recv (Logout)
+        {
+            return;
+        }
+    }
+    or recv onLogout(Logout)
+    {
+        return;
+    }
+
+    @L2 recv onSnapshot(SnapshotRefresh)
+    {
+        repeat;
+    }        
+    or send unsubscribe(UnsubscribeRequest)
+    {
+        recv (SnapshotRefresh)
+        {
+            repeat;
+        }
+        or recv onUnsubscribeAccept(UnsubscribeAccept)
+        {
+        }
+        or recv (Logout)
+        {
+            return;
+        }
+    }
+    or send logout(Logout)
+    {
+        recv (SnapshotRefresh)
+        {
+            repeat;
+        }
+        or recv (Logout)
+        {
+            return;
+        }
+    }
+    or recv onLogout(Logout)
+    {
+        return;
+    }
+}
+```
+
+In this version of the protocol the client and server implement an additional repeatable subscription workflow.
+
+
 
 
 ## Welcome to GitHub Pages
