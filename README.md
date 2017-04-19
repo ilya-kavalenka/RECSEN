@@ -510,10 +510,15 @@ XML is the only target currently supported by the RECSEN compiler.
 The XML output can be used for further arbitrary protocol processing, compiler verification and troubleshooting.
 
 SampleProtocol_1_0.xml
+
 SampleProtocol_2_0.xml
+
 SampleProtocol_3_0.xml
+
 SampleProtocol_4_0.xml
+
 SampleProtocol_5_0.xml
+
 SampleProtocol_6_0.xml
 
 
