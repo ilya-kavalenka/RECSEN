@@ -318,6 +318,36 @@ message UnsubscribeSymbolRequest : SymbolRequest
 message UnsubscribeSymbolAccept : SymbolResponse
 {
 }
+
+message NewsRequest
+{
+}
+
+message NewsResponse
+{
+}
+
+message SubscribeNewsRequest : NewsRequest
+{
+}
+
+message SubscribeNewsAccept : NewsResponse
+{
+}
+
+message SubscribeNewsReject : NewsResponse
+{
+    string Text;
+}
+
+message UnsubscribeNewsRequest : NewsRequest
+{
+}
+
+message UnsubscribeNewsAccept : NewsResponse
+{
+}
+
 ```
 
 The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of its super processor. 
