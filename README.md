@@ -14,10 +14,10 @@ The RECSEN language is designed to serve as protocol workflow definition. The pr
 
 ### Sample Protocol 1
 
-SampleProtocol_1_0.rs presents the most basic version of the protocol. The only message defined is the SnapshotFullRefresh message which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (the order book). The Entries field is actual a variable size array of elements of group type SnapshotFullRefreshEntry.
+SampleProtocol_1_0.rs presents the most basic version of the protocol. The only message defined is the SnapshotRefresh message which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (the order book). The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry.
 
 ```
-message SnapshotFullRefresh
+message SnapshotRefresh
 {
     string Symbol;
     SnapshotFullRefreshEntry[] Entries;
@@ -27,7 +27,7 @@ message SnapshotFullRefresh
 A group is a set of fields used to define arrays or to reuse a common set of fields across messages.
 
 ```
-group SnapshotFullRefreshEntry
+group SnapshotRefreshEntry
 {
     Side Side;
     int32 Qty;
@@ -46,22 +46,22 @@ enum Side
 }
 ```
 
-The Client processor defines a repeatable receive operation for SnapshotFullRefresh messages named onSnapshot. The client is not allowed to send messages.
+The Client processor defines a repeatable receive SnapshotRefresh message operation named onSnapshot. The client is not allowed to send messages.
 
 ```
 processor Client()
 {
-    recv onSnapshot(SnapshotFullRefresh)
+    recv onSnapshot(SnapshotRefresh)
         repeat;
 }
 ```
 
-Similarly the Server processor defines a repeatable send operation for SnapshotFullRefresh messages. The server is may not receive messages.
+Similarly the Server processor defines a repeatable send SnapshotRefresh message operation. The server is may not receive messages.
 
 ```
 processor Server()
 {
-    send (SnapshotFullRefresh)
+    send (SnapshotRefresh)
         repeat;
 }
 ```
