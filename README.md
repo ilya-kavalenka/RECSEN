@@ -14,7 +14,7 @@ The RECSEN language is designed to serve as a protocol definition. The protocol 
 
 ### Sample Protocol 1
 
-SampleProtocol_1_0.rs represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (the order book). The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry.
+SampleProtocol_1_0.rs represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
@@ -24,7 +24,7 @@ message SnapshotRefresh
 }
 ```
 
-A group is a set of fields used to define arrays or to reuse a set of fields across messages.
+The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry. A group is a set of fields used to define arrays or to reuse a set of fields across messages.
 
 ```
 group SnapshotRefreshEntry
@@ -56,7 +56,7 @@ processor Client()
 }
 ```
 
-Similarly the Server processor defines a repeatable send SnapshotRefresh message operation. The server may not receive messages.
+Similarly the Server processor defines an unnamed repeatable send SnapshotRefresh message operation. The server may not receive messages.
 
 ```
 processor Server()
@@ -70,7 +70,66 @@ In this version of the protocol the client simply connects to the server and the
 
 ### Sample Protocol 2
 
-Let us add a basic client login/logout workflow to the protocol. SampleProtocol_2_0.rs adds four new messages as well as additional statements to the Client and Server processors. 
+Let us add a basic client login/logout workflow to the protocol. SampleProtocol_2_0.rs adds four new message types as well as additional statements to the Client and Server processors. 
+
+```
+message LoginRequest
+{
+    string Name;
+}
+
+message LoginAccept
+{
+}
+
+message LoginReject
+{
+    string Text;
+}
+
+message Logout
+{
+}
+```
+
+Initially the only thing the client is allowed to do is to send a LoginRequest message. Initially the client may not receive any messages. In response to the LoginRequest message the client may receive either a LoginAccept or LoginReject message. The client is not allowed to send any messages until it receives a response from the server. The return statement defines a termination of the control flow in response to the LoginReject message. The control flow continues outside the login operation if the LoginAccept message is received from the server. 
+
+```
+send login(LoginRequest)
+{
+    recv onLoginAccept(LoginAccept)
+    {
+    }
+    or recv onLoginReject(LoginReject)
+    {
+        return;
+    }
+}
+```
+
+Once logged in the client may receive any number of SnapshotRefresh messages or a Logout message from the server. The client is also allowed to send own Logout message to the server. It is not allowed to receive or send other messages (e.g. Login) at this stage of the communication. After a Logout message is sent by the client it may still receive SnapshotRefresh messages until the confirming Logout message is received from the server. Upon receive of a Logout message from the server the control flow ends.
+
+```
+recv onSnapshot(SnapshotRefresh)
+{
+    repeat;
+}
+or send logout(Logout)
+{
+    recv (SnapshotRefresh)
+    {
+        repeat;
+    }
+    or recv (Logout)
+    {
+    }
+}
+or recv onLogout(Logout)
+{
+}
+```
+
+In this version of the protocol the client and server may send and receive messages. The client and server processors define what messages are allowed to send and may be received at every stage of the client and server communication.
 
 
 ## Welcome to GitHub Pages
