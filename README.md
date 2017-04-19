@@ -285,9 +285,9 @@ In this version of the protocol the client and server implement an additional re
 
 ### Sample Protocol 5
 
-Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs adds corresponding news messages to the protocol. 
+Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel.
 
-This version introduces four base synthetic messages SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
+SampleProtocol_5_0.rs introduces four base synthetic messages SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
 
 ```
 message SymbolRequest;
@@ -359,7 +359,7 @@ message NewsNotification : NewsResponse
 }
 ```
 
-The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of its super processor. 
+The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of the super processor. 
 
 ```
 processor SymbolClient() : Client
