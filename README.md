@@ -185,7 +185,7 @@ or send loginPrivate(LoginPrivateRequest)
 
 In this version of the protocol the server sends a secondary request to the client.
 
-### Sample Protocol 3
+### Sample Protocol 4
 
 Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. SampleProtocol_4_0.rs introduces five new subscription message types and additional statments in the Client and Server processors.
 
@@ -258,7 +258,7 @@ loop
         or recv onUnsubscribeAccept(UnsubscribeAccept)
         {
         }
-        or recv (Logout)
+        or recv onLogout(Logout)
         {
             return;
         }
@@ -283,7 +283,127 @@ loop
 
 In this version of the protocol the client and server implement an additional repeatable subscription workflow.
 
+### Sample Protocol 5
 
+Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs adds corresponding news messages to the protocol. 
+
+This version introduces four base synthetic messages SymbolRequestMessage, SymbolResponseMessage, NewsRequestMessage, NewsResponseMessage and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
+
+```
+message SymbolRequest
+{
+}
+
+message SymbolResponse
+{
+}
+
+message SubscribeSymbolRequest : SymbolRequest
+{       
+}
+
+message SubscribeSymbolAccept : SymbolResponse
+{
+}
+
+message SubscribeSymbolReject : SymbolResponse
+{
+    string Text;
+}
+
+message UnsubscribeSymbolRequest : SymbolRequest
+{
+}
+
+message UnsubscribeSymbolAccept : SymbolResponse
+{
+}
+```
+
+The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of its super processor. 
+
+```
+processor SymbolClient() : Client
+(
+    SymbolRequest,
+    SymbolResponse
+) 
+{
+    send subscribeSymbol(SubscribeSymbolRequest)
+    {
+        recv onSymbolSubscribeAccept(SubscribeSymbolAccept)
+        {
+        }
+        or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+        {
+            return;
+        }
+    }
+
+    recv onSnapshot(SnapshotRefresh)
+    {
+        repeat;
+    }
+    or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+    {
+        recv (SnapshotRefresh)
+        {
+            repeat;
+        }
+        or recv onUnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
+        {
+        }
+    }
+}
+
+processor NewsClient() : Client
+(
+    NewsRequest,
+    NewsResponse
+) 
+{
+    send subscribeNews(SubscribeNewsRequest)
+    {
+        recv onSubscribeNewsAccept(SubscribeNewsAccept)
+        {
+        }
+        or recv onSubscribeNewsReject(SubscribeNewsReject)
+        {
+            return;
+        }
+    }
+
+    recv onNews(NewsNotification)
+    {
+        repeat;
+    }
+    or send unsubscribeNews(UnsubscribeNewsRequest)
+    {
+        recv (NewsNotification)
+        {
+            repeat;
+        }
+        or recv onUnsubscribeNewsAccept(UnsubscribeNewsAccept)
+        {
+        }
+    }
+}
+```
+
+The Client processor now simply defines a send SymbolRequest and NewsRequest messages operation and a receive SymbolResponse and NewsResponse messages operation in-between the login and logout operations.
+
+```
+send (SymbolRequest, NewsRequest)
+{
+    repeat;
+}
+or recv (SymbolResponse, NewsResponse)
+{
+    repeat;
+}
+```
+
+In this version of the protocol the client and server implement two independent parallel workflows.
 
 
 ## Welcome to GitHub Pages
