@@ -290,34 +290,22 @@ Let us add another type of subscription to market news to the protocol. News sub
 This version introduces four base synthetic messages SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
 
 ```
-message SymbolRequest
-{
-}
+message SymbolRequest;
 
-message SymbolResponse
-{
-}
+message SymbolResponse;
 
-message SubscribeSymbolRequest : SymbolRequest
-{       
-}
+message SubscribeSymbolRequest : SymbolRequest;
 
-message SubscribeSymbolAccept : SymbolResponse
-{
-}
+message SubscribeSymbolAccept : SymbolResponse;
 
 message SubscribeSymbolReject : SymbolResponse
 {
     string Text;
 }
 
-message UnsubscribeSymbolRequest : SymbolRequest
-{
-}
+message UnsubscribeSymbolRequest : SymbolRequest;
 
-message UnsubscribeSymbolAccept : SymbolResponse
-{
-}
+message UnsubscribeSymbolAccept : SymbolResponse;
 
 enum Side
 {
@@ -339,34 +327,22 @@ message SnapshotRefresh : SymbolResponse
     SnapshotRefreshEntry[] Entries;
 }
 
-message NewsRequest
-{
-}
+message NewsRequest;
 
-message NewsResponse
-{
-}
+message NewsResponse;
 
-message SubscribeNewsRequest : NewsRequest
-{
-}
+message SubscribeNewsRequest : NewsRequest;
 
-message SubscribeNewsAccept : NewsResponse
-{
-}
+message SubscribeNewsAccept : NewsResponse;
 
 message SubscribeNewsReject : NewsResponse
 {
     string Text;
 }
 
-message UnsubscribeNewsRequest : NewsRequest
-{
-}
+message UnsubscribeNewsRequest : NewsRequest;
 
-message UnsubscribeNewsAccept : NewsResponse
-{
-}
+message UnsubscribeNewsAccept : NewsResponse;
 
 enum NewsSeverity
 {
