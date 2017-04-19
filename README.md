@@ -394,7 +394,7 @@ processor SymbolClient() : Client
 {
     send subscribeSymbol(SubscribeSymbolRequest)
     {
-        recv onSymbolSubscribeAccept(SubscribeSymbolAccept)
+        recv onSubscribeSymbolAccept(SubscribeSymbolAccept)
         {
         }
         or recv onSubscribeSymbolReject(SubscribeSymbolReject)
@@ -496,7 +496,7 @@ processor SymbolClient(string) : Client
 {
     send subscribeSymbol(SubscribeSymbolRequest)
     {
-        recv onSymbolSubscribeAccept(SubscribeSymbolAccept)
+        recv onSubscribeSymbolAccept(SubscribeSymbolAccept)
         {
         }
         or recv onSubscribeSymbolReject(SubscribeSymbolReject)
