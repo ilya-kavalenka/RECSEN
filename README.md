@@ -133,7 +133,7 @@ In this version of the protocol the client and server may send and receive messa
 
 ### Sample Protocol 3
 
-Now let us add a client authentication workflow to receive sensitive market updates. SampleProtocol_3_0.rs renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
+Now let us add a client authentication workflow to receive sensitive market data updates. SampleProtocol_3_0.rs renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
 
 ```
 message LoginPrivateRequest
