@@ -20,7 +20,7 @@ SampleProtocol_1_0.rs presents the most basic version of the protocol. The only 
 message SnapshotRefresh
 {
     string Symbol;
-    SnapshotFullRefreshEntry[] Entries;
+    SnapshotRefreshEntry[] Entries;
 }
 ```
 
