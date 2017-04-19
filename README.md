@@ -26,14 +26,15 @@ message SnapshotFullRefresh
 
 A group is a set of fields used to define arrays or to reuse a common set of fields across messages.
 
-
+```
 group SnapshotFullRefreshEntry
-        {
+{
     Side Side;
     int32 Qty;
     double Price;
     int32 Orders;
-        }
+}
+```
 
 The Side enumeration is another example of a user-defined data type.
 
@@ -45,13 +46,25 @@ enum Side
 }
 ```
 
-The Client and Server processors define the protocol control flow from the client and server perspectives. The Client processor defines a repeatable receive operation named onSnapshot. The client is not allowed to send messages.
+The Client processor defines a repeatable receive operation for SnapshotFullRefresh messages named onSnapshot. The client is not allowed to send messages.
 
-    processor Client()
-    {
-        recv onSnapshot(SnapshotFullRefresh)
-            repeat;
-    }
+```
+processor Client()
+{
+    recv onSnapshot(SnapshotFullRefresh)
+        repeat;
+}
+```
+
+Similarly the Server processor defines a repeatable send operation for SnapshotFullRefresh messages. The server is may not receive messages.
+
+```
+processor Server()
+{
+    send (SnapshotFullRefresh)
+        repeat;
+}
+```
 
 
 ## Welcome to GitHub Pages
