@@ -131,6 +131,61 @@ or recv onLogout(Logout)
 
 In this version of the protocol the client and server may send and receive messages. The client and server processors define what messages are allowed to send and may be received at every stage of the client and server communication.
 
+### Sample Protocol 3
+
+Now let us add a client authentication workflow to receive sensitive market updates. SampleProtocol_3_0.rs renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
+
+```
+message LoginPrivateRequest
+{
+    string Name;
+}
+
+message PasswordRequest
+{
+    bytes Token;
+}
+
+message PasswordResponse
+{
+    bytes EncodedToken;
+}
+```
+
+The client now has a choice to initiate either a public or a private login operation. In response to the LoginPrivate message the only message the client may receive is a PasswordRequest message containing an arbitrary binary token. The client has to encode the token with its private password and send the encoded binary token back to the server with a PasswordResponse message. It then receives either the LoginAccept or LoginReject message from the server as in the public login operation. Authenticated clients receive market data updates of additional symbols from the server.
+
+```
+send loginPublic(LoginPublicRequest)
+{
+    recv onPublicLoginAccept(LoginAccept)
+    {
+    }
+    or recv onPublicLoginReject(LoginReject)
+    {
+        return;
+    }
+}
+or send loginPrivate(LoginPrivateRequest)
+{
+    recv onPassword(PasswordRequest)
+    {
+        send (PasswordResponse)
+        {
+            recv onPrivateLoginAccept(LoginAccept)
+            {
+            }
+            or recv onPrivateLoginReject(LoginReject)
+            {
+                return;
+            }
+        }
+    }
+}
+```
+
+In this version of the protocol the server sends a secondary request to the client.
+
+
 
 ## Welcome to GitHub Pages
 
