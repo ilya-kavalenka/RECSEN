@@ -66,7 +66,7 @@ processor Server()
 }
 ```
 
-In this version of the protocol the client simply connects to the server and the server immediately starts sending the client snapshot  messages until the client disconnects. 
+In this version of the protocol the client connects to the server and immediately the server starts sending the client snapshot  messages until the client disconnects. 
 
 ### Sample Protocol 2
 
