@@ -14,7 +14,7 @@ The RECSEN language is designed to serve as a protocol definition. The protocol 
 
 ### Sample Protocol 1
 
-[SampleProtocol_1_0.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1_0.rs?raw=true) represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
+[SampleProtocol_1.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.rs?raw=true) represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
@@ -70,7 +70,7 @@ In this version of the protocol the client connects to the server and immediatel
 
 ### Sample Protocol 2
 
-Let us add a basic client login/logout workflow to the protocol. SampleProtocol_2_0.rs adds four new message types as well as additional statements to the Client and Server processors. 
+Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
 
 ```
 message LoginRequest
@@ -133,7 +133,7 @@ In this version of the protocol the client and server may send and receive messa
 
 ### Sample Protocol 3
 
-Now let us add a client authentication workflow to receive sensitive market data updates. SampleProtocol_3_0.rs renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
+Now let us add a client authentication workflow to receive sensitive market data updates. [SampleProtocol_3.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.rs?raw=true) renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
 
 ```
 message LoginPrivateRequest
@@ -187,7 +187,7 @@ In this version of the protocol the server sends a secondary request to the clie
 
 ### Sample Protocol 4
 
-Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. SampleProtocol_4_0.rs introduces five new subscription message types and additional statments in the Client and Server processors.
+Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
 
 ```
 message SubscribeRequest
@@ -255,7 +255,7 @@ loop
         {
             repeat;
         }
-        or recv onUnsubscribeAccept(UnsubscribeAccept)
+        or recv (UnsubscribeAccept)
         {
         }
         or recv onLogout(Logout)
