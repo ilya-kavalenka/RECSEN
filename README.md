@@ -14,7 +14,7 @@ The RECSEN language is designed to serve as a protocol definition. The protocol 
 
 ### Sample Protocol 1
 
-SampleProtocol_1_0.rs represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
+[SampleProtocol_1_0.rs] (https://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1_0.rs) represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
