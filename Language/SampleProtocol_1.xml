@@ -1,0 +1,50 @@
+<protocol name="SampleProtocol" majorVer="1" minorVer="0">
+    <members>
+        <enum name="Side" size="4">
+            <members>
+                <member name="Bid" value="0"/>
+                <member name="Ask" value="1"/>
+            </members>
+        </enum>
+        <group name="SnapshotRefreshEntry" size="20">
+            <fields>
+                <field name="Side" offset="0" type="Side" optional="N" repeatable="N"/>
+                <field name="Qty" offset="4" type="int32" optional="N" repeatable="N"/>
+                <field name="Price" offset="8" type="double" optional="N" repeatable="N"/>
+                <field name="Orders" offset="16" type="int32" optional="N" repeatable="N"/>
+            </fields>
+        </group>
+        <message name="SnapshotRefresh" id="0" size="24">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+                <field name="Entries" offset="16" type="SnapshotRefreshEntry" optional="N" repeatable="Y"/>
+            </fields>
+        </message>
+        <processor name="Client" head="29_9">
+            <states>
+                <state label="29_9">
+                    <operations>
+                        <recv name="onSnapshot" next="29_9">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+            </states>
+        </processor>
+        <processor name="Server" head="35_9">
+            <states>
+                <state label="35_9">
+                    <operations>
+                        <send next="35_9">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+            </states>
+        </processor>
+    </members>
+</protocol>

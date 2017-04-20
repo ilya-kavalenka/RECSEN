@@ -1,0 +1,611 @@
+<protocol name="SampleProtocol" majorVer="6" minorVer="0">
+    <members>
+        <message name="LoginPublicRequest" id="0" size="16">
+            <fields>
+                <field name="Name" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="LoginPrivateRequest" id="1" size="16">
+            <fields>
+                <field name="Name" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="PasswordRequest" id="2" size="16">
+            <fields>
+                <field name="Token" offset="8" type="bytes" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="PasswordResponse" id="3" size="16">
+            <fields>
+                <field name="EncodedToken" offset="8" type="bytes" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="LoginAccept" id="4" size="8"/>
+        <message name="LoginReject" id="5" size="16">
+            <fields>
+                <field name="Text" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="SymbolRequest" id="6" size="16">
+            <subMessages>
+                <subMessage name="SubscribeSymbolRequest"/>
+                <subMessage name="UnsubscribeSymbolRequest"/>
+            </subMessages>
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="SymbolResponse" id="7" size="16">
+            <subMessages>
+                <subMessage name="SubscribeSymbolAccept"/>
+                <subMessage name="SubscribeSymbolReject"/>
+                <subMessage name="UnsubscribeSymbolAccept"/>
+                <subMessage name="SnapshotRefresh"/>
+            </subMessages>
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="SubscribeSymbolRequest" id="8" superMessage="SymbolRequest" size="16">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="SubscribeSymbolAccept" id="9" superMessage="SymbolResponse" size="16">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="SubscribeSymbolReject" id="10" superMessage="SymbolResponse" size="24">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+                <field name="Text" offset="16" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="UnsubscribeSymbolRequest" id="11" superMessage="SymbolRequest" size="16">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="UnsubscribeSymbolAccept" id="12" superMessage="SymbolResponse" size="16">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <enum name="Side" size="4">
+            <members>
+                <member name="Bid" value="0"/>
+                <member name="Ask" value="1"/>
+            </members>
+        </enum>
+        <group name="SnapshotRefreshEntry" size="20">
+            <fields>
+                <field name="Side" offset="0" type="Side" optional="N" repeatable="N"/>
+                <field name="Qty" offset="4" type="int32" optional="N" repeatable="N"/>
+                <field name="Price" offset="8" type="double" optional="N" repeatable="N"/>
+                <field name="Orders" offset="16" type="int32" optional="N" repeatable="N"/>
+            </fields>
+        </group>
+        <message name="SnapshotRefresh" id="13" superMessage="SymbolResponse" size="24">
+            <fields>
+                <field name="Symbol" offset="8" type="string" optional="N" repeatable="N"/>
+                <field name="Entries" offset="16" type="SnapshotRefreshEntry" optional="N" repeatable="Y"/>
+            </fields>
+        </message>
+        <message name="NewsRequest" id="14" size="8">
+            <subMessages>
+                <subMessage name="SubscribeNewsRequest"/>
+                <subMessage name="UnsubscribeNewsRequest"/>
+            </subMessages>
+        </message>
+        <message name="NewsResponse" id="15" size="8">
+            <subMessages>
+                <subMessage name="SubscribeNewsAccept"/>
+                <subMessage name="SubscribeNewsReject"/>
+                <subMessage name="UnsubscribeNewsAccept"/>
+                <subMessage name="NewsNotification"/>
+            </subMessages>
+        </message>
+        <message name="SubscribeNewsRequest" id="16" superMessage="NewsRequest" size="8"/>
+        <message name="SubscribeNewsAccept" id="17" superMessage="NewsResponse" size="8"/>
+        <message name="SubscribeNewsReject" id="18" superMessage="NewsResponse" size="8"/>
+        <message name="UnsubscribeNewsRequest" id="19" superMessage="NewsRequest" size="8"/>
+        <message name="UnsubscribeNewsAccept" id="20" superMessage="NewsResponse" size="8"/>
+        <enum name="NewsSeverity" size="4">
+            <members>
+                <member name="Critical" value="0"/>
+                <member name="Warning" value="1"/>
+                <member name="Information" value="2"/>
+            </members>
+        </enum>
+        <message name="NewsNotification" id="21" superMessage="NewsResponse" size="28">
+            <fields>
+                <field name="Severity" offset="8" type="NewsSeverity" optional="N" repeatable="N"/>
+                <field name="Header" offset="12" type="string" optional="N" repeatable="N"/>
+                <field name="Text" offset="20" type="string" optional="N" repeatable="N"/>
+            </fields>
+        </message>
+        <message name="Logout" id="22" size="8"/>
+        <processor name="Client" head="108_9">
+            <subProcessors>
+                <subProcessor name="SymbolClient"/>
+                <subProcessor name="NewsClient"/>
+            </subProcessors>
+            <states>
+                <state label="108_9">
+                    <operations>
+                        <send name="loginPublic" next="110_13">
+                            <messages>
+                                <message name="LoginPublicRequest"/>
+                            </messages>
+                        </send>
+                        <send name="loginPrivate" next="120_13">
+                            <messages>
+                                <message name="LoginPrivateRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="110_13">
+                    <operations>
+                        <recv name="onPublicLoginAccept" next="135_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="onPublicLoginReject">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="loginPublic"/>
+                    </contexts>
+                </state>
+                <state label="120_13">
+                    <operations>
+                        <recv name="onPassword" next="122_17">
+                            <messages>
+                                <message name="PasswordRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="loginPrivate"/>
+                    </contexts>
+                </state>
+                <state label="122_17">
+                    <operations>
+                        <send next="124_21">
+                            <messages>
+                                <message name="PasswordResponse"/>
+                            </messages>
+                        </send>
+                    </operations>
+                    <contexts>
+                        <context name="loginPrivate"/>
+                    </contexts>
+                </state>
+                <state label="124_21">
+                    <operations>
+                        <recv name="onPrivateLoginAccept" next="135_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="onPrivateLoginReject">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="loginPrivate"/>
+                    </contexts>
+                </state>
+                <state label="135_9">
+                    <operations>
+                        <send next="135_9">
+                            <messages>
+                                <message name="SymbolRequest"/>
+                                <message name="NewsRequest"/>
+                            </messages>
+                        </send>
+                        <recv next="135_9">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </recv>
+                        <send name="Logout" next="145_13">
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </send>
+                        <recv name="onLogout">
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="145_13">
+                    <operations>
+                        <recv next="145_13">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </recv>
+                        <recv>
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="Logout"/>
+                    </contexts>
+                </state>
+            </states>
+        </processor>
+        <processor name="SymbolClient" type="string" superProcessor="Client" head="164_9">
+            <fields>
+                <field name="SymbolRequest.Symbol"/>
+                <field name="SymbolResponse.Symbol"/>
+            </fields>
+            <states>
+                <state label="164_9">
+                    <operations>
+                        <send name="subscribeSymbol" next="166_13">
+                            <messages>
+                                <message name="SubscribeSymbolRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="166_13">
+                    <operations>
+                        <recv name="onSubscribeSymbolAccept" next="175_9">
+                            <messages>
+                                <message name="SubscribeSymbolAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="onSubscribeSymbolReject">
+                            <messages>
+                                <message name="SubscribeSymbolReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="subscribeSymbol"/>
+                    </contexts>
+                </state>
+                <state label="175_9">
+                    <operations>
+                        <recv name="onSnapshot" next="175_9">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </recv>
+                        <send name="unsubscribeSymbol" next="181_13">
+                            <messages>
+                                <message name="UnsubscribeSymbolRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="181_13">
+                    <operations>
+                        <recv next="181_13">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </recv>
+                        <recv>
+                            <messages>
+                                <message name="UnsubscribeSymbolAccept"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="unsubscribeSymbol"/>
+                    </contexts>
+                </state>
+            </states>
+        </processor>
+        <processor name="NewsClient" superProcessor="Client" head="197_9">
+            <messages>
+                <message name="NewsRequest"/>
+                <message name="NewsResponse"/>
+            </messages>
+            <states>
+                <state label="197_9">
+                    <operations>
+                        <send name="subscribeNews" next="199_13">
+                            <messages>
+                                <message name="SubscribeNewsRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="199_13">
+                    <operations>
+                        <recv name="onSubscribeNewsAccept" next="208_9">
+                            <messages>
+                                <message name="SubscribeNewsAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="onSubscribeNewsReject">
+                            <messages>
+                                <message name="SubscribeNewsReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="subscribeNews"/>
+                    </contexts>
+                </state>
+                <state label="208_9">
+                    <operations>
+                        <recv name="onNews" next="208_9">
+                            <messages>
+                                <message name="NewsNotification"/>
+                            </messages>
+                        </recv>
+                        <send name="unsubscribeNews" next="214_13">
+                            <messages>
+                                <message name="UnsubscribeNewsRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="214_13">
+                    <operations>
+                        <recv next="214_13">
+                            <messages>
+                                <message name="NewsNotification"/>
+                            </messages>
+                        </recv>
+                        <recv>
+                            <messages>
+                                <message name="UnsubscribeNewsAccept"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                    <contexts>
+                        <context name="unsubscribeNews"/>
+                    </contexts>
+                </state>
+            </states>
+        </processor>
+        <processor name="Server" head="226_9">
+            <subProcessors>
+                <subProcessor name="SymbolServer"/>
+                <subProcessor name="NewsServer"/>
+            </subProcessors>
+            <states>
+                <state label="226_9">
+                    <operations>
+                        <recv name="onLoginPublic" next="228_13">
+                            <messages>
+                                <message name="LoginPublicRequest"/>
+                            </messages>
+                        </recv>
+                        <recv name="onLoginPrivate" next="238_13">
+                            <messages>
+                                <message name="LoginPrivateRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="228_13">
+                    <operations>
+                        <send next="253_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="238_13">
+                    <operations>
+                        <send next="240_17">
+                            <messages>
+                                <message name="PasswordRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="240_17">
+                    <operations>
+                        <recv name="onPassword" next="242_21">
+                            <messages>
+                                <message name="PasswordResponse"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="242_21">
+                    <operations>
+                        <send next="253_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="253_9">
+                    <operations>
+                        <recv next="253_9">
+                            <messages>
+                                <message name="SymbolRequest"/>
+                                <message name="NewsRequest"/>
+                            </messages>
+                        </recv>
+                        <send next="253_9">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </send>
+                        <recv name="onLogout" next="263_13">
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </recv>
+                        <send>
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="263_13">
+                    <operations>
+                        <send next="263_13">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+            </states>
+        </processor>
+        <processor name="SymbolServer" type="string" superProcessor="Server" head="282_9">
+            <fields>
+                <field name="SymbolRequest.Symbol"/>
+                <field name="SymbolResponse.Symbol"/>
+            </fields>
+            <states>
+                <state label="282_9">
+                    <operations>
+                        <recv name="onSubscribeSymbol" next="284_13">
+                            <messages>
+                                <message name="SubscribeSymbolRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="284_13">
+                    <operations>
+                        <send next="293_9">
+                            <messages>
+                                <message name="SubscribeSymbolAccept"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="SubscribeSymbolReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="293_9">
+                    <operations>
+                        <send next="293_9">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </send>
+                        <recv name="onUnsubscribeSymbol" next="299_13">
+                            <messages>
+                                <message name="UnsubscribeSymbolRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="299_13">
+                    <operations>
+                        <send next="299_13">
+                            <messages>
+                                <message name="SnapshotRefresh"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="UnsubscribeSymbolAccept"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+            </states>
+        </processor>
+        <processor name="NewsServer" superProcessor="Server" head="315_9">
+            <messages>
+                <message name="NewsRequest"/>
+                <message name="NewsResponse"/>
+            </messages>
+            <states>
+                <state label="315_9">
+                    <operations>
+                        <recv name="onSubscribeNews" next="317_13">
+                            <messages>
+                                <message name="SubscribeNewsRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="317_13">
+                    <operations>
+                        <send next="326_9">
+                            <messages>
+                                <message name="SubscribeNewsAccept"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="SubscribeNewsReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="326_9">
+                    <operations>
+                        <send next="326_9">
+                            <messages>
+                                <message name="NewsNotification"/>
+                            </messages>
+                        </send>
+                        <recv name="onUnsubscribeNews" next="332_13">
+                            <messages>
+                                <message name="UnsubscribeNewsRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="332_13">
+                    <operations>
+                        <send next="332_13">
+                            <messages>
+                                <message name="NewsNotification"/>
+                            </messages>
+                        </send>
+                        <send>
+                            <messages>
+                                <message name="UnsubscribeNewsAccept"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+            </states>
+        </processor>
+    </members>
+</protocol>
