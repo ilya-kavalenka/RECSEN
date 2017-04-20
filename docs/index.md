@@ -1,3 +1,5 @@
+sssss
+
 The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
 
 The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
@@ -14,7 +16,7 @@ The RECSEN language is designed to serve as a protocol definition. The protocol 
 
 ### Sample Protocol 1
 
-[SampleProtocol_1_0.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1_0.rs?raw=true) represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
+SampleProtocol_1_0.rs represents the most basic version of the protocol. The only message defined is the SnapshotRefresh message with two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
