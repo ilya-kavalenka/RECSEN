@@ -2,7 +2,7 @@ The ambitious goal of RECSEN project is to provide a way to formalize definition
 
 The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as define protocol states and state transitions from the client and server side perspectives in a procedural manner.
 
-The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the XML protocol definition file for further arbitrary processing or the client-server protocol handlers ready for use in an application. 
+The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the XML protocol definition file for further processing or the client-server protocol handlers ready for use in an application. 
 
 The RECSEN protocol handlers provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
 
@@ -10,7 +10,7 @@ The RECSEN runtime library supports a number of message formats, communication t
 
 ## RECSEN Language
 
-The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive market data updates from a market data publisher.
+The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
 ### Sample Protocol 1
 
