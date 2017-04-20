@@ -509,9 +509,9 @@ XML is the only target currently supported by the compiler.
 
 The XML output can be used for further arbitrary protocol processing, compiler verification and troubleshooting.
 
-[SampleProtocol_1.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.xml?raw=true) 
-[SampleProtocol_2.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.xml?raw=true) 
-[SampleProtocol_3.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.xml?raw=true) 
-[SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true) 
-[SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true) 
+[SampleProtocol_1.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.xml?raw=true), 
+[SampleProtocol_2.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.xml?raw=true), 
+[SampleProtocol_3.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.xml?raw=true), 
+[SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true), 
+[SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true), 
 [SampleProtocol_6.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.xml?raw=true) 
