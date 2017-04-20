@@ -285,7 +285,7 @@ In this version of the protocol the client and server implement an additional re
 
 ### Sample Protocol 5
 
-Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
+Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. [SampleProtocol_5.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.rs?raw=true) introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
 
 ```
 message SymbolRequest;
@@ -387,7 +387,7 @@ processor SymbolClient() : Client
         {
             repeat;
         }
-        or recv onUnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
+        or recv (UnsubscribeSymbolAccept)
         {
         }
     }
@@ -420,7 +420,7 @@ processor NewsClient() : Client
         {
             repeat;
         }
-        or recv onUnsubscribeNewsAccept(UnsubscribeNewsAccept)
+        or recv (UnsubscribeNewsAccept)
         {
         }
     }
@@ -444,7 +444,7 @@ In this version of the protocol the client and server implement two independent 
 
 ### Sample Protocol 6
 
-Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled in parallel. SampleProtocol_6_0.rs adds a string Symbol field to the SymbolRequest and SymbolResponse message type to be inherited by all symbol messages. 
+Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled in parallel. [SampleProtocol_6.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.rs?raw=true) adds a string Symbol field to the SymbolRequest and SymbolResponse message type to be inherited by all symbol messages. 
 
 ```
 message SymbolRequest
@@ -488,7 +488,7 @@ processor SymbolClient(string) : Client
         {
             repeat;
         }
-        or recv onUnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
+        or recv (UnsubscribeSymbolAccept)
         {
         }
     }
