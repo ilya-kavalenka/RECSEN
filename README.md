@@ -1,8 +1,8 @@
 The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
 
-The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as define protocol states and state transitions from the client and server side perspectives in a procedural manner.
+The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
 
-The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the XML protocol definition file for further processing or the client-server protocol handlers ready for use in an application. 
+The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the XML protocol definition  for further processing or the client-server protocol handlers ready for use in an application. 
 
 The RECSEN protocol handlers provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
 
@@ -285,7 +285,7 @@ In this version of the protocol the client and server implement an additional re
 
 ### Sample Protocol 5
 
-Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs introduces four base synthetic messages SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news messages from them. A derived message includes all the fields of its base message and is compatible with the base message. Message subclassing is used to group messages for common referencing and processing.
+Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. SampleProtocol_5_0.rs introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
 
 ```
 message SymbolRequest;
@@ -444,7 +444,7 @@ In this version of the protocol the client and server implement two independent 
 
 ### Sample Protocol 6
 
-Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means the subscription workflows of different symbols may overlap in time and are to be handled in parallel. SampleProtocol_6_0.rs adds a string Symbol field to the SymbolRequest and SymbolResponse message to be inherited by all symbol messages. 
+Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled in parallel. SampleProtocol_6_0.rs adds a string Symbol field to the SymbolRequest and SymbolResponse message type to be inherited by all symbol messages. 
 
 ```
 message SymbolRequest
