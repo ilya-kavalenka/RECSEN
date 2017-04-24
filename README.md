@@ -515,9 +515,10 @@ The XML output can be used for further arbitrary protocol processing, compiler v
 [SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true), 
 [SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true), 
 [SampleProtocol_6.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.xml?raw=true) 
+
 ### C++ Output
 
-The C++ protocol handlers produced can be used in a C++ application to setup client-server communication.
+The C++ protocol handlers produced can be used in a C++ application to setup and maintain client-server communication.
 
 [SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true), 
 [SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true), 
