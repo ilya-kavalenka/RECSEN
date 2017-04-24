@@ -2,7 +2,7 @@ The ambitious goal of RECSEN project is to provide a way to formalize definition
 
 The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
 
-The RECSEN compiler (rsc command) parses RECSEN files, processes protocol definition and produces either the XML protocol definition  for further processing or the client-server protocol handlers ready for use in an application. 
+The RECSEN compiler (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
 
 The RECSEN protocol handlers provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
 
@@ -66,7 +66,7 @@ processor Server()
 }
 ```
 
-In this version of the protocol the client connects to the server and immediately the server starts sending the client snapshot  messages until the client disconnects. 
+In this version of the protocol the client connects to the server and the server immediately starts sending the client snapshot messages until the client disconnects. 
 
 ### Sample Protocol 2
 
@@ -92,7 +92,7 @@ message Logout
 }
 ```
 
-Initially the only thing the client is allowed to do is to send a LoginRequest message. Initially the client may not receive any messages. In response to the LoginRequest message the client may receive either a LoginAccept or LoginReject message. The client is not allowed to send any messages until it receives a response from the server. The return statement defines a termination of the control flow in response to the LoginReject message. The control flow continues outside the login operation if the LoginAccept message is received from the server. 
+Initially the only thing the client is allowed to do is to send a LoginRequest message. Initially the client may not receive any messages. In response to the LoginRequest message the client may receive either a LoginAccept or LoginReject message from the server. The client is not allowed to send any messages until it receives a response. The return statement defines a termination of the control flow in response to the LoginReject message. The control flow continues outside the login operation if the LoginAccept message is received from the server. 
 
 ```
 send login(LoginRequest)
@@ -509,20 +509,19 @@ Two targets currently supportyed by the compiler are XML and C++.
 
 The XML output can be used for further arbitrary protocol processing, compiler verification and troubleshooting.
 
-[SampleProtocol_1.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.xml?raw=true)
-[SampleProtocol_2.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.xml?raw=true)
-[SampleProtocol_3.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.xml?raw=true)
-[SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true)
-[SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true)
-[SampleProtocol_6.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.xml?raw=true)
-
+[SampleProtocol_1.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.xml?raw=true), 
+[SampleProtocol_2.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.xml?raw=true), 
+[SampleProtocol_3.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.xml?raw=true), 
+[SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true), 
+[SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true), 
+[SampleProtocol_6.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.xml?raw=true) 
 ### C++ Output
 
 The C++ protocol handlers produced can be used in a C++ application to setup client-server communication.
 
-[SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true)
-[SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true)
-[SampleProtocol_3.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.h?raw=true)
-[SampleProtocol_4.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.h?raw=true)
-[SampleProtocol_5.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.h?raw=true)
+[SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true), 
+[SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true), 
+[SampleProtocol_3.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.h?raw=true), 
+[SampleProtocol_4.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.h?raw=true), 
+[SampleProtocol_5.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.h?raw=true), 
 [SampleProtocol_6.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.h?raw=true)
