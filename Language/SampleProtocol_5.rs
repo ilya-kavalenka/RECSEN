@@ -61,7 +61,7 @@ protocol SampleProtocol(5.0)
         Side Side;
         int32 Qty;
         double Price;
-        int32 Orders;
+        int32? Orders;
     }
 
     message SnapshotRefresh : SymbolResponse

@@ -32,7 +32,7 @@ group SnapshotRefreshEntry
     Side Side;
     int32 Qty;
     double Price;
-    int32 Orders;
+    int32? Orders;
 }
 ```
 
@@ -316,7 +316,7 @@ group SnapshotRefreshEntry
     Side Side;
     int32 Qty;
     double Price;
-    int32 Orders;
+    int32? Orders;
 }
 
 message SnapshotRefresh : SymbolResponse
@@ -503,7 +503,7 @@ In this version of the protocol the client and server implement multiple indepen
 rsc -t <target> -o <output_filename> <input_filename>
 ```
 
-XML is the only target currently supported by the compiler.
+Two targets currently supportyed by the compiler are XML and C++.
 
 ### XML Output
 
@@ -515,3 +515,14 @@ The XML output can be used for further arbitrary protocol processing, compiler v
 [SampleProtocol_4.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.xml?raw=true)
 [SampleProtocol_5.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.xml?raw=true)
 [SampleProtocol_6.xml](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.xml?raw=true)
+
+### C++ Output
+
+The C++ protocol handlers produced can be used in a C++ application to setup client-server communication.
+
+[SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true)
+[SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true)
+[SampleProtocol_3.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.h?raw=true)
+[SampleProtocol_4.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.h?raw=true)
+[SampleProtocol_5.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.h?raw=true)
+[SampleProtocol_6.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.h?raw=true)

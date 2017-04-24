@@ -38,7 +38,7 @@
                 <field name="Side" offset="0" type="Side" optional="N" repeatable="N"/>
                 <field name="Qty" offset="4" type="int32" optional="N" repeatable="N"/>
                 <field name="Price" offset="8" type="double" optional="N" repeatable="N"/>
-                <field name="Orders" offset="16" type="int32" optional="N" repeatable="N"/>
+                <field name="Orders" offset="16" type="int32" optional="Y" repeatable="N"/>
             </fields>
         </group>
         <message name="SnapshotRefresh" id="7" size="24">
