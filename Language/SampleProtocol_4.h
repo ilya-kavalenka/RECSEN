@@ -712,6 +712,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefreshEntry(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntry(const SnapshotRefreshEntry& group);
+        
+        ~SnapshotRefreshEntry();
+        
+        SnapshotRefreshEntry& operator=(const SnapshotRefreshEntry& group);
         
         void setSide(Side value);
         
@@ -742,6 +747,11 @@ namespace SampleProtocol
         public:
         
         SnapshotRefreshEntryConst(const MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConst(const SnapshotRefreshEntryConst& group);
+        
+        ~SnapshotRefreshEntryConst();
+        
+        SnapshotRefreshEntryConst& operator=(const SnapshotRefreshEntryConst& group);
         
         Side getSide() const;
         
