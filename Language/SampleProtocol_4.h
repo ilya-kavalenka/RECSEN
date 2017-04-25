@@ -20,12 +20,15 @@ namespace SampleProtocol
     class ServerSessionData;
     class ServerListener;
     
+    template<typename MESSAGE> MESSAGE create();
+    template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2 message);
+    template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2 message);
+    
     class LoginPublicRequest
     {
     public:
         
-        LoginPublicRequest();
-        LoginPublicRequest(MessageInfo* info, MessageData* data);
+        LoginPublicRequest(const MessageInfo* info, MessageData* data);
         
         void setName(const std::string& value);
         
@@ -37,16 +40,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> LoginPublicRequest create<LoginPublicRequest>();
+    
+    template<> bool is<LoginPublicRequest, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, LoginPublicRequest>(LoginPublicRequest message);
+    template<> LoginPublicRequest cast<LoginPublicRequest, recsen::Message>(recsen::Message message);
     
     class LoginPublicRequestConst
     {
     public:
         
-        LoginPublicRequestConst();
-        LoginPublicRequestConst(MessageInfo* info, MessageData* data);
+        LoginPublicRequestConst(const MessageInfo* info, const MessageData* data);
         
         std::string getName() const;
         
@@ -54,16 +63,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<LoginPublicRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, LoginPublicRequestConst>(LoginPublicRequestConst message);
+    template<> LoginPublicRequestConst cast<LoginPublicRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> LoginPublicRequestConst cast<LoginPublicRequestConst, LoginPublicRequest>(LoginPublicRequest message);
     
     class LoginPrivateRequest
     {
     public:
         
-        LoginPrivateRequest();
-        LoginPrivateRequest(MessageInfo* info, MessageData* data);
+        LoginPrivateRequest(const MessageInfo* info, MessageData* data);
         
         void setName(const std::string& value);
         
@@ -75,16 +89,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> LoginPrivateRequest create<LoginPrivateRequest>();
+    
+    template<> bool is<LoginPrivateRequest, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, LoginPrivateRequest>(LoginPrivateRequest message);
+    template<> LoginPrivateRequest cast<LoginPrivateRequest, recsen::Message>(recsen::Message message);
     
     class LoginPrivateRequestConst
     {
     public:
         
-        LoginPrivateRequestConst();
-        LoginPrivateRequestConst(MessageInfo* info, MessageData* data);
+        LoginPrivateRequestConst(const MessageInfo* info, const MessageData* data);
         
         std::string getName() const;
         
@@ -92,16 +112,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<LoginPrivateRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, LoginPrivateRequestConst>(LoginPrivateRequestConst message);
+    template<> LoginPrivateRequestConst cast<LoginPrivateRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> LoginPrivateRequestConst cast<LoginPrivateRequestConst, LoginPrivateRequest>(LoginPrivateRequest message);
     
     class PasswordRequest
     {
     public:
         
-        PasswordRequest();
-        PasswordRequest(MessageInfo* info, MessageData* data);
+        PasswordRequest(const MessageInfo* info, MessageData* data);
         
         void setToken(const recsen::bytes_t& value);
         
@@ -113,16 +138,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> PasswordRequest create<PasswordRequest>();
+    
+    template<> bool is<PasswordRequest, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, PasswordRequest>(PasswordRequest message);
+    template<> PasswordRequest cast<PasswordRequest, recsen::Message>(recsen::Message message);
     
     class PasswordRequestConst
     {
     public:
         
-        PasswordRequestConst();
-        PasswordRequestConst(MessageInfo* info, MessageData* data);
+        PasswordRequestConst(const MessageInfo* info, const MessageData* data);
         
         recsen::bytes_t getToken() const;
         
@@ -130,16 +161,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<PasswordRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, PasswordRequestConst>(PasswordRequestConst message);
+    template<> PasswordRequestConst cast<PasswordRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> PasswordRequestConst cast<PasswordRequestConst, PasswordRequest>(PasswordRequest message);
     
     class PasswordResponse
     {
     public:
         
-        PasswordResponse();
-        PasswordResponse(MessageInfo* info, MessageData* data);
+        PasswordResponse(const MessageInfo* info, MessageData* data);
         
         void setEncodedToken(const recsen::bytes_t& value);
         
@@ -151,16 +187,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> PasswordResponse create<PasswordResponse>();
+    
+    template<> bool is<PasswordResponse, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, PasswordResponse>(PasswordResponse message);
+    template<> PasswordResponse cast<PasswordResponse, recsen::Message>(recsen::Message message);
     
     class PasswordResponseConst
     {
     public:
         
-        PasswordResponseConst();
-        PasswordResponseConst(MessageInfo* info, MessageData* data);
+        PasswordResponseConst(const MessageInfo* info, const MessageData* data);
         
         recsen::bytes_t getEncodedToken() const;
         
@@ -168,16 +210,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<PasswordResponseConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, PasswordResponseConst>(PasswordResponseConst message);
+    template<> PasswordResponseConst cast<PasswordResponseConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> PasswordResponseConst cast<PasswordResponseConst, PasswordResponse>(PasswordResponse message);
     
     class LoginAccept
     {
     public:
         
-        LoginAccept();
-        LoginAccept(MessageInfo* info, MessageData* data);
+        LoginAccept(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -185,31 +232,42 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> LoginAccept create<LoginAccept>();
+    
+    template<> bool is<LoginAccept, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, LoginAccept>(LoginAccept message);
+    template<> LoginAccept cast<LoginAccept, recsen::Message>(recsen::Message message);
     
     class LoginAcceptConst
     {
     public:
         
-        LoginAcceptConst();
-        LoginAcceptConst(MessageInfo* info, MessageData* data);
+        LoginAcceptConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, LoginAcceptConst>(LoginAcceptConst message);
+    template<> LoginAcceptConst cast<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> LoginAcceptConst cast<LoginAcceptConst, LoginAccept>(LoginAccept message);
     
     class LoginReject
     {
     public:
         
-        LoginReject();
-        LoginReject(MessageInfo* info, MessageData* data);
+        LoginReject(const MessageInfo* info, MessageData* data);
         
         void setText(const std::string& value);
         
@@ -221,16 +279,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> LoginReject create<LoginReject>();
+    
+    template<> bool is<LoginReject, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, LoginReject>(LoginReject message);
+    template<> LoginReject cast<LoginReject, recsen::Message>(recsen::Message message);
     
     class LoginRejectConst
     {
     public:
         
-        LoginRejectConst();
-        LoginRejectConst(MessageInfo* info, MessageData* data);
+        LoginRejectConst(const MessageInfo* info, const MessageData* data);
         
         std::string getText() const;
         
@@ -238,16 +302,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, LoginRejectConst>(LoginRejectConst message);
+    template<> LoginRejectConst cast<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> LoginRejectConst cast<LoginRejectConst, LoginReject>(LoginReject message);
     
     class Logout
     {
     public:
         
-        Logout();
-        Logout(MessageInfo* info, MessageData* data);
+        Logout(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -255,31 +324,42 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> Logout create<Logout>();
+    
+    template<> bool is<Logout, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, Logout>(Logout message);
+    template<> Logout cast<Logout, recsen::Message>(recsen::Message message);
     
     class LogoutConst
     {
     public:
         
-        LogoutConst();
-        LogoutConst(MessageInfo* info, MessageData* data);
+        LogoutConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<LogoutConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, LogoutConst>(LogoutConst message);
+    template<> LogoutConst cast<LogoutConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> LogoutConst cast<LogoutConst, Logout>(Logout message);
     
     class SubscribeRequest
     {
     public:
         
-        SubscribeRequest();
-        SubscribeRequest(MessageInfo* info, MessageData* data);
+        SubscribeRequest(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -287,31 +367,42 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> SubscribeRequest create<SubscribeRequest>();
+    
+    template<> bool is<SubscribeRequest, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, SubscribeRequest>(SubscribeRequest message);
+    template<> SubscribeRequest cast<SubscribeRequest, recsen::Message>(recsen::Message message);
     
     class SubscribeRequestConst
     {
     public:
         
-        SubscribeRequestConst();
-        SubscribeRequestConst(MessageInfo* info, MessageData* data);
+        SubscribeRequestConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<SubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeRequestConst>(SubscribeRequestConst message);
+    template<> SubscribeRequestConst cast<SubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> SubscribeRequestConst cast<SubscribeRequestConst, SubscribeRequest>(SubscribeRequest message);
     
     class SubscribeAccept
     {
     public:
         
-        SubscribeAccept();
-        SubscribeAccept(MessageInfo* info, MessageData* data);
+        SubscribeAccept(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -319,31 +410,42 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> SubscribeAccept create<SubscribeAccept>();
+    
+    template<> bool is<SubscribeAccept, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, SubscribeAccept>(SubscribeAccept message);
+    template<> SubscribeAccept cast<SubscribeAccept, recsen::Message>(recsen::Message message);
     
     class SubscribeAcceptConst
     {
     public:
         
-        SubscribeAcceptConst();
-        SubscribeAcceptConst(MessageInfo* info, MessageData* data);
+        SubscribeAcceptConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<SubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeAcceptConst>(SubscribeAcceptConst message);
+    template<> SubscribeAcceptConst cast<SubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> SubscribeAcceptConst cast<SubscribeAcceptConst, SubscribeAccept>(SubscribeAccept message);
     
     class SubscribeReject
     {
     public:
         
-        SubscribeReject();
-        SubscribeReject(MessageInfo* info, MessageData* data);
+        SubscribeReject(const MessageInfo* info, MessageData* data);
         
         void setText(const std::string& value);
         
@@ -355,16 +457,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> SubscribeReject create<SubscribeReject>();
+    
+    template<> bool is<SubscribeReject, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, SubscribeReject>(SubscribeReject message);
+    template<> SubscribeReject cast<SubscribeReject, recsen::Message>(recsen::Message message);
     
     class SubscribeRejectConst
     {
     public:
         
-        SubscribeRejectConst();
-        SubscribeRejectConst(MessageInfo* info, MessageData* data);
+        SubscribeRejectConst(const MessageInfo* info, const MessageData* data);
         
         std::string getText() const;
         
@@ -372,16 +480,21 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<SubscribeRejectConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeRejectConst>(SubscribeRejectConst message);
+    template<> SubscribeRejectConst cast<SubscribeRejectConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> SubscribeRejectConst cast<SubscribeRejectConst, SubscribeReject>(SubscribeReject message);
     
     class UnsubscribeRequest
     {
     public:
         
-        UnsubscribeRequest();
-        UnsubscribeRequest(MessageInfo* info, MessageData* data);
+        UnsubscribeRequest(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -389,31 +502,42 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> UnsubscribeRequest create<UnsubscribeRequest>();
+    
+    template<> bool is<UnsubscribeRequest, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, UnsubscribeRequest>(UnsubscribeRequest message);
+    template<> UnsubscribeRequest cast<UnsubscribeRequest, recsen::Message>(recsen::Message message);
     
     class UnsubscribeRequestConst
     {
     public:
         
-        UnsubscribeRequestConst();
-        UnsubscribeRequestConst(MessageInfo* info, MessageData* data);
+        UnsubscribeRequestConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<UnsubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, UnsubscribeRequestConst>(UnsubscribeRequestConst message);
+    template<> UnsubscribeRequestConst cast<UnsubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> UnsubscribeRequestConst cast<UnsubscribeRequestConst, UnsubscribeRequest>(UnsubscribeRequest message);
     
     class UnsubscribeAccept
     {
     public:
         
-        UnsubscribeAccept();
-        UnsubscribeAccept(MessageInfo* info, MessageData* data);
+        UnsubscribeAccept(const MessageInfo* info, MessageData* data);
         
         void reset();
         
@@ -421,29 +545,41 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> UnsubscribeAccept create<UnsubscribeAccept>();
+    
+    template<> bool is<UnsubscribeAccept, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, UnsubscribeAccept>(UnsubscribeAccept message);
+    template<> UnsubscribeAccept cast<UnsubscribeAccept, recsen::Message>(recsen::Message message);
     
     class UnsubscribeAcceptConst
     {
     public:
         
-        UnsubscribeAcceptConst();
-        UnsubscribeAcceptConst(MessageInfo* info, MessageData* data);
+        UnsubscribeAcceptConst(const MessageInfo* info, const MessageData* data);
         
         std::string toString() const;
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
+    
+    template<> bool is<UnsubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    
+    template<> recsen::MessageConst cast<recsen::MessageConst, UnsubscribeAcceptConst>(UnsubscribeAcceptConst message);
+    template<> UnsubscribeAcceptConst cast<UnsubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> UnsubscribeAcceptConst cast<UnsubscribeAcceptConst, UnsubscribeAccept>(UnsubscribeAccept message);
     
     enum Side
     {
-        Bid = 0,
-        Ask = 1,
+        Side_Bid = 0,
+        Side_Ask = 1,
     };
     
     typedef recsen::array_t<Side> SideArray;
@@ -485,7 +621,7 @@ namespace SampleProtocol
     {
         public:
         
-        SnapshotRefreshEntryConst(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConst(const MessageData* data, uint32_t offset);
         
         Side getSide() const;
         
@@ -497,7 +633,7 @@ namespace SampleProtocol
         
     private:
         
-        MessageData* data_;
+        const MessageData* data_;
         uint32_t offset_;
     };
     
@@ -507,8 +643,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefresh();
-        SnapshotRefresh(MessageInfo* info, MessageData* data);
+        SnapshotRefresh(const MessageInfo* info, MessageData* data);
         
         void setSymbol(const std::string& value);
         
@@ -524,16 +659,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> SnapshotRefresh create<SnapshotRefresh>();
+    
+    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh message);
+    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message message);
     
     class SnapshotRefreshConst
     {
     public:
         
-        SnapshotRefreshConst();
-        SnapshotRefreshConst(MessageInfo* info, MessageData* data);
+        SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
         
         std::string getSymbol() const;
         
@@ -543,104 +684,15 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
     
-    template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2& message);
-    template<> bool is<LoginPublicRequest, recsen::Message>(recsen::Message& message);
-    template<> bool is<LoginPrivateRequest, recsen::Message>(recsen::Message& message);
-    template<> bool is<PasswordRequest, recsen::Message>(recsen::Message& message);
-    template<> bool is<PasswordResponse, recsen::Message>(recsen::Message& message);
-    template<> bool is<LoginAccept, recsen::Message>(recsen::Message& message);
-    template<> bool is<LoginReject, recsen::Message>(recsen::Message& message);
-    template<> bool is<Logout, recsen::Message>(recsen::Message& message);
-    template<> bool is<SubscribeRequest, recsen::Message>(recsen::Message& message);
-    template<> bool is<SubscribeAccept, recsen::Message>(recsen::Message& message);
-    template<> bool is<SubscribeReject, recsen::Message>(recsen::Message& message);
-    template<> bool is<UnsubscribeRequest, recsen::Message>(recsen::Message& message);
-    template<> bool is<UnsubscribeAccept, recsen::Message>(recsen::Message& message);
-    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message& message);
-    template<> bool is<LoginPublicRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<LoginPrivateRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<PasswordRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<PasswordResponseConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<LogoutConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<SubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<SubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<SubscribeRejectConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<UnsubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<UnsubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst& message);
+    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
     
-    template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2& message);
-    template<> recsen::Message cast<recsen::Message, LoginPublicRequest>(LoginPublicRequest& message);
-    template<> LoginPublicRequest cast<LoginPublicRequest, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, LoginPrivateRequest>(LoginPrivateRequest& message);
-    template<> LoginPrivateRequest cast<LoginPrivateRequest, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, PasswordRequest>(PasswordRequest& message);
-    template<> PasswordRequest cast<PasswordRequest, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, PasswordResponse>(PasswordResponse& message);
-    template<> PasswordResponse cast<PasswordResponse, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, LoginAccept>(LoginAccept& message);
-    template<> LoginAccept cast<LoginAccept, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, LoginReject>(LoginReject& message);
-    template<> LoginReject cast<LoginReject, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, Logout>(Logout& message);
-    template<> Logout cast<Logout, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, SubscribeRequest>(SubscribeRequest& message);
-    template<> SubscribeRequest cast<SubscribeRequest, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, SubscribeAccept>(SubscribeAccept& message);
-    template<> SubscribeAccept cast<SubscribeAccept, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, SubscribeReject>(SubscribeReject& message);
-    template<> SubscribeReject cast<SubscribeReject, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, UnsubscribeRequest>(UnsubscribeRequest& message);
-    template<> UnsubscribeRequest cast<UnsubscribeRequest, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, UnsubscribeAccept>(UnsubscribeAccept& message);
-    template<> UnsubscribeAccept cast<UnsubscribeAccept, recsen::Message>(recsen::Message& message);
-    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh& message);
-    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginPublicRequestConst>(LoginPublicRequestConst& message);
-    template<> LoginPublicRequestConst cast<LoginPublicRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginPrivateRequestConst>(LoginPrivateRequestConst& message);
-    template<> LoginPrivateRequestConst cast<LoginPrivateRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, PasswordRequestConst>(PasswordRequestConst& message);
-    template<> PasswordRequestConst cast<PasswordRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, PasswordResponseConst>(PasswordResponseConst& message);
-    template<> PasswordResponseConst cast<PasswordResponseConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginAcceptConst>(LoginAcceptConst& message);
-    template<> LoginAcceptConst cast<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginRejectConst>(LoginRejectConst& message);
-    template<> LoginRejectConst cast<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, LogoutConst>(LogoutConst& message);
-    template<> LogoutConst cast<LogoutConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeRequestConst>(SubscribeRequestConst& message);
-    template<> SubscribeRequestConst cast<SubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeAcceptConst>(SubscribeAcceptConst& message);
-    template<> SubscribeAcceptConst cast<SubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, SubscribeRejectConst>(SubscribeRejectConst& message);
-    template<> SubscribeRejectConst cast<SubscribeRejectConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, UnsubscribeRequestConst>(UnsubscribeRequestConst& message);
-    template<> UnsubscribeRequestConst cast<UnsubscribeRequestConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, UnsubscribeAcceptConst>(UnsubscribeAcceptConst& message);
-    template<> UnsubscribeAcceptConst cast<UnsubscribeAcceptConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst& message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> LoginPublicRequestConst cast<LoginPublicRequestConst, LoginPublicRequest>(LoginPublicRequest& message);
-    template<> LoginPrivateRequestConst cast<LoginPrivateRequestConst, LoginPrivateRequest>(LoginPrivateRequest& message);
-    template<> PasswordRequestConst cast<PasswordRequestConst, PasswordRequest>(PasswordRequest& message);
-    template<> PasswordResponseConst cast<PasswordResponseConst, PasswordResponse>(PasswordResponse& message);
-    template<> LoginAcceptConst cast<LoginAcceptConst, LoginAccept>(LoginAccept& message);
-    template<> LoginRejectConst cast<LoginRejectConst, LoginReject>(LoginReject& message);
-    template<> LogoutConst cast<LogoutConst, Logout>(Logout& message);
-    template<> SubscribeRequestConst cast<SubscribeRequestConst, SubscribeRequest>(SubscribeRequest& message);
-    template<> SubscribeAcceptConst cast<SubscribeAcceptConst, SubscribeAccept>(SubscribeAccept& message);
-    template<> SubscribeRejectConst cast<SubscribeRejectConst, SubscribeReject>(SubscribeReject& message);
-    template<> UnsubscribeRequestConst cast<UnsubscribeRequestConst, UnsubscribeRequest>(UnsubscribeRequest& message);
-    template<> UnsubscribeAcceptConst cast<UnsubscribeAcceptConst, UnsubscribeAccept>(UnsubscribeAccept& message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh& message);
+    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst message);
+    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh message);
     
     struct loginPublicClientContext : recsen::Context
     {
@@ -682,19 +734,19 @@ namespace SampleProtocol
         
         void disconnect(const std::string& text);
         
-        void loginPublic(loginPublicClientContext* context, LoginPublicRequest& message);
+        void loginPublic(loginPublicClientContext* context, LoginPublicRequest message);
         
-        void loginPrivate(loginPrivateClientContext* context, LoginPrivateRequest& message);
+        void loginPrivate(loginPrivateClientContext* context, LoginPrivateRequest message);
         
-        void subscribe(subscribeClientContext* context, SubscribeRequest& message);
+        void subscribe(subscribeClientContext* context, SubscribeRequest message);
         
-        void logout(logoutClientContext* context, Logout& message);
+        void logout(logoutClientContext* context, Logout message);
         
-        void unsubscribe(unsubscribeClientContext* context, UnsubscribeRequest& message);
+        void unsubscribe(unsubscribeClientContext* context, UnsubscribeRequest message);
         
-        void logout(logoutClientContext* context, Logout& message);
+        void logout(logoutClientContext* context, Logout message);
         
-        void send(recsen::Message& message);
+        void send(recsen::Message message);
         
         bool waitConnect(int timeout);
         
@@ -717,31 +769,31 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ClientSession* session, const std::string& text);
         
-        void virtual onPublicLoginAccept(ClientSession* session, loginPublicClientContext* context, LoginAcceptConst& message);
+        void virtual onPublicLoginAccept(ClientSession* session, loginPublicClientContext* context, LoginAcceptConst message);
         
-        void virtual onPublicLoginReject(ClientSession* session, loginPublicClientContext* context, LoginRejectConst& message);
+        void virtual onPublicLoginReject(ClientSession* session, loginPublicClientContext* context, LoginRejectConst message);
         
-        void virtual onPassword(ClientSession* session, loginPrivateClientContext* context, PasswordRequestConst& message);
+        void virtual onPassword(ClientSession* session, loginPrivateClientContext* context, PasswordRequestConst message);
         
-        void virtual onPrivateLoginAccept(ClientSession* session, loginPrivateClientContext* context, LoginAcceptConst& message);
+        void virtual onPrivateLoginAccept(ClientSession* session, loginPrivateClientContext* context, LoginAcceptConst message);
         
-        void virtual onPrivateLoginReject(ClientSession* session, loginPrivateClientContext* context, LoginRejectConst& message);
+        void virtual onPrivateLoginReject(ClientSession* session, loginPrivateClientContext* context, LoginRejectConst message);
         
-        void virtual onLogout(ClientSession* session, LogoutConst& message);
+        void virtual onLogout(ClientSession* session, LogoutConst message);
         
-        void virtual onSubscribeAccept(ClientSession* session, subscribeClientContext* context, SubscribeAcceptConst& message);
+        void virtual onSubscribeAccept(ClientSession* session, subscribeClientContext* context, SubscribeAcceptConst message);
         
-        void virtual onSubscribeReject(ClientSession* session, subscribeClientContext* context, SubscribeRejectConst& message);
+        void virtual onSubscribeReject(ClientSession* session, subscribeClientContext* context, SubscribeRejectConst message);
         
-        void virtual onLogout(ClientSession* session, subscribeClientContext* context, LogoutConst& message);
+        void virtual onLogout(ClientSession* session, subscribeClientContext* context, LogoutConst message);
         
-        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst& message);
+        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst message);
         
-        void virtual onLogout(ClientSession* session, LogoutConst& message);
+        void virtual onLogout(ClientSession* session, LogoutConst message);
         
-        void virtual onLogout(ClientSession* session, unsubscribeClientContext* context, LogoutConst& message);
+        void virtual onLogout(ClientSession* session, unsubscribeClientContext* context, LogoutConst message);
         
-        void virtual onReceive(ClientSession* session, recsen::MessageConst& message);
+        void virtual onReceive(ClientSession* session, recsen::MessageConst message);
     };
     
     struct ClientOptions
@@ -804,7 +856,7 @@ namespace SampleProtocol
         
         void* getData() const;
         
-        void send(recsen::Message& message);
+        void send(recsen::Message message);
         
     private:
         
@@ -819,21 +871,21 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ServerSession* session, const std::string& text);
         
-        void virtual onLoginPublic(ServerSession* session, LoginPublicRequestConst& message);
+        void virtual onLoginPublic(ServerSession* session, LoginPublicRequestConst message);
         
-        void virtual onLoginPrivate(ServerSession* session, LoginPrivateRequestConst& message);
+        void virtual onLoginPrivate(ServerSession* session, LoginPrivateRequestConst message);
         
-        void virtual onPassword(ServerSession* session, PasswordResponseConst& message);
+        void virtual onPassword(ServerSession* session, PasswordResponseConst message);
         
-        void virtual onSubscribe(ServerSession* session, SubscribeRequestConst& message);
+        void virtual onSubscribe(ServerSession* session, SubscribeRequestConst message);
         
-        void virtual onLogout(ServerSession* session, LogoutConst& message);
+        void virtual onLogout(ServerSession* session, LogoutConst message);
         
-        void virtual onUnsubscribe(ServerSession* session, UnsubscribeRequestConst& message);
+        void virtual onUnsubscribe(ServerSession* session, UnsubscribeRequestConst message);
         
-        void virtual onLogout(ServerSession* session, LogoutConst& message);
+        void virtual onLogout(ServerSession* session, LogoutConst message);
         
-        void virtual onReceive(ServerSession* session, recsen::MessageConst& message);
+        void virtual onReceive(ServerSession* session, recsen::MessageConst message);
     };
     
     struct ServerOptions

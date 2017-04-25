@@ -20,10 +20,14 @@ namespace SampleProtocol
     class ServerSessionData;
     class ServerListener;
     
+    template<typename MESSAGE> MESSAGE create();
+    template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2 message);
+    template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2 message);
+    
     enum Side
     {
-        Bid = 0,
-        Ask = 1,
+        Side_Bid = 0,
+        Side_Ask = 1,
     };
     
     typedef recsen::array_t<Side> SideArray;
@@ -65,7 +69,7 @@ namespace SampleProtocol
     {
         public:
         
-        SnapshotRefreshEntryConst(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConst(const MessageData* data, uint32_t offset);
         
         Side getSide() const;
         
@@ -77,7 +81,7 @@ namespace SampleProtocol
         
     private:
         
-        MessageData* data_;
+        const MessageData* data_;
         uint32_t offset_;
     };
     
@@ -87,8 +91,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefresh();
-        SnapshotRefresh(MessageInfo* info, MessageData* data);
+        SnapshotRefresh(const MessageInfo* info, MessageData* data);
         
         void setSymbol(const std::string& value);
         
@@ -104,16 +107,22 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
+        const MessageInfo* info_;
         MessageData* data_;
     };
+    
+    template<> SnapshotRefresh create<SnapshotRefresh>();
+    
+    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message message);
+    
+    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh message);
+    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message message);
     
     class SnapshotRefreshConst
     {
     public:
         
-        SnapshotRefreshConst();
-        SnapshotRefreshConst(MessageInfo* info, MessageData* data);
+        SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
         
         std::string getSymbol() const;
         
@@ -123,20 +132,15 @@ namespace SampleProtocol
         
     private:
         
-        MessageInfo* info_;
-        MessageData* data_;
+        const MessageInfo* info_;
+        const MessageData* data_;
     };
     
-    template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2& message);
-    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message& message);
-    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst& message);
+    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
     
-    template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2& message);
-    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh& message);
-    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message& message);
-    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst& message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst& message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh& message);
+    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst message);
+    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh message);
     
     class ClientSession
     {
@@ -154,7 +158,7 @@ namespace SampleProtocol
         
         void disconnect(const std::string& text);
         
-        void send(recsen::Message& message);
+        void send(recsen::Message message);
         
         bool waitConnect(int timeout);
         
@@ -177,9 +181,9 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ClientSession* session, const std::string& text);
         
-        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst& message);
+        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst message);
         
-        void virtual onReceive(ClientSession* session, recsen::MessageConst& message);
+        void virtual onReceive(ClientSession* session, recsen::MessageConst message);
     };
     
     struct ClientOptions
@@ -242,7 +246,7 @@ namespace SampleProtocol
         
         void* getData() const;
         
-        void send(recsen::Message& message);
+        void send(recsen::Message message);
         
     private:
         
@@ -257,7 +261,7 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ServerSession* session, const std::string& text);
         
-        void virtual onReceive(ServerSession* session, recsen::MessageConst& message);
+        void virtual onReceive(ServerSession* session, recsen::MessageConst message);
     };
     
     struct ServerOptions
