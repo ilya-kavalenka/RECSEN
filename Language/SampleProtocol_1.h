@@ -92,6 +92,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefresh(const MessageInfo* info, MessageData* data);
+        SnapshotRefresh(const SnapshotRefresh& message);
+        
+        ~SnapshotRefresh();
+        
+        SnapshotRefresh& operator=(const SnapshotRefresh& message);
         
         void setSymbol(const std::string& value);
         
@@ -123,6 +128,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConst(const SnapshotRefreshConst& message);
+        
+        ~SnapshotRefreshConst();
+        
+        SnapshotRefreshConst& operator=(const SnapshotRefreshConst& message);
         
         std::string getSymbol() const;
         

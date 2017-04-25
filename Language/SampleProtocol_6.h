@@ -29,6 +29,11 @@ namespace SampleProtocol
     public:
         
         LoginPublicRequest(const MessageInfo* info, MessageData* data);
+        LoginPublicRequest(const LoginPublicRequest& message);
+        
+        ~LoginPublicRequest();
+        
+        LoginPublicRequest& operator=(const LoginPublicRequest& message);
         
         void setName(const std::string& value);
         
@@ -56,6 +61,11 @@ namespace SampleProtocol
     public:
         
         LoginPublicRequestConst(const MessageInfo* info, const MessageData* data);
+        LoginPublicRequestConst(const LoginPublicRequestConst& message);
+        
+        ~LoginPublicRequestConst();
+        
+        LoginPublicRequestConst& operator=(const LoginPublicRequestConst& message);
         
         std::string getName() const;
         
@@ -78,6 +88,11 @@ namespace SampleProtocol
     public:
         
         LoginPrivateRequest(const MessageInfo* info, MessageData* data);
+        LoginPrivateRequest(const LoginPrivateRequest& message);
+        
+        ~LoginPrivateRequest();
+        
+        LoginPrivateRequest& operator=(const LoginPrivateRequest& message);
         
         void setName(const std::string& value);
         
@@ -105,6 +120,11 @@ namespace SampleProtocol
     public:
         
         LoginPrivateRequestConst(const MessageInfo* info, const MessageData* data);
+        LoginPrivateRequestConst(const LoginPrivateRequestConst& message);
+        
+        ~LoginPrivateRequestConst();
+        
+        LoginPrivateRequestConst& operator=(const LoginPrivateRequestConst& message);
         
         std::string getName() const;
         
@@ -127,6 +147,11 @@ namespace SampleProtocol
     public:
         
         PasswordRequest(const MessageInfo* info, MessageData* data);
+        PasswordRequest(const PasswordRequest& message);
+        
+        ~PasswordRequest();
+        
+        PasswordRequest& operator=(const PasswordRequest& message);
         
         void setToken(const recsen::bytes_t& value);
         
@@ -154,6 +179,11 @@ namespace SampleProtocol
     public:
         
         PasswordRequestConst(const MessageInfo* info, const MessageData* data);
+        PasswordRequestConst(const PasswordRequestConst& message);
+        
+        ~PasswordRequestConst();
+        
+        PasswordRequestConst& operator=(const PasswordRequestConst& message);
         
         recsen::bytes_t getToken() const;
         
@@ -176,6 +206,11 @@ namespace SampleProtocol
     public:
         
         PasswordResponse(const MessageInfo* info, MessageData* data);
+        PasswordResponse(const PasswordResponse& message);
+        
+        ~PasswordResponse();
+        
+        PasswordResponse& operator=(const PasswordResponse& message);
         
         void setEncodedToken(const recsen::bytes_t& value);
         
@@ -203,6 +238,11 @@ namespace SampleProtocol
     public:
         
         PasswordResponseConst(const MessageInfo* info, const MessageData* data);
+        PasswordResponseConst(const PasswordResponseConst& message);
+        
+        ~PasswordResponseConst();
+        
+        PasswordResponseConst& operator=(const PasswordResponseConst& message);
         
         recsen::bytes_t getEncodedToken() const;
         
@@ -225,6 +265,11 @@ namespace SampleProtocol
     public:
         
         LoginAccept(const MessageInfo* info, MessageData* data);
+        LoginAccept(const LoginAccept& message);
+        
+        ~LoginAccept();
+        
+        LoginAccept& operator=(const LoginAccept& message);
         
         void reset();
         
@@ -248,6 +293,11 @@ namespace SampleProtocol
     public:
         
         LoginAcceptConst(const MessageInfo* info, const MessageData* data);
+        LoginAcceptConst(const LoginAcceptConst& message);
+        
+        ~LoginAcceptConst();
+        
+        LoginAcceptConst& operator=(const LoginAcceptConst& message);
         
         std::string toString() const;
         
@@ -268,6 +318,11 @@ namespace SampleProtocol
     public:
         
         LoginReject(const MessageInfo* info, MessageData* data);
+        LoginReject(const LoginReject& message);
+        
+        ~LoginReject();
+        
+        LoginReject& operator=(const LoginReject& message);
         
         void setText(const std::string& value);
         
@@ -295,6 +350,11 @@ namespace SampleProtocol
     public:
         
         LoginRejectConst(const MessageInfo* info, const MessageData* data);
+        LoginRejectConst(const LoginRejectConst& message);
+        
+        ~LoginRejectConst();
+        
+        LoginRejectConst& operator=(const LoginRejectConst& message);
         
         std::string getText() const;
         
@@ -317,6 +377,11 @@ namespace SampleProtocol
     public:
         
         SymbolRequest(const MessageInfo* info, MessageData* data);
+        SymbolRequest(const SymbolRequest& message);
+        
+        ~SymbolRequest();
+        
+        SymbolRequest& operator=(const SymbolRequest& message);
         
         void setSymbol(const std::string& value);
         
@@ -344,6 +409,11 @@ namespace SampleProtocol
     public:
         
         SymbolRequestConst(const MessageInfo* info, const MessageData* data);
+        SymbolRequestConst(const SymbolRequestConst& message);
+        
+        ~SymbolRequestConst();
+        
+        SymbolRequestConst& operator=(const SymbolRequestConst& message);
         
         std::string getSymbol() const;
         
@@ -366,6 +436,11 @@ namespace SampleProtocol
     public:
         
         SymbolResponse(const MessageInfo* info, MessageData* data);
+        SymbolResponse(const SymbolResponse& message);
+        
+        ~SymbolResponse();
+        
+        SymbolResponse& operator=(const SymbolResponse& message);
         
         void setSymbol(const std::string& value);
         
@@ -393,6 +468,11 @@ namespace SampleProtocol
     public:
         
         SymbolResponseConst(const MessageInfo* info, const MessageData* data);
+        SymbolResponseConst(const SymbolResponseConst& message);
+        
+        ~SymbolResponseConst();
+        
+        SymbolResponseConst& operator=(const SymbolResponseConst& message);
         
         std::string getSymbol() const;
         
@@ -415,6 +495,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolRequest(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolRequest(const SubscribeSymbolRequest& message);
+        
+        ~SubscribeSymbolRequest();
+        
+        SubscribeSymbolRequest& operator=(const SubscribeSymbolRequest& message);
         
         void setSymbol(const std::string& value);
         
@@ -445,6 +530,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolRequestConst(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolRequestConst(const SubscribeSymbolRequestConst& message);
+        
+        ~SubscribeSymbolRequestConst();
+        
+        SubscribeSymbolRequestConst& operator=(const SubscribeSymbolRequestConst& message);
         
         std::string getSymbol() const;
         
@@ -470,6 +560,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolAccept(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolAccept(const SubscribeSymbolAccept& message);
+        
+        ~SubscribeSymbolAccept();
+        
+        SubscribeSymbolAccept& operator=(const SubscribeSymbolAccept& message);
         
         void setSymbol(const std::string& value);
         
@@ -500,6 +595,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolAcceptConst(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolAcceptConst(const SubscribeSymbolAcceptConst& message);
+        
+        ~SubscribeSymbolAcceptConst();
+        
+        SubscribeSymbolAcceptConst& operator=(const SubscribeSymbolAcceptConst& message);
         
         std::string getSymbol() const;
         
@@ -525,6 +625,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolReject(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolReject(const SubscribeSymbolReject& message);
+        
+        ~SubscribeSymbolReject();
+        
+        SubscribeSymbolReject& operator=(const SubscribeSymbolReject& message);
         
         void setSymbol(const std::string& value);
         
@@ -559,6 +664,11 @@ namespace SampleProtocol
     public:
         
         SubscribeSymbolRejectConst(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolRejectConst(const SubscribeSymbolRejectConst& message);
+        
+        ~SubscribeSymbolRejectConst();
+        
+        SubscribeSymbolRejectConst& operator=(const SubscribeSymbolRejectConst& message);
         
         std::string getSymbol() const;
         
@@ -586,6 +696,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeSymbolRequest(const MessageInfo* info, MessageData* data);
+        UnsubscribeSymbolRequest(const UnsubscribeSymbolRequest& message);
+        
+        ~UnsubscribeSymbolRequest();
+        
+        UnsubscribeSymbolRequest& operator=(const UnsubscribeSymbolRequest& message);
         
         void setSymbol(const std::string& value);
         
@@ -616,6 +731,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeSymbolRequestConst(const MessageInfo* info, const MessageData* data);
+        UnsubscribeSymbolRequestConst(const UnsubscribeSymbolRequestConst& message);
+        
+        ~UnsubscribeSymbolRequestConst();
+        
+        UnsubscribeSymbolRequestConst& operator=(const UnsubscribeSymbolRequestConst& message);
         
         std::string getSymbol() const;
         
@@ -641,6 +761,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeSymbolAccept(const MessageInfo* info, MessageData* data);
+        UnsubscribeSymbolAccept(const UnsubscribeSymbolAccept& message);
+        
+        ~UnsubscribeSymbolAccept();
+        
+        UnsubscribeSymbolAccept& operator=(const UnsubscribeSymbolAccept& message);
         
         void setSymbol(const std::string& value);
         
@@ -671,6 +796,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeSymbolAcceptConst(const MessageInfo* info, const MessageData* data);
+        UnsubscribeSymbolAcceptConst(const UnsubscribeSymbolAcceptConst& message);
+        
+        ~UnsubscribeSymbolAcceptConst();
+        
+        UnsubscribeSymbolAcceptConst& operator=(const UnsubscribeSymbolAcceptConst& message);
         
         std::string getSymbol() const;
         
@@ -759,6 +889,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefresh(const MessageInfo* info, MessageData* data);
+        SnapshotRefresh(const SnapshotRefresh& message);
+        
+        ~SnapshotRefresh();
+        
+        SnapshotRefresh& operator=(const SnapshotRefresh& message);
         
         void setSymbol(const std::string& value);
         
@@ -793,6 +928,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConst(const SnapshotRefreshConst& message);
+        
+        ~SnapshotRefreshConst();
+        
+        SnapshotRefreshConst& operator=(const SnapshotRefreshConst& message);
         
         std::string getSymbol() const;
         
@@ -820,6 +960,11 @@ namespace SampleProtocol
     public:
         
         NewsRequest(const MessageInfo* info, MessageData* data);
+        NewsRequest(const NewsRequest& message);
+        
+        ~NewsRequest();
+        
+        NewsRequest& operator=(const NewsRequest& message);
         
         void reset();
         
@@ -843,6 +988,11 @@ namespace SampleProtocol
     public:
         
         NewsRequestConst(const MessageInfo* info, const MessageData* data);
+        NewsRequestConst(const NewsRequestConst& message);
+        
+        ~NewsRequestConst();
+        
+        NewsRequestConst& operator=(const NewsRequestConst& message);
         
         std::string toString() const;
         
@@ -863,6 +1013,11 @@ namespace SampleProtocol
     public:
         
         NewsResponse(const MessageInfo* info, MessageData* data);
+        NewsResponse(const NewsResponse& message);
+        
+        ~NewsResponse();
+        
+        NewsResponse& operator=(const NewsResponse& message);
         
         void reset();
         
@@ -886,6 +1041,11 @@ namespace SampleProtocol
     public:
         
         NewsResponseConst(const MessageInfo* info, const MessageData* data);
+        NewsResponseConst(const NewsResponseConst& message);
+        
+        ~NewsResponseConst();
+        
+        NewsResponseConst& operator=(const NewsResponseConst& message);
         
         std::string toString() const;
         
@@ -906,6 +1066,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsRequest(const MessageInfo* info, MessageData* data);
+        SubscribeNewsRequest(const SubscribeNewsRequest& message);
+        
+        ~SubscribeNewsRequest();
+        
+        SubscribeNewsRequest& operator=(const SubscribeNewsRequest& message);
         
         void reset();
         
@@ -932,6 +1097,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsRequestConst(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsRequestConst(const SubscribeNewsRequestConst& message);
+        
+        ~SubscribeNewsRequestConst();
+        
+        SubscribeNewsRequestConst& operator=(const SubscribeNewsRequestConst& message);
         
         std::string toString() const;
         
@@ -955,6 +1125,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsAccept(const MessageInfo* info, MessageData* data);
+        SubscribeNewsAccept(const SubscribeNewsAccept& message);
+        
+        ~SubscribeNewsAccept();
+        
+        SubscribeNewsAccept& operator=(const SubscribeNewsAccept& message);
         
         void reset();
         
@@ -981,6 +1156,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsAcceptConst(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsAcceptConst(const SubscribeNewsAcceptConst& message);
+        
+        ~SubscribeNewsAcceptConst();
+        
+        SubscribeNewsAcceptConst& operator=(const SubscribeNewsAcceptConst& message);
         
         std::string toString() const;
         
@@ -1004,6 +1184,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsReject(const MessageInfo* info, MessageData* data);
+        SubscribeNewsReject(const SubscribeNewsReject& message);
+        
+        ~SubscribeNewsReject();
+        
+        SubscribeNewsReject& operator=(const SubscribeNewsReject& message);
         
         void reset();
         
@@ -1030,6 +1215,11 @@ namespace SampleProtocol
     public:
         
         SubscribeNewsRejectConst(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsRejectConst(const SubscribeNewsRejectConst& message);
+        
+        ~SubscribeNewsRejectConst();
+        
+        SubscribeNewsRejectConst& operator=(const SubscribeNewsRejectConst& message);
         
         std::string toString() const;
         
@@ -1053,6 +1243,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeNewsRequest(const MessageInfo* info, MessageData* data);
+        UnsubscribeNewsRequest(const UnsubscribeNewsRequest& message);
+        
+        ~UnsubscribeNewsRequest();
+        
+        UnsubscribeNewsRequest& operator=(const UnsubscribeNewsRequest& message);
         
         void reset();
         
@@ -1079,6 +1274,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeNewsRequestConst(const MessageInfo* info, const MessageData* data);
+        UnsubscribeNewsRequestConst(const UnsubscribeNewsRequestConst& message);
+        
+        ~UnsubscribeNewsRequestConst();
+        
+        UnsubscribeNewsRequestConst& operator=(const UnsubscribeNewsRequestConst& message);
         
         std::string toString() const;
         
@@ -1102,6 +1302,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeNewsAccept(const MessageInfo* info, MessageData* data);
+        UnsubscribeNewsAccept(const UnsubscribeNewsAccept& message);
+        
+        ~UnsubscribeNewsAccept();
+        
+        UnsubscribeNewsAccept& operator=(const UnsubscribeNewsAccept& message);
         
         void reset();
         
@@ -1128,6 +1333,11 @@ namespace SampleProtocol
     public:
         
         UnsubscribeNewsAcceptConst(const MessageInfo* info, const MessageData* data);
+        UnsubscribeNewsAcceptConst(const UnsubscribeNewsAcceptConst& message);
+        
+        ~UnsubscribeNewsAcceptConst();
+        
+        UnsubscribeNewsAcceptConst& operator=(const UnsubscribeNewsAcceptConst& message);
         
         std::string toString() const;
         
@@ -1163,6 +1373,11 @@ namespace SampleProtocol
     public:
         
         NewsNotification(const MessageInfo* info, MessageData* data);
+        NewsNotification(const NewsNotification& message);
+        
+        ~NewsNotification();
+        
+        NewsNotification& operator=(const NewsNotification& message);
         
         void setSeverity(NewsSeverity value);
         
@@ -1201,6 +1416,11 @@ namespace SampleProtocol
     public:
         
         NewsNotificationConst(const MessageInfo* info, const MessageData* data);
+        NewsNotificationConst(const NewsNotificationConst& message);
+        
+        ~NewsNotificationConst();
+        
+        NewsNotificationConst& operator=(const NewsNotificationConst& message);
         
         NewsSeverity getSeverity() const;
         
@@ -1230,6 +1450,11 @@ namespace SampleProtocol
     public:
         
         Logout(const MessageInfo* info, MessageData* data);
+        Logout(const Logout& message);
+        
+        ~Logout();
+        
+        Logout& operator=(const Logout& message);
         
         void reset();
         
@@ -1253,6 +1478,11 @@ namespace SampleProtocol
     public:
         
         LogoutConst(const MessageInfo* info, const MessageData* data);
+        LogoutConst(const LogoutConst& message);
+        
+        ~LogoutConst();
+        
+        LogoutConst& operator=(const LogoutConst& message);
         
         std::string toString() const;
         

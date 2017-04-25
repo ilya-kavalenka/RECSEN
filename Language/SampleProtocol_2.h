@@ -29,6 +29,11 @@ namespace SampleProtocol
     public:
         
         LoginRequest(const MessageInfo* info, MessageData* data);
+        LoginRequest(const LoginRequest& message);
+        
+        ~LoginRequest();
+        
+        LoginRequest& operator=(const LoginRequest& message);
         
         void setName(const std::string& value);
         
@@ -56,6 +61,11 @@ namespace SampleProtocol
     public:
         
         LoginRequestConst(const MessageInfo* info, const MessageData* data);
+        LoginRequestConst(const LoginRequestConst& message);
+        
+        ~LoginRequestConst();
+        
+        LoginRequestConst& operator=(const LoginRequestConst& message);
         
         std::string getName() const;
         
@@ -78,6 +88,11 @@ namespace SampleProtocol
     public:
         
         LoginAccept(const MessageInfo* info, MessageData* data);
+        LoginAccept(const LoginAccept& message);
+        
+        ~LoginAccept();
+        
+        LoginAccept& operator=(const LoginAccept& message);
         
         void reset();
         
@@ -101,6 +116,11 @@ namespace SampleProtocol
     public:
         
         LoginAcceptConst(const MessageInfo* info, const MessageData* data);
+        LoginAcceptConst(const LoginAcceptConst& message);
+        
+        ~LoginAcceptConst();
+        
+        LoginAcceptConst& operator=(const LoginAcceptConst& message);
         
         std::string toString() const;
         
@@ -121,6 +141,11 @@ namespace SampleProtocol
     public:
         
         LoginReject(const MessageInfo* info, MessageData* data);
+        LoginReject(const LoginReject& message);
+        
+        ~LoginReject();
+        
+        LoginReject& operator=(const LoginReject& message);
         
         void setText(const std::string& value);
         
@@ -148,6 +173,11 @@ namespace SampleProtocol
     public:
         
         LoginRejectConst(const MessageInfo* info, const MessageData* data);
+        LoginRejectConst(const LoginRejectConst& message);
+        
+        ~LoginRejectConst();
+        
+        LoginRejectConst& operator=(const LoginRejectConst& message);
         
         std::string getText() const;
         
@@ -170,6 +200,11 @@ namespace SampleProtocol
     public:
         
         Logout(const MessageInfo* info, MessageData* data);
+        Logout(const Logout& message);
+        
+        ~Logout();
+        
+        Logout& operator=(const Logout& message);
         
         void reset();
         
@@ -193,6 +228,11 @@ namespace SampleProtocol
     public:
         
         LogoutConst(const MessageInfo* info, const MessageData* data);
+        LogoutConst(const LogoutConst& message);
+        
+        ~LogoutConst();
+        
+        LogoutConst& operator=(const LogoutConst& message);
         
         std::string toString() const;
         
@@ -276,6 +316,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefresh(const MessageInfo* info, MessageData* data);
+        SnapshotRefresh(const SnapshotRefresh& message);
+        
+        ~SnapshotRefresh();
+        
+        SnapshotRefresh& operator=(const SnapshotRefresh& message);
         
         void setSymbol(const std::string& value);
         
@@ -307,6 +352,11 @@ namespace SampleProtocol
     public:
         
         SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConst(const SnapshotRefreshConst& message);
+        
+        ~SnapshotRefreshConst();
+        
+        SnapshotRefreshConst& operator=(const SnapshotRefreshConst& message);
         
         std::string getSymbol() const;
         
