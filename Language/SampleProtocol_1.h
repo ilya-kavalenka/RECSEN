@@ -20,7 +20,6 @@ namespace SampleProtocol
     class ServerSessionData;
     class ServerListener;
     
-    template<typename MESSAGE> MESSAGE create();
     template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2 message);
     template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2 message);
     
@@ -30,21 +29,20 @@ namespace SampleProtocol
         Side_Ask = 1,
     };
     
-    typedef recsen::array_t<Side> SideArray;
-    typedef recsen::const_array_t<Side> SideConstArray;
-    typedef recsen::array_t<recsen::null_t<Side>> SideNullArray;
-    typedef recsen::const_array_t<recsen::null_t<Side>> SideNullConstArray;
+    typedef recsen::array_ref_t<Side> SideArrayRef;
+    typedef recsen::const_array_ref_t<Side> SideConstArrayRef;
+    typedef recsen::array_ref_t<recsen::null_t<Side>> SideNullArrayRef;
+    typedef recsen::const_array_ref_t<recsen::null_t<Side>> SideNullConstArrayRef;
     
-    class SnapshotRefreshEntry
+    class SnapshotRefreshEntryRef;
+    class SnapshotRefreshEntryConstRef;
+    
+    class SnapshotRefreshEntryRef
     {
     public:
         
-        SnapshotRefreshEntry(MessageData* data, uint32_t offset);
-        SnapshotRefreshEntry(const SnapshotRefreshEntry& group);
-        
-        ~SnapshotRefreshEntry();
-        
-        SnapshotRefreshEntry& operator=(const SnapshotRefreshEntry& group);
+        SnapshotRefreshEntryRef(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryRef(const SnapshotRefreshEntryRef& group);
         
         void setSide(Side value);
         
@@ -62,24 +60,24 @@ namespace SampleProtocol
         
         recsen::int32_null_t getOrders() const;
         
+        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryConstRef& group);
+        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryRef& group);
+        
     private:
         
         MessageData* data_;
         uint32_t offset_;
     };
     
-    typedef recsen::group_array_t<SnapshotRefreshEntry> SnapshotRefreshEntryArray;
+    typedef recsen::group_array_ref_t<SnapshotRefreshEntryRef> SnapshotRefreshEntryArrayRef;
     
-    class SnapshotRefreshEntryConst
+    class SnapshotRefreshEntryConstRef
     {
-        public:
+    public:
         
-        SnapshotRefreshEntryConst(const MessageData* data, uint32_t offset);
-        SnapshotRefreshEntryConst(const SnapshotRefreshEntryConst& group);
-        
-        ~SnapshotRefreshEntryConst();
-        
-        SnapshotRefreshEntryConst& operator=(const SnapshotRefreshEntryConst& group);
+        SnapshotRefreshEntryConstRef(const MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryRef& group);
+        SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryConstRef& group);
         
         Side getSide() const;
         
@@ -95,26 +93,36 @@ namespace SampleProtocol
         uint32_t offset_;
     };
     
-    typedef recsen::group_array_t<SnapshotRefreshEntryConst> SnapshotRefreshEntryConstArray;
+    typedef recsen::group_array_ref_t<SnapshotRefreshEntryConstRef> SnapshotRefreshEntryConstArrayRef;
+    
+    class SnapshotRefresh;
+    class SnapshotRefreshRef;
+    class SnapshotRefreshConstRef;
     
     class SnapshotRefresh
     {
     public:
         
-        SnapshotRefresh(const MessageInfo* info, MessageData* data);
+        SnapshotRefresh();
+        SnapshotRefresh(const SnapshotRefreshRef& message);
+        SnapshotRefresh(const SnapshotRefreshConstRef& message);
         SnapshotRefresh(const SnapshotRefresh& message);
         
         ~SnapshotRefresh();
-        
-        SnapshotRefresh& operator=(const SnapshotRefresh& message);
         
         void setSymbol(const std::string& value);
         
         std::string getSymbol() const;
         
-        SnapshotRefreshEntryArray Entries();
+        SnapshotRefreshEntryArrayRef Entries();
+        SnapshotRefreshEntryConstArrayRef Entries() const;
         
-        SnapshotRefreshEntryConstArray Entries() const;
+        SnapshotRefresh& operator=(const SnapshotRefreshRef& message);
+        SnapshotRefresh& operator=(const SnapshotRefreshConstRef& message);
+        SnapshotRefresh& operator=(const SnapshotRefresh& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
         
         void reset();
         
@@ -126,27 +134,53 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> SnapshotRefresh create<SnapshotRefresh>();
-    
-    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh message);
-    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message message);
-    
-    class SnapshotRefreshConst
+    class SnapshotRefreshRef
     {
     public:
         
-        SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
-        SnapshotRefreshConst(const SnapshotRefreshConst& message);
+        SnapshotRefreshRef(const MessageInfo* info, MessageData* data);
+        SnapshotRefreshRef(const SnapshotRefresh& message);
+        SnapshotRefreshRef(const SnapshotRefreshConstRef& message);
+        SnapshotRefreshRef(const SnapshotRefreshRef& message);
         
-        ~SnapshotRefreshConst();
-        
-        SnapshotRefreshConst& operator=(const SnapshotRefreshConst& message);
+        void setSymbol(const std::string& value);
         
         std::string getSymbol() const;
         
-        SnapshotRefreshEntryConstArray Entries() const;
+        SnapshotRefreshEntryArrayRef Entries();
+        SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        SnapshotRefreshRef& operator=(const SnapshotRefresh& message);
+        SnapshotRefreshRef& operator=(const SnapshotRefreshConstRef& message);
+        SnapshotRefreshRef& operator=(const SnapshotRefreshRef& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class SnapshotRefreshConstRef
+    {
+    public:
+        
+        SnapshotRefreshConstRef(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConstRef(const SnapshotRefresh& message);
+        SnapshotRefreshConstRef(const SnapshotRefreshRef& message);
+        SnapshotRefreshConstRef(const SnapshotRefreshConstRef& message);
+        
+        std::string getSymbol() const;
+        
+        SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -156,11 +190,11 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<SnapshotRefreshConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh message);
+    template<> SnapshotRefreshRef cast<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> SnapshotRefreshConstRef cast<SnapshotRefreshConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
     class ClientSession
     {
@@ -178,7 +212,7 @@ namespace SampleProtocol
         
         void disconnect(const std::string& text);
         
-        void send(recsen::Message message);
+        void send(recsen::MessageRef message);
         
         bool waitConnect(int timeout);
         
@@ -201,9 +235,9 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ClientSession* session, const std::string& text);
         
-        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst message);
+        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConstRef message);
         
-        void virtual onReceive(ClientSession* session, recsen::MessageConst message);
+        void virtual onReceive(ClientSession* session, recsen::MessageConstRef message);
     };
     
     struct ClientOptions
@@ -266,7 +300,7 @@ namespace SampleProtocol
         
         void* getData() const;
         
-        void send(recsen::Message message);
+        void send(recsen::MessageRef message);
         
     private:
         
@@ -281,7 +315,7 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ServerSession* session, const std::string& text);
         
-        void virtual onReceive(ServerSession* session, recsen::MessageConst message);
+        void virtual onReceive(ServerSession* session, recsen::MessageConstRef message);
     };
     
     struct ServerOptions

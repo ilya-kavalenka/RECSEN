@@ -20,25 +20,35 @@ namespace SampleProtocol
     class ServerSessionData;
     class ServerListener;
     
-    template<typename MESSAGE> MESSAGE create();
     template<typename MESSAGE1, typename MESSAGE2> bool is(MESSAGE2 message);
     template<typename MESSAGE1, typename MESSAGE2> MESSAGE1 cast(MESSAGE2 message);
+    
+    class LoginRequest;
+    class LoginRequestRef;
+    class LoginRequestConstRef;
     
     class LoginRequest
     {
     public:
         
-        LoginRequest(const MessageInfo* info, MessageData* data);
+        LoginRequest();
+        LoginRequest(const LoginRequestRef& message);
+        LoginRequest(const LoginRequestConstRef& message);
         LoginRequest(const LoginRequest& message);
         
         ~LoginRequest();
-        
-        LoginRequest& operator=(const LoginRequest& message);
         
         void setName(const std::string& value);
         
         std::string getName() const;
         
+        LoginRequest& operator=(const LoginRequestRef& message);
+        LoginRequest& operator=(const LoginRequestConstRef& message);
+        LoginRequest& operator=(const LoginRequest& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
         void reset();
         
         std::string toString() const;
@@ -49,25 +59,48 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> LoginRequest create<LoginRequest>();
-    
-    template<> bool is<LoginRequest, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, LoginRequest>(LoginRequest message);
-    template<> LoginRequest cast<LoginRequest, recsen::Message>(recsen::Message message);
-    
-    class LoginRequestConst
+    class LoginRequestRef
     {
     public:
         
-        LoginRequestConst(const MessageInfo* info, const MessageData* data);
-        LoginRequestConst(const LoginRequestConst& message);
+        LoginRequestRef(const MessageInfo* info, MessageData* data);
+        LoginRequestRef(const LoginRequest& message);
+        LoginRequestRef(const LoginRequestConstRef& message);
+        LoginRequestRef(const LoginRequestRef& message);
         
-        ~LoginRequestConst();
-        
-        LoginRequestConst& operator=(const LoginRequestConst& message);
+        void setName(const std::string& value);
         
         std::string getName() const;
+        
+        LoginRequestRef& operator=(const LoginRequest& message);
+        LoginRequestRef& operator=(const LoginRequestConstRef& message);
+        LoginRequestRef& operator=(const LoginRequestRef& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class LoginRequestConstRef
+    {
+    public:
+        
+        LoginRequestConstRef(const MessageInfo* info, const MessageData* data);
+        LoginRequestConstRef(const LoginRequest& message);
+        LoginRequestConstRef(const LoginRequestRef& message);
+        LoginRequestConstRef(const LoginRequestConstRef& message);
+        
+        std::string getName() const;
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -77,22 +110,33 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<LoginRequestConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<LoginRequestRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<LoginRequestConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginRequestConst>(LoginRequestConst message);
-    template<> LoginRequestConst cast<LoginRequestConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> LoginRequestConst cast<LoginRequestConst, LoginRequest>(LoginRequest message);
+    template<> LoginRequestRef cast<LoginRequestRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> LoginRequestConstRef cast<LoginRequestConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
+    
+    class LoginAccept;
+    class LoginAcceptRef;
+    class LoginAcceptConstRef;
     
     class LoginAccept
     {
     public:
         
-        LoginAccept(const MessageInfo* info, MessageData* data);
+        LoginAccept();
+        LoginAccept(const LoginAcceptRef& message);
+        LoginAccept(const LoginAcceptConstRef& message);
         LoginAccept(const LoginAccept& message);
         
         ~LoginAccept();
         
+        LoginAccept& operator=(const LoginAcceptRef& message);
+        LoginAccept& operator=(const LoginAcceptConstRef& message);
         LoginAccept& operator=(const LoginAccept& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
         
         void reset();
         
@@ -104,23 +148,42 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> LoginAccept create<LoginAccept>();
-    
-    template<> bool is<LoginAccept, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, LoginAccept>(LoginAccept message);
-    template<> LoginAccept cast<LoginAccept, recsen::Message>(recsen::Message message);
-    
-    class LoginAcceptConst
+    class LoginAcceptRef
     {
     public:
         
-        LoginAcceptConst(const MessageInfo* info, const MessageData* data);
-        LoginAcceptConst(const LoginAcceptConst& message);
+        LoginAcceptRef(const MessageInfo* info, MessageData* data);
+        LoginAcceptRef(const LoginAccept& message);
+        LoginAcceptRef(const LoginAcceptConstRef& message);
+        LoginAcceptRef(const LoginAcceptRef& message);
         
-        ~LoginAcceptConst();
+        LoginAcceptRef& operator=(const LoginAccept& message);
+        LoginAcceptRef& operator=(const LoginAcceptConstRef& message);
+        LoginAcceptRef& operator=(const LoginAcceptRef& message);
         
-        LoginAcceptConst& operator=(const LoginAcceptConst& message);
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class LoginAcceptConstRef
+    {
+    public:
+        
+        LoginAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        LoginAcceptConstRef(const LoginAccept& message);
+        LoginAcceptConstRef(const LoginAcceptRef& message);
+        LoginAcceptConstRef(const LoginAcceptConstRef& message);
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -130,27 +193,38 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<LoginAcceptRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<LoginAcceptConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginAcceptConst>(LoginAcceptConst message);
-    template<> LoginAcceptConst cast<LoginAcceptConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> LoginAcceptConst cast<LoginAcceptConst, LoginAccept>(LoginAccept message);
+    template<> LoginAcceptRef cast<LoginAcceptRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> LoginAcceptConstRef cast<LoginAcceptConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
+    
+    class LoginReject;
+    class LoginRejectRef;
+    class LoginRejectConstRef;
     
     class LoginReject
     {
     public:
         
-        LoginReject(const MessageInfo* info, MessageData* data);
+        LoginReject();
+        LoginReject(const LoginRejectRef& message);
+        LoginReject(const LoginRejectConstRef& message);
         LoginReject(const LoginReject& message);
         
         ~LoginReject();
-        
-        LoginReject& operator=(const LoginReject& message);
         
         void setText(const std::string& value);
         
         std::string getText() const;
         
+        LoginReject& operator=(const LoginRejectRef& message);
+        LoginReject& operator=(const LoginRejectConstRef& message);
+        LoginReject& operator=(const LoginReject& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
         void reset();
         
         std::string toString() const;
@@ -161,25 +235,48 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> LoginReject create<LoginReject>();
-    
-    template<> bool is<LoginReject, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, LoginReject>(LoginReject message);
-    template<> LoginReject cast<LoginReject, recsen::Message>(recsen::Message message);
-    
-    class LoginRejectConst
+    class LoginRejectRef
     {
     public:
         
-        LoginRejectConst(const MessageInfo* info, const MessageData* data);
-        LoginRejectConst(const LoginRejectConst& message);
+        LoginRejectRef(const MessageInfo* info, MessageData* data);
+        LoginRejectRef(const LoginReject& message);
+        LoginRejectRef(const LoginRejectConstRef& message);
+        LoginRejectRef(const LoginRejectRef& message);
         
-        ~LoginRejectConst();
-        
-        LoginRejectConst& operator=(const LoginRejectConst& message);
+        void setText(const std::string& value);
         
         std::string getText() const;
+        
+        LoginRejectRef& operator=(const LoginReject& message);
+        LoginRejectRef& operator=(const LoginRejectConstRef& message);
+        LoginRejectRef& operator=(const LoginRejectRef& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class LoginRejectConstRef
+    {
+    public:
+        
+        LoginRejectConstRef(const MessageInfo* info, const MessageData* data);
+        LoginRejectConstRef(const LoginReject& message);
+        LoginRejectConstRef(const LoginRejectRef& message);
+        LoginRejectConstRef(const LoginRejectConstRef& message);
+        
+        std::string getText() const;
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -189,22 +286,33 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<LoginRejectRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<LoginRejectConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, LoginRejectConst>(LoginRejectConst message);
-    template<> LoginRejectConst cast<LoginRejectConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> LoginRejectConst cast<LoginRejectConst, LoginReject>(LoginReject message);
+    template<> LoginRejectRef cast<LoginRejectRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> LoginRejectConstRef cast<LoginRejectConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
+    
+    class Logout;
+    class LogoutRef;
+    class LogoutConstRef;
     
     class Logout
     {
     public:
         
-        Logout(const MessageInfo* info, MessageData* data);
+        Logout();
+        Logout(const LogoutRef& message);
+        Logout(const LogoutConstRef& message);
         Logout(const Logout& message);
         
         ~Logout();
         
+        Logout& operator=(const LogoutRef& message);
+        Logout& operator=(const LogoutConstRef& message);
         Logout& operator=(const Logout& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
         
         void reset();
         
@@ -216,23 +324,42 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> Logout create<Logout>();
-    
-    template<> bool is<Logout, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, Logout>(Logout message);
-    template<> Logout cast<Logout, recsen::Message>(recsen::Message message);
-    
-    class LogoutConst
+    class LogoutRef
     {
     public:
         
-        LogoutConst(const MessageInfo* info, const MessageData* data);
-        LogoutConst(const LogoutConst& message);
+        LogoutRef(const MessageInfo* info, MessageData* data);
+        LogoutRef(const Logout& message);
+        LogoutRef(const LogoutConstRef& message);
+        LogoutRef(const LogoutRef& message);
         
-        ~LogoutConst();
+        LogoutRef& operator=(const Logout& message);
+        LogoutRef& operator=(const LogoutConstRef& message);
+        LogoutRef& operator=(const LogoutRef& message);
         
-        LogoutConst& operator=(const LogoutConst& message);
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class LogoutConstRef
+    {
+    public:
+        
+        LogoutConstRef(const MessageInfo* info, const MessageData* data);
+        LogoutConstRef(const Logout& message);
+        LogoutConstRef(const LogoutRef& message);
+        LogoutConstRef(const LogoutConstRef& message);
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -242,11 +369,11 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<LogoutConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<LogoutRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<LogoutConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, LogoutConst>(LogoutConst message);
-    template<> LogoutConst cast<LogoutConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> LogoutConst cast<LogoutConst, Logout>(Logout message);
+    template<> LogoutRef cast<LogoutRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> LogoutConstRef cast<LogoutConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
     enum Side
     {
@@ -254,21 +381,20 @@ namespace SampleProtocol
         Side_Ask = 1,
     };
     
-    typedef recsen::array_t<Side> SideArray;
-    typedef recsen::const_array_t<Side> SideConstArray;
-    typedef recsen::array_t<recsen::null_t<Side>> SideNullArray;
-    typedef recsen::const_array_t<recsen::null_t<Side>> SideNullConstArray;
+    typedef recsen::array_ref_t<Side> SideArrayRef;
+    typedef recsen::const_array_ref_t<Side> SideConstArrayRef;
+    typedef recsen::array_ref_t<recsen::null_t<Side>> SideNullArrayRef;
+    typedef recsen::const_array_ref_t<recsen::null_t<Side>> SideNullConstArrayRef;
     
-    class SnapshotRefreshEntry
+    class SnapshotRefreshEntryRef;
+    class SnapshotRefreshEntryConstRef;
+    
+    class SnapshotRefreshEntryRef
     {
     public:
         
-        SnapshotRefreshEntry(MessageData* data, uint32_t offset);
-        SnapshotRefreshEntry(const SnapshotRefreshEntry& group);
-        
-        ~SnapshotRefreshEntry();
-        
-        SnapshotRefreshEntry& operator=(const SnapshotRefreshEntry& group);
+        SnapshotRefreshEntryRef(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryRef(const SnapshotRefreshEntryRef& group);
         
         void setSide(Side value);
         
@@ -286,24 +412,24 @@ namespace SampleProtocol
         
         recsen::int32_null_t getOrders() const;
         
+        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryConstRef& group);
+        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryRef& group);
+        
     private:
         
         MessageData* data_;
         uint32_t offset_;
     };
     
-    typedef recsen::group_array_t<SnapshotRefreshEntry> SnapshotRefreshEntryArray;
+    typedef recsen::group_array_ref_t<SnapshotRefreshEntryRef> SnapshotRefreshEntryArrayRef;
     
-    class SnapshotRefreshEntryConst
+    class SnapshotRefreshEntryConstRef
     {
-        public:
+    public:
         
-        SnapshotRefreshEntryConst(const MessageData* data, uint32_t offset);
-        SnapshotRefreshEntryConst(const SnapshotRefreshEntryConst& group);
-        
-        ~SnapshotRefreshEntryConst();
-        
-        SnapshotRefreshEntryConst& operator=(const SnapshotRefreshEntryConst& group);
+        SnapshotRefreshEntryConstRef(const MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryRef& group);
+        SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryConstRef& group);
         
         Side getSide() const;
         
@@ -319,26 +445,36 @@ namespace SampleProtocol
         uint32_t offset_;
     };
     
-    typedef recsen::group_array_t<SnapshotRefreshEntryConst> SnapshotRefreshEntryConstArray;
+    typedef recsen::group_array_ref_t<SnapshotRefreshEntryConstRef> SnapshotRefreshEntryConstArrayRef;
+    
+    class SnapshotRefresh;
+    class SnapshotRefreshRef;
+    class SnapshotRefreshConstRef;
     
     class SnapshotRefresh
     {
     public:
         
-        SnapshotRefresh(const MessageInfo* info, MessageData* data);
+        SnapshotRefresh();
+        SnapshotRefresh(const SnapshotRefreshRef& message);
+        SnapshotRefresh(const SnapshotRefreshConstRef& message);
         SnapshotRefresh(const SnapshotRefresh& message);
         
         ~SnapshotRefresh();
-        
-        SnapshotRefresh& operator=(const SnapshotRefresh& message);
         
         void setSymbol(const std::string& value);
         
         std::string getSymbol() const;
         
-        SnapshotRefreshEntryArray Entries();
+        SnapshotRefreshEntryArrayRef Entries();
+        SnapshotRefreshEntryConstArrayRef Entries() const;
         
-        SnapshotRefreshEntryConstArray Entries() const;
+        SnapshotRefresh& operator=(const SnapshotRefreshRef& message);
+        SnapshotRefresh& operator=(const SnapshotRefreshConstRef& message);
+        SnapshotRefresh& operator=(const SnapshotRefresh& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
         
         void reset();
         
@@ -350,27 +486,53 @@ namespace SampleProtocol
         MessageData* data_;
     };
     
-    template<> SnapshotRefresh create<SnapshotRefresh>();
-    
-    template<> bool is<SnapshotRefresh, recsen::Message>(recsen::Message message);
-    
-    template<> recsen::Message cast<recsen::Message, SnapshotRefresh>(SnapshotRefresh message);
-    template<> SnapshotRefresh cast<SnapshotRefresh, recsen::Message>(recsen::Message message);
-    
-    class SnapshotRefreshConst
+    class SnapshotRefreshRef
     {
     public:
         
-        SnapshotRefreshConst(const MessageInfo* info, const MessageData* data);
-        SnapshotRefreshConst(const SnapshotRefreshConst& message);
+        SnapshotRefreshRef(const MessageInfo* info, MessageData* data);
+        SnapshotRefreshRef(const SnapshotRefresh& message);
+        SnapshotRefreshRef(const SnapshotRefreshConstRef& message);
+        SnapshotRefreshRef(const SnapshotRefreshRef& message);
         
-        ~SnapshotRefreshConst();
-        
-        SnapshotRefreshConst& operator=(const SnapshotRefreshConst& message);
+        void setSymbol(const std::string& value);
         
         std::string getSymbol() const;
         
-        SnapshotRefreshEntryConstArray Entries() const;
+        SnapshotRefreshEntryArrayRef Entries();
+        SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        SnapshotRefreshRef& operator=(const SnapshotRefresh& message);
+        SnapshotRefreshRef& operator=(const SnapshotRefreshConstRef& message);
+        SnapshotRefreshRef& operator=(const SnapshotRefreshRef& message);
+        
+        operator recsen::MessageRef();
+        operator recsen::MessageConstRef() const;
+        
+        void reset();
+        
+        std::string toString() const;
+        
+    private:
+        
+        const MessageInfo* info_;
+        MessageData* data_;
+    };
+    
+    class SnapshotRefreshConstRef
+    {
+    public:
+        
+        SnapshotRefreshConstRef(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConstRef(const SnapshotRefresh& message);
+        SnapshotRefreshConstRef(const SnapshotRefreshRef& message);
+        SnapshotRefreshConstRef(const SnapshotRefreshConstRef& message);
+        
+        std::string getSymbol() const;
+        
+        SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        operator recsen::MessageConstRef() const;
         
         std::string toString() const;
         
@@ -380,11 +542,11 @@ namespace SampleProtocol
         const MessageData* data_;
     };
     
-    template<> bool is<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
+    template<> bool is<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> bool is<SnapshotRefreshConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
-    template<> recsen::MessageConst cast<recsen::MessageConst, SnapshotRefreshConst>(SnapshotRefreshConst message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, recsen::MessageConst>(recsen::MessageConst message);
-    template<> SnapshotRefreshConst cast<SnapshotRefreshConst, SnapshotRefresh>(SnapshotRefresh message);
+    template<> SnapshotRefreshRef cast<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
+    template<> SnapshotRefreshConstRef cast<SnapshotRefreshConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
     
     struct loginClientContext : recsen::Context
     {
@@ -410,11 +572,11 @@ namespace SampleProtocol
         
         void disconnect(const std::string& text);
         
-        void login(loginClientContext* context, LoginRequest message);
+        void login(loginClientContext* context, LoginRequestRef message);
         
-        void logout(logoutClientContext* context, Logout message);
+        void logout(logoutClientContext* context, LogoutRef message);
         
-        void send(recsen::Message message);
+        void send(recsen::MessageRef message);
         
         bool waitConnect(int timeout);
         
@@ -437,15 +599,15 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ClientSession* session, const std::string& text);
         
-        void virtual onLoginAccept(ClientSession* session, loginClientContext* context, LoginAcceptConst message);
+        void virtual onLoginAccept(ClientSession* session, loginClientContext* context, LoginAcceptConstRef message);
         
-        void virtual onLoginReject(ClientSession* session, loginClientContext* context, LoginRejectConst message);
+        void virtual onLoginReject(ClientSession* session, loginClientContext* context, LoginRejectConstRef message);
         
-        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConst message);
+        void virtual onSnapshot(ClientSession* session, SnapshotRefreshConstRef message);
         
-        void virtual onLogout(ClientSession* session, LogoutConst message);
+        void virtual onLogout(ClientSession* session, LogoutConstRef message);
         
-        void virtual onReceive(ClientSession* session, recsen::MessageConst message);
+        void virtual onReceive(ClientSession* session, recsen::MessageConstRef message);
     };
     
     struct ClientOptions
@@ -508,7 +670,7 @@ namespace SampleProtocol
         
         void* getData() const;
         
-        void send(recsen::Message message);
+        void send(recsen::MessageRef message);
         
     private:
         
@@ -523,11 +685,11 @@ namespace SampleProtocol
         
         void virtual onDisconnect(ServerSession* session, const std::string& text);
         
-        void virtual onLogin(ServerSession* session, LoginRequestConst message);
+        void virtual onLogin(ServerSession* session, LoginRequestConstRef message);
         
-        void virtual onLogout(ServerSession* session, LogoutConst message);
+        void virtual onLogout(ServerSession* session, LogoutConstRef message);
         
-        void virtual onReceive(ServerSession* session, recsen::MessageConst message);
+        void virtual onReceive(ServerSession* session, recsen::MessageConstRef message);
     };
     
     struct ServerOptions
