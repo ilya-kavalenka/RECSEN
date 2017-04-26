@@ -2415,19 +2415,12 @@ namespace SampleProtocol
         ClientOptions(uint16_t connectPort);
         
         uint16_t connectPort;
-        
         uint32_t maxConnectCount;
-        
         uint32_t maxReconnectCount;
-        
         uint32_t connectInterval;
-        
         uint32_t maxSessionCount;
-        
         uint32_t threadCount;
-        
         uint32_t heartbeatInterval;
-        
         std::string logDirectory;
     };
     
@@ -2509,13 +2502,9 @@ namespace SampleProtocol
         ServerOptions(uint16_t listenPort);
         
         uint16_t listenPort;
-        
         uint32_t maxSessionCount;
-        
         uint32_t threadCount;
-        
         uint32_t heartbeatInterval;
-        
         std::string logDirectory;
     };
     
