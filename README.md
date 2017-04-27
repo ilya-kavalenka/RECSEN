@@ -1,6 +1,6 @@
 The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
 
-The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
+The [RECSEN language](#language) (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedural manner.
 
 The RECSEN compiler (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
 
@@ -8,7 +8,7 @@ The RECSEN protocol handlers provide the application with all expected functiona
 
 The RECSEN runtime library supports a number of message formats, communication transports and platforms including FastBinaryEncoding, TCP sockets, UDP sockets, C++/Linux and is extensible for other alternatives.
 
-## RECSEN Language
+## RECSEN Language<a name="language"/>
 
 The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
@@ -719,7 +719,7 @@ void subscribeSync(Symbol* symbol, ClientSession* session)
 
 ### Unexpected Messages
 
-Unexpected messages are rejected with an exception on the send side to prevent protocol control flow violation. Unexpected messages on the receive side cause automatic client-server session termination with an error message.
+Unexpected messages are rejected with an exception on the send side to prevent protocol control flow violation. Unexpected messages on the receive side cause automatic client-server session termination.
 
 ### Threading
 
