@@ -518,7 +518,7 @@ The XML output can be used for further arbitrary protocol processing, compiler v
 
 ### C++ Output
 
-The C++ protocol handlers produced can be used in a C++ application to setup and maintain client-server communication.
+The C++ protocol handlers produced can be directly used in a C++ application.
 
 [SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true), 
 [SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true), 
@@ -526,3 +526,201 @@ The C++ protocol handlers produced can be used in a C++ application to setup and
 [SampleProtocol_4.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.h?raw=true), 
 [SampleProtocol_5.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.h?raw=true), 
 [SampleProtocol_6.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.h?raw=true)
+
+## RECSEN Handlers
+
+The RECSEN handlers are thread-safe scalable client-server protocol handlers. The application uses handler API to establish a connection, send and receive messages.
+
+### Messages
+
+For each message type there are three C++ classes produced. A message class with the standard C++ value semantics, a message class with the standard C++ reference semantics (Ref) and a message class with the standard C++ constant reference semantics (ConstRef).
+
+```
+SnapshotRefresh snapshotRefresh;
+SnapshotRefreshRef snapshotRefreshRef = snapshotRefresh;
+SnapshotRefreshConstRef snapshotRefreshConstRef = snapshotRefresh;
+```
+
+### Composing Messages
+
+Upon message construction or a reset message fields have their default values. Message fields can be assigned in a random order.
+
+```
+void composeMessage(SnapshotRefreshRef snapshotRefresh)
+{
+    snapshotRefresh.reset();
+    snapshotRefresh.setSymbol("FGBL");
+    
+    SnapshotRefreshEntryArrayRef entries = snapshotRefresh.Entries();
+    entries.setSize(2);
+
+    SnapshotRefreshEntryRef snapshotRefreshEntry0 = entries[0];
+    snapshotRefreshEntry0.setSide(Side_Bid);
+    snapshotRefreshEntry0.setQty(1);
+    snapshotRefreshEntry0.setPrice(10.02);
+
+    SnapshotRefreshEntryRef snapshotRefreshEntry1 = entries[1];
+    snapshotRefreshEntry1.setSide(Side_Ask);
+    snapshotRefreshEntry1.setQty(2);
+    snapshotRefreshEntry1.setPrice(10.04);
+}
+```
+
+### Parsing Messages
+
+Message fields can be accessed in a random order.
+
+```
+void parseMessage(SnapshotRefreshConstRef snapshotRefresh)
+{
+    string symbol = snapshotRefresh.getSymbol();
+
+    SnapshotRefreshEntryConstArrayRef entries = snapshotRefresh.Entries();
+    size_t entriesSize = entries.getSize();
+
+    for (size_t entryIndex = 0; entryIndex < entriesSize; ++ entryIndex)
+    {
+        SnapshotRefreshEntryConstRef snapshotRefreshEntry = entries[entryIndex];
+
+        Side side = snapshotRefreshEntry.getSide();
+        int32_t qty = snapshotRefreshEntry.getQty();
+        double price = snapshotRefreshEntry.getPrice();
+        int32_null_t orders = snapshotRefreshEntry.getOrders();
+    }
+}
+```
+
+### Casting Messages
+
+Message reference types can be examined at runtime and casted. Message reference upcast operations are implicit.
+
+```
+void castMessage(SnapshotRefreshRef snapshotRefresh)
+{
+    SymbolResponseRef symbolResponse = snapshotRefresh;
+
+    MessageRef message = symbolResponse;
+
+    if (is<SymbolResponseRef>(message))
+    {
+        SymbolResponseRef symbolResponse = cast<SymbolResponseRef>(message);
+
+        if (is<SnapshotRefreshRef>(symbolResponse))
+        {
+            SnapshotRefreshRef snapshotRefresh = cast<SnapshotRefreshRef>(symbolResponse);
+        }
+    }
+}
+```
+
+### Contexts
+
+Contexts is a general purpose mechanism to correlate send and receive operations. Each named send operation gets a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
+
+```
+struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+{
+    Symbol* symbol;
+};
+
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    appContext->symbol->onSubscribeSuccess(session);
+    delete appContext;
+}
+
+void AppClientListener::onSubscribeSymbolReject
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolRejectConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    string text = message.getText();
+    appContext->symbol->onSubscribeError(session, text);
+    delete appContext;
+}
+
+void subscribeAsync(Symbol* symbol, ClientSession* session)
+{
+    AppSubscribeSymbolClientContext* appContext = new AppSubscribeSymbolClientContext();
+
+    try
+    {        
+        appContext->symbol = symbol;
+
+        SubscribeSymbolRequest subscribeSymbolRequest;
+        subscribeSymbolRequest.setSymbol(symbol->getName());
+        session->subscribeSymbol(appContext, subscribeSymbolRequest);
+    }
+    catch (...)
+    {
+        delete appContext;
+        throw;
+    }
+}
+```
+
+### Waiting For Completion
+
+An application thread can be blocked to wait for a completion of a send operation as defined by the scope of the send operation.
+
+```
+struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+{
+    bool success;
+    string text;
+};
+
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    appContext->success = true;
+}
+
+void AppClientListener::onSubscribeSymbolReject
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolRejectConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;    
+    appContext->success = false;
+    appContext->text = message.getText();
+}
+
+void subscribeSync(Symbol* symbol, ClientSession* session)
+{
+    AppSubscribeSymbolClientContext appContext;
+
+    SubscribeSymbolRequest subscribeSymbolRequest;
+    subscribeSymbolRequest.setSymbol(symbol->getName());
+    session->subscribeSymbol(&appContext, subscribeSymbolRequest);
+
+    session->wait(appContext, -1);
+
+    if (! appContext.success)
+        throw exception(appContext.text.c_str());
+}
+```
+
+### Unexpected Messages
+
+Unexpected messages are rejected with an exception on the send side to prevent protocol control flow violation. Unexpected messages on the receive side cause automatic client-server session termination with an error message.
+
+### Threading
+
+RECSEN handlers process an arbitrary number of client-server sessions with a limited number of internal threads.
