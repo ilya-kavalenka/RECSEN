@@ -4,7 +4,7 @@ The [RECSEN language](#language) (.rs file extension) is designed to express pro
 
 The [RECSEN compiler](#compiler) (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
 
-The [RECSEN handlers](#handlers) provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
+The [RECSEN handlers](#handlers) provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging.
 
 The RECSEN runtime library supports a number of message formats, communication transports and platforms including FastBinaryEncoding, TCP sockets, UDP sockets, C++/Linux and is extensible for other alternatives.
 
@@ -529,7 +529,7 @@ The C++ protocol handlers produced can be directly used in a C++ application.
 
 ## RECSEN Handlers<a name="handlers"/>
 
-The RECSEN handlers are thread-safe scalable client-server protocol handlers. The application uses handler API to establish a connection, send and receive messages.
+The RECSEN handlers are thread-safe scalable client-server protocol handlers. The application uses handler API to establish a connection, send and receive messages. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
 
 ### Messages
 
