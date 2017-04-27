@@ -710,7 +710,7 @@ void subscribeSync(Symbol* symbol, ClientSession* session)
     subscribeSymbolRequest.setSymbol(symbol->getName());
     session->subscribeSymbol(&appContext, subscribeSymbolRequest);
 
-    session->wait(appContext, -1);
+    session->wait(appContext);
 
     if (! appContext.success)
         throw exception(appContext.text.c_str());
