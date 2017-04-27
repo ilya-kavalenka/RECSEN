@@ -499,11 +499,11 @@ In this version of the protocol the client and server implement multiple indepen
 
 ## RECSEN Compiler<a name="compiler"/>
 
+Two targets currently supportyed by the compiler are XML and C++.
+
 ```
 rsc -t <target> -o <output_filename> <input_filename>
 ```
-
-Two targets currently supportyed by the compiler are XML and C++.
 
 ### XML Output
 
@@ -615,7 +615,7 @@ void castMessage(SnapshotRefreshRef snapshotRefresh)
 
 ### Contexts
 
-Contexts is a general purpose mechanism to correlate send and receive operations. Each named send operation gets a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
+Contexts is a general purpose mechanism to correlate send and receive operations. Each named send operation receives a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
 
 ```
 struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
