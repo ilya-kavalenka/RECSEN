@@ -7,8 +7,6 @@
 
 namespace SampleProtocol
 {
-    class MessageInfo;
-    class MessageData;
     class Client;
     class ClientData;
     class ClientSession;
@@ -55,15 +53,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class LoginPublicRequestRef
     {
     public:
         
-        LoginPublicRequestRef(const MessageInfo* info, MessageData* data);
+        LoginPublicRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         LoginPublicRequestRef(const LoginPublicRequest& message);
         LoginPublicRequestRef(const LoginPublicRequestConstRef& message);
         LoginPublicRequestRef(const LoginPublicRequestRef& message);
@@ -85,15 +83,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class LoginPublicRequestConstRef
     {
     public:
         
-        LoginPublicRequestConstRef(const MessageInfo* info, const MessageData* data);
+        LoginPublicRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         LoginPublicRequestConstRef(const LoginPublicRequest& message);
         LoginPublicRequestConstRef(const LoginPublicRequestRef& message);
         LoginPublicRequestConstRef(const LoginPublicRequestConstRef& message);
@@ -106,8 +104,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<LoginPublicRequestRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -148,15 +146,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class LoginPrivateRequestRef
     {
     public:
         
-        LoginPrivateRequestRef(const MessageInfo* info, MessageData* data);
+        LoginPrivateRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         LoginPrivateRequestRef(const LoginPrivateRequest& message);
         LoginPrivateRequestRef(const LoginPrivateRequestConstRef& message);
         LoginPrivateRequestRef(const LoginPrivateRequestRef& message);
@@ -178,15 +176,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class LoginPrivateRequestConstRef
     {
     public:
         
-        LoginPrivateRequestConstRef(const MessageInfo* info, const MessageData* data);
+        LoginPrivateRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         LoginPrivateRequestConstRef(const LoginPrivateRequest& message);
         LoginPrivateRequestConstRef(const LoginPrivateRequestRef& message);
         LoginPrivateRequestConstRef(const LoginPrivateRequestConstRef& message);
@@ -199,8 +197,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<LoginPrivateRequestRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -241,15 +239,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class PasswordRequestRef
     {
     public:
         
-        PasswordRequestRef(const MessageInfo* info, MessageData* data);
+        PasswordRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         PasswordRequestRef(const PasswordRequest& message);
         PasswordRequestRef(const PasswordRequestConstRef& message);
         PasswordRequestRef(const PasswordRequestRef& message);
@@ -271,15 +269,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class PasswordRequestConstRef
     {
     public:
         
-        PasswordRequestConstRef(const MessageInfo* info, const MessageData* data);
+        PasswordRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         PasswordRequestConstRef(const PasswordRequest& message);
         PasswordRequestConstRef(const PasswordRequestRef& message);
         PasswordRequestConstRef(const PasswordRequestConstRef& message);
@@ -292,8 +290,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<PasswordRequestRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -334,15 +332,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class PasswordResponseRef
     {
     public:
         
-        PasswordResponseRef(const MessageInfo* info, MessageData* data);
+        PasswordResponseRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         PasswordResponseRef(const PasswordResponse& message);
         PasswordResponseRef(const PasswordResponseConstRef& message);
         PasswordResponseRef(const PasswordResponseRef& message);
@@ -364,15 +362,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class PasswordResponseConstRef
     {
     public:
         
-        PasswordResponseConstRef(const MessageInfo* info, const MessageData* data);
+        PasswordResponseConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         PasswordResponseConstRef(const PasswordResponse& message);
         PasswordResponseConstRef(const PasswordResponseRef& message);
         PasswordResponseConstRef(const PasswordResponseConstRef& message);
@@ -385,8 +383,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<PasswordResponseRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -423,15 +421,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class LoginAcceptRef
     {
     public:
         
-        LoginAcceptRef(const MessageInfo* info, MessageData* data);
+        LoginAcceptRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         LoginAcceptRef(const LoginAccept& message);
         LoginAcceptRef(const LoginAcceptConstRef& message);
         LoginAcceptRef(const LoginAcceptRef& message);
@@ -449,15 +447,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class LoginAcceptConstRef
     {
     public:
         
-        LoginAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        LoginAcceptConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         LoginAcceptConstRef(const LoginAccept& message);
         LoginAcceptConstRef(const LoginAcceptRef& message);
         LoginAcceptConstRef(const LoginAcceptConstRef& message);
@@ -468,8 +466,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<LoginAcceptRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -510,15 +508,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class LoginRejectRef
     {
     public:
         
-        LoginRejectRef(const MessageInfo* info, MessageData* data);
+        LoginRejectRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         LoginRejectRef(const LoginReject& message);
         LoginRejectRef(const LoginRejectConstRef& message);
         LoginRejectRef(const LoginRejectRef& message);
@@ -540,15 +538,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class LoginRejectConstRef
     {
     public:
         
-        LoginRejectConstRef(const MessageInfo* info, const MessageData* data);
+        LoginRejectConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         LoginRejectConstRef(const LoginReject& message);
         LoginRejectConstRef(const LoginRejectRef& message);
         LoginRejectConstRef(const LoginRejectConstRef& message);
@@ -561,8 +559,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<LoginRejectRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -599,15 +597,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class LogoutRef
     {
     public:
         
-        LogoutRef(const MessageInfo* info, MessageData* data);
+        LogoutRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         LogoutRef(const Logout& message);
         LogoutRef(const LogoutConstRef& message);
         LogoutRef(const LogoutRef& message);
@@ -625,15 +623,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class LogoutConstRef
     {
     public:
         
-        LogoutConstRef(const MessageInfo* info, const MessageData* data);
+        LogoutConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         LogoutConstRef(const Logout& message);
         LogoutConstRef(const LogoutRef& message);
         LogoutConstRef(const LogoutConstRef& message);
@@ -644,8 +642,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<LogoutRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -682,15 +680,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SymbolRequestRef
     {
     public:
         
-        SymbolRequestRef(const MessageInfo* info, MessageData* data);
+        SymbolRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SymbolRequestRef(const SymbolRequest& message);
         SymbolRequestRef(const SymbolRequestConstRef& message);
         SymbolRequestRef(const SymbolRequestRef& message);
@@ -708,15 +706,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SymbolRequestConstRef
     {
     public:
         
-        SymbolRequestConstRef(const MessageInfo* info, const MessageData* data);
+        SymbolRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SymbolRequestConstRef(const SymbolRequest& message);
         SymbolRequestConstRef(const SymbolRequestRef& message);
         SymbolRequestConstRef(const SymbolRequestConstRef& message);
@@ -727,8 +725,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SymbolRequestRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -765,15 +763,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SymbolResponseRef
     {
     public:
         
-        SymbolResponseRef(const MessageInfo* info, MessageData* data);
+        SymbolResponseRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SymbolResponseRef(const SymbolResponse& message);
         SymbolResponseRef(const SymbolResponseConstRef& message);
         SymbolResponseRef(const SymbolResponseRef& message);
@@ -791,15 +789,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SymbolResponseConstRef
     {
     public:
         
-        SymbolResponseConstRef(const MessageInfo* info, const MessageData* data);
+        SymbolResponseConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SymbolResponseConstRef(const SymbolResponse& message);
         SymbolResponseConstRef(const SymbolResponseRef& message);
         SymbolResponseConstRef(const SymbolResponseConstRef& message);
@@ -810,8 +808,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SymbolResponseRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -850,15 +848,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeSymbolRequestRef
     {
     public:
         
-        SubscribeSymbolRequestRef(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeSymbolRequestRef(const SubscribeSymbolRequest& message);
         SubscribeSymbolRequestRef(const SubscribeSymbolRequestConstRef& message);
         SubscribeSymbolRequestRef(const SubscribeSymbolRequestRef& message);
@@ -878,15 +876,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeSymbolRequestConstRef
     {
     public:
         
-        SubscribeSymbolRequestConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeSymbolRequestConstRef(const SubscribeSymbolRequest& message);
         SubscribeSymbolRequestConstRef(const SubscribeSymbolRequestRef& message);
         SubscribeSymbolRequestConstRef(const SubscribeSymbolRequestConstRef& message);
@@ -898,8 +896,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeSymbolRequestRef, SymbolRequestRef>(SymbolRequestRef message);
@@ -942,15 +940,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeSymbolAcceptRef
     {
     public:
         
-        SubscribeSymbolAcceptRef(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolAcceptRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeSymbolAcceptRef(const SubscribeSymbolAccept& message);
         SubscribeSymbolAcceptRef(const SubscribeSymbolAcceptConstRef& message);
         SubscribeSymbolAcceptRef(const SubscribeSymbolAcceptRef& message);
@@ -970,15 +968,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeSymbolAcceptConstRef
     {
     public:
         
-        SubscribeSymbolAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolAcceptConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeSymbolAcceptConstRef(const SubscribeSymbolAccept& message);
         SubscribeSymbolAcceptConstRef(const SubscribeSymbolAcceptRef& message);
         SubscribeSymbolAcceptConstRef(const SubscribeSymbolAcceptConstRef& message);
@@ -990,8 +988,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeSymbolAcceptRef, SymbolResponseRef>(SymbolResponseRef message);
@@ -1038,15 +1036,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeSymbolRejectRef
     {
     public:
         
-        SubscribeSymbolRejectRef(const MessageInfo* info, MessageData* data);
+        SubscribeSymbolRejectRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeSymbolRejectRef(const SubscribeSymbolReject& message);
         SubscribeSymbolRejectRef(const SubscribeSymbolRejectConstRef& message);
         SubscribeSymbolRejectRef(const SubscribeSymbolRejectRef& message);
@@ -1070,15 +1068,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeSymbolRejectConstRef
     {
     public:
         
-        SubscribeSymbolRejectConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeSymbolRejectConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeSymbolRejectConstRef(const SubscribeSymbolReject& message);
         SubscribeSymbolRejectConstRef(const SubscribeSymbolRejectRef& message);
         SubscribeSymbolRejectConstRef(const SubscribeSymbolRejectConstRef& message);
@@ -1092,8 +1090,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeSymbolRejectRef, SymbolResponseRef>(SymbolResponseRef message);
@@ -1136,15 +1134,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class UnsubscribeSymbolRequestRef
     {
     public:
         
-        UnsubscribeSymbolRequestRef(const MessageInfo* info, MessageData* data);
+        UnsubscribeSymbolRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         UnsubscribeSymbolRequestRef(const UnsubscribeSymbolRequest& message);
         UnsubscribeSymbolRequestRef(const UnsubscribeSymbolRequestConstRef& message);
         UnsubscribeSymbolRequestRef(const UnsubscribeSymbolRequestRef& message);
@@ -1164,15 +1162,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class UnsubscribeSymbolRequestConstRef
     {
     public:
         
-        UnsubscribeSymbolRequestConstRef(const MessageInfo* info, const MessageData* data);
+        UnsubscribeSymbolRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         UnsubscribeSymbolRequestConstRef(const UnsubscribeSymbolRequest& message);
         UnsubscribeSymbolRequestConstRef(const UnsubscribeSymbolRequestRef& message);
         UnsubscribeSymbolRequestConstRef(const UnsubscribeSymbolRequestConstRef& message);
@@ -1184,8 +1182,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<UnsubscribeSymbolRequestRef, SymbolRequestRef>(SymbolRequestRef message);
@@ -1228,15 +1226,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class UnsubscribeSymbolAcceptRef
     {
     public:
         
-        UnsubscribeSymbolAcceptRef(const MessageInfo* info, MessageData* data);
+        UnsubscribeSymbolAcceptRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         UnsubscribeSymbolAcceptRef(const UnsubscribeSymbolAccept& message);
         UnsubscribeSymbolAcceptRef(const UnsubscribeSymbolAcceptConstRef& message);
         UnsubscribeSymbolAcceptRef(const UnsubscribeSymbolAcceptRef& message);
@@ -1256,15 +1254,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class UnsubscribeSymbolAcceptConstRef
     {
     public:
         
-        UnsubscribeSymbolAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        UnsubscribeSymbolAcceptConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         UnsubscribeSymbolAcceptConstRef(const UnsubscribeSymbolAccept& message);
         UnsubscribeSymbolAcceptConstRef(const UnsubscribeSymbolAcceptRef& message);
         UnsubscribeSymbolAcceptConstRef(const UnsubscribeSymbolAcceptConstRef& message);
@@ -1276,8 +1274,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<UnsubscribeSymbolAcceptRef, SymbolResponseRef>(SymbolResponseRef message);
@@ -1308,7 +1306,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryRef(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryRef(recsen::MessageData* data, uint32_t offset);
         SnapshotRefreshEntryRef(const SnapshotRefreshEntryRef& group);
         
         void setSide(Side value);
@@ -1332,7 +1330,7 @@ namespace SampleProtocol
         
     private:
         
-        MessageData* data_;
+        recsen::MessageData* data_;
         uint32_t offset_;
     };
     
@@ -1342,7 +1340,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryConstRef(const MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConstRef(const recsen::MessageData* data, uint32_t offset);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryRef& group);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryConstRef& group);
         
@@ -1356,7 +1354,7 @@ namespace SampleProtocol
         
     private:
         
-        const MessageData* data_;
+        const recsen::MessageData* data_;
         uint32_t offset_;
     };
     
@@ -1399,15 +1397,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SnapshotRefreshRef
     {
     public:
         
-        SnapshotRefreshRef(const MessageInfo* info, MessageData* data);
+        SnapshotRefreshRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SnapshotRefreshRef(const SnapshotRefresh& message);
         SnapshotRefreshRef(const SnapshotRefreshConstRef& message);
         SnapshotRefreshRef(const SnapshotRefreshRef& message);
@@ -1434,15 +1432,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SnapshotRefreshConstRef
     {
     public:
         
-        SnapshotRefreshConstRef(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SnapshotRefreshConstRef(const SnapshotRefresh& message);
         SnapshotRefreshConstRef(const SnapshotRefreshRef& message);
         SnapshotRefreshConstRef(const SnapshotRefreshConstRef& message);
@@ -1458,8 +1456,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SnapshotRefreshRef, SymbolResponseRef>(SymbolResponseRef message);
@@ -1500,15 +1498,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class NewsRequestRef
     {
     public:
         
-        NewsRequestRef(const MessageInfo* info, MessageData* data);
+        NewsRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         NewsRequestRef(const NewsRequest& message);
         NewsRequestRef(const NewsRequestConstRef& message);
         NewsRequestRef(const NewsRequestRef& message);
@@ -1526,15 +1524,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class NewsRequestConstRef
     {
     public:
         
-        NewsRequestConstRef(const MessageInfo* info, const MessageData* data);
+        NewsRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         NewsRequestConstRef(const NewsRequest& message);
         NewsRequestConstRef(const NewsRequestRef& message);
         NewsRequestConstRef(const NewsRequestConstRef& message);
@@ -1545,8 +1543,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<NewsRequestRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -1583,15 +1581,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class NewsResponseRef
     {
     public:
         
-        NewsResponseRef(const MessageInfo* info, MessageData* data);
+        NewsResponseRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         NewsResponseRef(const NewsResponse& message);
         NewsResponseRef(const NewsResponseConstRef& message);
         NewsResponseRef(const NewsResponseRef& message);
@@ -1609,15 +1607,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class NewsResponseConstRef
     {
     public:
         
-        NewsResponseConstRef(const MessageInfo* info, const MessageData* data);
+        NewsResponseConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         NewsResponseConstRef(const NewsResponse& message);
         NewsResponseConstRef(const NewsResponseRef& message);
         NewsResponseConstRef(const NewsResponseConstRef& message);
@@ -1628,8 +1626,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<NewsResponseRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -1668,15 +1666,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeNewsRequestRef
     {
     public:
         
-        SubscribeNewsRequestRef(const MessageInfo* info, MessageData* data);
+        SubscribeNewsRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeNewsRequestRef(const SubscribeNewsRequest& message);
         SubscribeNewsRequestRef(const SubscribeNewsRequestConstRef& message);
         SubscribeNewsRequestRef(const SubscribeNewsRequestRef& message);
@@ -1696,15 +1694,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeNewsRequestConstRef
     {
     public:
         
-        SubscribeNewsRequestConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeNewsRequestConstRef(const SubscribeNewsRequest& message);
         SubscribeNewsRequestConstRef(const SubscribeNewsRequestRef& message);
         SubscribeNewsRequestConstRef(const SubscribeNewsRequestConstRef& message);
@@ -1716,8 +1714,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeNewsRequestRef, NewsRequestRef>(NewsRequestRef message);
@@ -1760,15 +1758,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeNewsAcceptRef
     {
     public:
         
-        SubscribeNewsAcceptRef(const MessageInfo* info, MessageData* data);
+        SubscribeNewsAcceptRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeNewsAcceptRef(const SubscribeNewsAccept& message);
         SubscribeNewsAcceptRef(const SubscribeNewsAcceptConstRef& message);
         SubscribeNewsAcceptRef(const SubscribeNewsAcceptRef& message);
@@ -1788,15 +1786,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeNewsAcceptConstRef
     {
     public:
         
-        SubscribeNewsAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsAcceptConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeNewsAcceptConstRef(const SubscribeNewsAccept& message);
         SubscribeNewsAcceptConstRef(const SubscribeNewsAcceptRef& message);
         SubscribeNewsAcceptConstRef(const SubscribeNewsAcceptConstRef& message);
@@ -1808,8 +1806,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeNewsAcceptRef, NewsResponseRef>(NewsResponseRef message);
@@ -1856,15 +1854,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SubscribeNewsRejectRef
     {
     public:
         
-        SubscribeNewsRejectRef(const MessageInfo* info, MessageData* data);
+        SubscribeNewsRejectRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SubscribeNewsRejectRef(const SubscribeNewsReject& message);
         SubscribeNewsRejectRef(const SubscribeNewsRejectConstRef& message);
         SubscribeNewsRejectRef(const SubscribeNewsRejectRef& message);
@@ -1888,15 +1886,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SubscribeNewsRejectConstRef
     {
     public:
         
-        SubscribeNewsRejectConstRef(const MessageInfo* info, const MessageData* data);
+        SubscribeNewsRejectConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SubscribeNewsRejectConstRef(const SubscribeNewsReject& message);
         SubscribeNewsRejectConstRef(const SubscribeNewsRejectRef& message);
         SubscribeNewsRejectConstRef(const SubscribeNewsRejectConstRef& message);
@@ -1910,8 +1908,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SubscribeNewsRejectRef, NewsResponseRef>(NewsResponseRef message);
@@ -1954,15 +1952,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class UnsubscribeNewsRequestRef
     {
     public:
         
-        UnsubscribeNewsRequestRef(const MessageInfo* info, MessageData* data);
+        UnsubscribeNewsRequestRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         UnsubscribeNewsRequestRef(const UnsubscribeNewsRequest& message);
         UnsubscribeNewsRequestRef(const UnsubscribeNewsRequestConstRef& message);
         UnsubscribeNewsRequestRef(const UnsubscribeNewsRequestRef& message);
@@ -1982,15 +1980,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class UnsubscribeNewsRequestConstRef
     {
     public:
         
-        UnsubscribeNewsRequestConstRef(const MessageInfo* info, const MessageData* data);
+        UnsubscribeNewsRequestConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         UnsubscribeNewsRequestConstRef(const UnsubscribeNewsRequest& message);
         UnsubscribeNewsRequestConstRef(const UnsubscribeNewsRequestRef& message);
         UnsubscribeNewsRequestConstRef(const UnsubscribeNewsRequestConstRef& message);
@@ -2002,8 +2000,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<UnsubscribeNewsRequestRef, NewsRequestRef>(NewsRequestRef message);
@@ -2046,15 +2044,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class UnsubscribeNewsAcceptRef
     {
     public:
         
-        UnsubscribeNewsAcceptRef(const MessageInfo* info, MessageData* data);
+        UnsubscribeNewsAcceptRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         UnsubscribeNewsAcceptRef(const UnsubscribeNewsAccept& message);
         UnsubscribeNewsAcceptRef(const UnsubscribeNewsAcceptConstRef& message);
         UnsubscribeNewsAcceptRef(const UnsubscribeNewsAcceptRef& message);
@@ -2074,15 +2072,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class UnsubscribeNewsAcceptConstRef
     {
     public:
         
-        UnsubscribeNewsAcceptConstRef(const MessageInfo* info, const MessageData* data);
+        UnsubscribeNewsAcceptConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         UnsubscribeNewsAcceptConstRef(const UnsubscribeNewsAccept& message);
         UnsubscribeNewsAcceptConstRef(const UnsubscribeNewsAcceptRef& message);
         UnsubscribeNewsAcceptConstRef(const UnsubscribeNewsAcceptConstRef& message);
@@ -2094,8 +2092,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<UnsubscribeNewsAcceptRef, NewsResponseRef>(NewsResponseRef message);
@@ -2162,15 +2160,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class NewsNotificationRef
     {
     public:
         
-        NewsNotificationRef(const MessageInfo* info, MessageData* data);
+        NewsNotificationRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         NewsNotificationRef(const NewsNotification& message);
         NewsNotificationRef(const NewsNotificationConstRef& message);
         NewsNotificationRef(const NewsNotificationRef& message);
@@ -2202,15 +2200,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class NewsNotificationConstRef
     {
     public:
         
-        NewsNotificationConstRef(const MessageInfo* info, const MessageData* data);
+        NewsNotificationConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         NewsNotificationConstRef(const NewsNotification& message);
         NewsNotificationConstRef(const NewsNotificationRef& message);
         NewsNotificationConstRef(const NewsNotificationConstRef& message);
@@ -2228,8 +2226,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<NewsNotificationRef, NewsResponseRef>(NewsResponseRef message);

@@ -7,8 +7,6 @@
 
 namespace SampleProtocol
 {
-    class MessageInfo;
-    class MessageData;
     class Client;
     class ClientData;
     class ClientSession;
@@ -41,7 +39,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryRef(MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryRef(recsen::MessageData* data, uint32_t offset);
         SnapshotRefreshEntryRef(const SnapshotRefreshEntryRef& group);
         
         void setSide(Side value);
@@ -65,7 +63,7 @@ namespace SampleProtocol
         
     private:
         
-        MessageData* data_;
+        recsen::MessageData* data_;
         uint32_t offset_;
     };
     
@@ -75,7 +73,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryConstRef(const MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConstRef(const recsen::MessageData* data, uint32_t offset);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryRef& group);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryConstRef& group);
         
@@ -89,7 +87,7 @@ namespace SampleProtocol
         
     private:
         
-        const MessageData* data_;
+        const recsen::MessageData* data_;
         uint32_t offset_;
     };
     
@@ -130,15 +128,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData data_;
     };
     
     class SnapshotRefreshRef
     {
     public:
         
-        SnapshotRefreshRef(const MessageInfo* info, MessageData* data);
+        SnapshotRefreshRef(const recsen::MessageInfo* info, recsen::MessageData* data);
         SnapshotRefreshRef(const SnapshotRefresh& message);
         SnapshotRefreshRef(const SnapshotRefreshConstRef& message);
         SnapshotRefreshRef(const SnapshotRefreshRef& message);
@@ -163,15 +161,15 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        MessageData* data_;
+        const recsen::MessageInfo* info_;
+        recsen::MessageData* data_;
     };
     
     class SnapshotRefreshConstRef
     {
     public:
         
-        SnapshotRefreshConstRef(const MessageInfo* info, const MessageData* data);
+        SnapshotRefreshConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
         SnapshotRefreshConstRef(const SnapshotRefresh& message);
         SnapshotRefreshConstRef(const SnapshotRefreshRef& message);
         SnapshotRefreshConstRef(const SnapshotRefreshConstRef& message);
@@ -186,8 +184,8 @@ namespace SampleProtocol
         
     private:
         
-        const MessageInfo* info_;
-        const MessageData* data_;
+        const recsen::MessageInfo* info_;
+        const recsen::MessageData* data_;
     };
     
     template<> bool is<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
