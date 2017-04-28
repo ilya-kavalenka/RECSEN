@@ -618,13 +618,19 @@ void castMessage(SnapshotRefreshRef snapshotRefresh)
 Messages are sent by means of a client or server session object. Named operation messages are sent with a dedicated session function.
 
 ```
-session->subscribeSymbol(0, subscribeSymbolRequest);
+void subscribeSymbol(ClinetSession* session, SubscribeSymbolRequestRef subscribeSymbolRequest)
+{
+    session->subscribeSymbol(0, subscribeSymbolRequest);
+}
 ```
 
 Unnamed operation messages are sent with the generic send session function.
 
 ```
-session->send(snapshotRefresh);
+void pushSnapshot(ServerSession* session, SnapshotRefreshRef snapshotRefresh)
+{
+    session->send(snapshotRefresh);
+}
 ```
 
 ### Receiving Messages
@@ -689,7 +695,7 @@ void AppClientListener::onSubscribeSymbolReject
     delete appContext;
 }
 
-void subscribeAsync(Symbol* symbol, ClientSession* session)
+void subscribeSymbolAsync(Symbol* symbol, ClientSession* session)
 {
     AppSubscribeSymbolClientContext* appContext = new AppSubscribeSymbolClientContext();
 
@@ -743,7 +749,7 @@ void AppClientListener::onSubscribeSymbolReject
     appContext->text = message.getText();
 }
 
-void subscribeSync(Symbol* symbol, ClientSession* session)
+void subscribeSymbolSync(Symbol* symbol, ClientSession* session)
 {
     AppSubscribeSymbolClientContext appContext;
 
