@@ -613,6 +613,47 @@ void castMessage(SnapshotRefreshRef snapshotRefresh)
 }
 ```
 
+### Sending Messages
+
+Messages are sent by means of a client or server session object. Named operation messages are sent with a dedicated session function.
+
+```
+session->subscribeSymbol(0, subscribeSymbolRequest);
+```
+
+Unnamed operation messages are sent with the generic send session function.
+
+```
+session->send(snapshotRefresh);
+```
+
+### Receiving Messages
+
+Messages are received via a client or server listener callback interface. Named operation messages are received via a dedicated listener function.
+
+```
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+}
+```
+
+Unnamed operation messages are received via the generic onReceive listener function.
+
+```
+void AppClientListener::onReceive
+(
+    ClientSession* session,
+    MessageConstRef message
+)
+{
+}
+```
+
 ### Contexts
 
 Contexts is a mechanism to correlate send and receive operations. Each named send operation receives a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
