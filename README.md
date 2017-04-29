@@ -615,7 +615,7 @@ void castMessage(SnapshotRefreshRef snapshotRefresh)
 
 ### Sending Messages
 
-Messages are sent by means of a client or server session object. Named operation messages are sent with a dedicated session function.
+Messages are sent via a client or server session object. Named operation messages are sent with a dedicated session function.
 
 ```
 void subscribeSymbol(ClinetSession* session, SubscribeSymbolRequestRef subscribeSymbolRequest)
