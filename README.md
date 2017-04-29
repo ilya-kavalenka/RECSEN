@@ -554,15 +554,15 @@ void composeMessage(SnapshotRefreshRef snapshotRefresh)
     SnapshotRefreshEntryArrayRef entries = snapshotRefresh.Entries();
     entries.setSize(2);
 
-    SnapshotRefreshEntryRef snapshotRefreshEntry0 = entries[0];
-    snapshotRefreshEntry0.setSide(Side_Bid);
-    snapshotRefreshEntry0.setQty(1);
-    snapshotRefreshEntry0.setPrice(10.02);
+    SnapshotRefreshEntryRef entry0 = entries[0];
+    entry0.setSide(Side_Bid);
+    entry0.setQty(1);
+    entry0.setPrice(10.02);
 
-    SnapshotRefreshEntryRef snapshotRefreshEntry1 = entries[1];
-    snapshotRefreshEntry1.setSide(Side_Ask);
-    snapshotRefreshEntry1.setQty(2);
-    snapshotRefreshEntry1.setPrice(10.04);
+    SnapshotRefreshEntryRef entry1 = entries[1];
+    entry1.setSide(Side_Ask);
+    entry1.setQty(2);
+    entry1.setPrice(10.04);
 }
 ```
 
@@ -580,12 +580,12 @@ void parseMessage(SnapshotRefreshConstRef snapshotRefresh)
 
     for (size_t entryIndex = 0; entryIndex < entriesSize; ++ entryIndex)
     {
-        SnapshotRefreshEntryConstRef snapshotRefreshEntry = entries[entryIndex];
+        SnapshotRefreshEntryConstRef entry = entries[entryIndex];
 
-        Side side = snapshotRefreshEntry.getSide();
-        int32_t qty = snapshotRefreshEntry.getQty();
-        double price = snapshotRefreshEntry.getPrice();
-        int32_null_t orders = snapshotRefreshEntry.getOrders();
+        Side side = entry.getSide();
+        int32_t qty = entry.getQty();
+        double price = entry.getPrice();
+        int32_null_t orders = entry.getOrders();
     }
 }
 ```
