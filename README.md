@@ -1,14 +1,14 @@
 The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
 
-The RECSEN language (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedure-like manner.
+The [RECSEN language](#language) (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedural manner.
 
-The RECSEN compiler (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
+The [RECSEN compiler](#compiler) (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
 
-The RECSEN protocol handlers provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
+The [RECSEN handlers](#handlers) provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging.
 
 The RECSEN runtime library supports a number of message formats, communication transports and platforms including FastBinaryEncoding, TCP sockets, UDP sockets, C++/Linux and is extensible for other alternatives.
 
-## RECSEN Language
+## RECSEN Language<a name="language"/>
 
 The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
@@ -497,13 +497,13 @@ processor SymbolClient(string) : Client
 
 In this version of the protocol the client and server implement multiple independent parallel workflows.
 
-## RECSEN Compiler
+## RECSEN Compiler<a name="compiler"/>
+
+Two targets currently supportyed by the compiler are XML and C++.
 
 ```
 rsc -t <target> -o <output_filename> <input_filename>
 ```
-
-Two targets currently supportyed by the compiler are XML and C++.
 
 ### XML Output
 
@@ -518,7 +518,7 @@ The XML output can be used for further arbitrary protocol processing, compiler v
 
 ### C++ Output
 
-The C++ protocol handlers produced can be used in a C++ application to setup and maintain client-server communication.
+The C++ protocol handlers produced can be directly used in a C++ application.
 
 [SampleProtocol_1.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.h?raw=true), 
 [SampleProtocol_2.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.h?raw=true), 
@@ -526,3 +526,248 @@ The C++ protocol handlers produced can be used in a C++ application to setup and
 [SampleProtocol_4.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.h?raw=true), 
 [SampleProtocol_5.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.h?raw=true), 
 [SampleProtocol_6.h](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.h?raw=true)
+
+## RECSEN Handlers<a name="handlers"/>
+
+The RECSEN handlers are thread-safe scalable client-server protocol handlers. The application uses handler API to establish a connection, send and receive messages. Received and sent messages are validated against the protocol control flow to simplify application processing and prevent control flow violation.
+
+### Messages
+
+For each message type there are three C++ classes produced. A message class with the standard C++ value semantics, a message class with the standard C++ reference semantics (Ref) and a message class with the standard C++ constant reference semantics (ConstRef).
+
+```
+SnapshotRefresh snapshotRefresh;
+SnapshotRefreshRef snapshotRefreshRef = snapshotRefresh;
+SnapshotRefreshConstRef snapshotRefreshConstRef = snapshotRefresh;
+```
+
+### Composing Messages
+
+Upon message construction or a reset message fields have their default values. Message fields can be assigned in a random order.
+
+```
+void composeMessage(SnapshotRefreshRef snapshotRefresh)
+{
+    snapshotRefresh.reset();
+    snapshotRefresh.setSymbol("FGBL");
+    
+    SnapshotRefreshEntryArrayRef entries = snapshotRefresh.Entries();
+    entries.setSize(2);
+
+    SnapshotRefreshEntryRef entry0 = entries[0];
+    entry0.setSide(Side_Bid);
+    entry0.setQty(1);
+    entry0.setPrice(10.02);
+
+    SnapshotRefreshEntryRef entry1 = entries[1];
+    entry1.setSide(Side_Ask);
+    entry1.setQty(2);
+    entry1.setPrice(10.04);
+}
+```
+
+### Parsing Messages
+
+Message fields can be accessed in a random order.
+
+```
+void parseMessage(SnapshotRefreshConstRef snapshotRefresh)
+{
+    string symbol = snapshotRefresh.getSymbol();
+
+    SnapshotRefreshEntryConstArrayRef entries = snapshotRefresh.Entries();
+    size_t entriesSize = entries.getSize();
+
+    for (size_t entryIndex = 0; entryIndex < entriesSize; ++ entryIndex)
+    {
+        SnapshotRefreshEntryConstRef entry = entries[entryIndex];
+
+        Side side = entry.getSide();
+        int32_t qty = entry.getQty();
+        double price = entry.getPrice();
+        int32_null_t orders = entry.getOrders();
+    }
+}
+```
+
+### Casting Messages
+
+Message reference types can be examined at runtime and casted. Message reference upcast operations are implicit.
+
+```
+void castMessage(SnapshotRefreshRef snapshotRefresh)
+{
+    SymbolResponseRef symbolResponse = snapshotRefresh;
+
+    MessageRef message = symbolResponse;
+
+    if (is<SymbolResponseRef>(message))
+    {
+        SymbolResponseRef symbolResponse = cast<SymbolResponseRef>(message);
+
+        if (is<SnapshotRefreshRef>(symbolResponse))
+        {
+            SnapshotRefreshRef snapshotRefresh = cast<SnapshotRefreshRef>(symbolResponse);
+        }
+    }
+}
+```
+
+### Sending Messages
+
+Messages are sent via a client or server session object. Named operation messages are sent with a dedicated session function.
+
+```
+void subscribeSymbol(ClinetSession* session, SubscribeSymbolRequestRef subscribeSymbolRequest)
+{
+    session->subscribeSymbol(0, subscribeSymbolRequest);
+}
+```
+
+Unnamed operation messages are sent with the generic send session function.
+
+```
+void pushSnapshot(ServerSession* session, SnapshotRefreshRef snapshotRefresh)
+{
+    session->send(snapshotRefresh);
+}
+```
+
+### Receiving Messages
+
+Messages are received via a client or server listener callback interface. Named operation messages are received via a dedicated listener function.
+
+```
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+}
+```
+
+Unnamed operation messages are received via the generic onReceive listener function.
+
+```
+void AppClientListener::onReceive
+(
+    ClientSession* session,
+    MessageConstRef message
+)
+{
+}
+```
+
+### Contexts
+
+Contexts is a mechanism to correlate send and receive operations. Each named send operation receives a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
+
+```
+struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+{
+    Symbol* symbol;
+};
+
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    appContext->symbol->onSubscribeSuccess(session);
+    delete appContext;
+}
+
+void AppClientListener::onSubscribeSymbolReject
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolRejectConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    string text = message.getText();
+    appContext->symbol->onSubscribeError(session, text);
+    delete appContext;
+}
+
+void subscribeSymbolAsync(Symbol* symbol, ClientSession* session)
+{
+    AppSubscribeSymbolClientContext* appContext = new AppSubscribeSymbolClientContext();
+
+    try
+    {        
+        appContext->symbol = symbol;
+
+        SubscribeSymbolRequest subscribeSymbolRequest;
+        subscribeSymbolRequest.setSymbol(symbol->getName());
+        session->subscribeSymbol(appContext, subscribeSymbolRequest);
+    }
+    catch (...)
+    {
+        delete appContext;
+        throw;
+    }
+}
+```
+
+### Waiting For Completion
+
+An application thread can be blocked to wait for a completion of a send operation as defined by the scope of the send operation.
+
+```
+struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+{
+    bool success;
+    string text;
+};
+
+void AppClientListener::onSubscribeSymbolAccept
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolAcceptConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;
+    appContext->success = true;
+}
+
+void AppClientListener::onSubscribeSymbolReject
+(
+    ClientSession* session, 
+    subscribeSymbolClientContext* context, 
+    SubscribeSymbolRejectConstRef message
+)
+{
+    AppSubscribeSymbolClientContext* appContext = (AppSubscribeSymbolClientContext*) context;    
+    appContext->success = false;
+    appContext->text = message.getText();
+}
+
+void subscribeSymbolSync(Symbol* symbol, ClientSession* session)
+{
+    AppSubscribeSymbolClientContext appContext;
+
+    SubscribeSymbolRequest subscribeSymbolRequest;
+    subscribeSymbolRequest.setSymbol(symbol->getName());
+    session->subscribeSymbol(&appContext, subscribeSymbolRequest);
+
+    session->wait(appContext);
+
+    if (! appContext.success)
+        throw exception(appContext.text.c_str());
+}
+```
+
+### Unexpected Messages
+
+Unexpected messages are rejected with an exception on the send side to prevent protocol control flow violation. Unexpected messages on the receive side cause automatic client-server session termination.
+
+### Threading
+
+RECSEN handlers process an arbitrary number of client-server sessions with a limited number of internal threads.
