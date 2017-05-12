@@ -24,7 +24,7 @@ message SnapshotRefresh
 }
 ```
 
-The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry. A group is a set of fields used to define arrays or to reuse a set of fields across messages.
+The Entries field is actually a variable size array of elements of group type SnapshotRefreshEntry. A group is a set of fields used to define arrays or to reuse fields across messages.
 
 ```
 group SnapshotRefreshEntry
