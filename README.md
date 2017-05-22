@@ -10,7 +10,7 @@ The RECSEN runtime library supports a number of message formats, communication t
 
 ## RECSEN Language<a name="language"/>
 
-The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce the language through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
+The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow (what) and control flow (when). It is useful to introduce language [features](https://github.com/ilya-kavalenka/RECSEN/tree/master/Language/Features) through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
 ### Sample Protocol 1
 
@@ -24,7 +24,7 @@ message SnapshotRefresh
 }
 ```
 
-The Entries field is actual a variable size array of elements of group type SnapshotRefreshEntry. A group is a set of fields used to define arrays or to reuse a set of fields across messages.
+The Entries field is actually a variable size array of elements of group type SnapshotRefreshEntry. A group is a set of fields used to define arrays or to reuse fields across messages.
 
 ```
 group SnapshotRefreshEntry
