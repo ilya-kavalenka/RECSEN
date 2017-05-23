@@ -6,20 +6,20 @@ protocol Protocol
         {
             disconnect;
         }
-        or recv Recv2
+        or send Send1
         {
         }
     }
 
-    processor Client()
+    processor Processor()
     {
         Bloc();
 
-        recv Recv1
+        recv Recv2
         {
             disconnect "text";
         }
-        or recv Recv2
+        or send Send2
         {
         }
     }

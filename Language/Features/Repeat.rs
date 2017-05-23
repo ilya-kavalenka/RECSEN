@@ -2,7 +2,7 @@ protocol Protocol
 {
     processor Processor1()
     {
-        recv Recv1 repeat;
+        recv Recv repeat;
     }
 
     processor Processor2()
@@ -11,25 +11,25 @@ protocol Protocol
         {
             repeat;
         }
-        or recv Recv2
+        or send Send1
         {
         }
     }
 
     processor Processor3()
     {
-        @L recv Recv3
+        @L recv Recv1
         {
-            recv Recv5
+            recv Recv2
             {
                 repeat;
             }
-            or recv Recv6
+            or send Send2
             {
                 repeat L;
             }
         }
-        or recv Recv4
+        or send Send1
         {
         }
     }

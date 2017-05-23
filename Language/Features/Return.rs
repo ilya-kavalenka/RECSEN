@@ -6,32 +6,32 @@ protocol Protocol
         {
             return;
         }
-        or recv Recv2
+        or send Send1
         {
         }
 
-        recv Recv3
+        recv Recv2
         {
         }
-        or recv Recv4
+        or send Send2
         {
         }
     }
 
     processor Processor()
     {
-        recv Recv1
+        recv Recv3
         {
             return;
         }
-        or recv Recv2
+        or send Send3
         {
         }
 
-        recv Recv3
+        recv Recv4
         {
         }
-        or recv Recv4
+        or send Send4
         {
         }
     }

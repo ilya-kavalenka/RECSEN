@@ -30,18 +30,18 @@ protocol Protocol
 
     processor Processor4() : Processor3(Message1, Message2)
     {
-        recv Recv1(Message1);
-        recv Recv2(Message2);
-        @L recv Recv3(Message1);
-        recv Recv4(Message2);
+        recv Recv5(Message1);
+        recv Recv6(Message2);
+        @L recv Recv7(Message1);
+        recv Recv8(Message2);
     }
 
     processor Processor5(string) : Processor3(Message3.Field, Message4.Field)
     {
-        recv Recv1(Message3);
-        recv Recv2(Message4);
-        @L recv Recv3(Message3);
-        recv Recv4(Message4);
+        recv Recv5(Message3);
+        recv Recv6(Message4);
+        @L recv Recv7(Message3);
+        recv Recv8(Message4);
     }
 
     processor Processor6() =! Processor3;

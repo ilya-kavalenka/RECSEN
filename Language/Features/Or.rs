@@ -2,21 +2,15 @@ protocol Protocol
 {
     processor Processor1()
     {
-        recv Recv1 or send Send1;
+        recv Recv or send Send;
     }
 
     processor Processor2()
     {
-        recv Recv1
+        recv Recv
         {
         }
-        or send Send1
-        {
-        }
-        or recv Recv2
-        {
-        }
-        or send Send2
+        or send Send
         {
         }
     }

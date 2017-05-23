@@ -2,7 +2,7 @@ protocol Protocol
 {
     processor Processor1()
     {
-        loop recv Recv1;     
+        loop recv Recv;
     }
 
     processor Processor2()
@@ -21,15 +21,15 @@ protocol Protocol
             recv Recv1
             {
             }
-            or recv Recv2
+            or send Send1
             {
                 break;
             }
 
-            recv Recv3
+            recv Recv2
             {
             }
-            or recv Recv4
+            or send Send2
             {
             }
         }
@@ -43,32 +43,32 @@ protocol Protocol
             {
                 loop
                 {
-                    recv Recv5
+                    recv Recv3
                     {
                     }
-                    or recv Recv6
+                    or send Send3
                     {
                         break;
                     }
 
-                    recv Recv7
+                    recv Recv4
                     {
                     }
-                    or recv Recv8
+                    or send Send4
                     {
                         continue L;
                     }
                 }
             }
-            or recv Recv2
+            or send Send1
             {
                 break;
             }
 
-            recv Recv3
+            recv Recv2
             {
             }
-            or recv Recv4
+            or send Send2
             {
             }
         }
