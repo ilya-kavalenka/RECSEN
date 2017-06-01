@@ -12,7 +12,7 @@ protocol Protocol
         Value2
     }
 
-    const int32 Const1 = -10;
+    const int32 Const = -10;
 
     message Message
     {
@@ -33,7 +33,7 @@ protocol Protocol
 
         recv Recv3(Message : Field3 == Set.Value1);
 
-        recv Recv4(Message : Field4 == Const1);
+        recv Recv4(Message : Field4 == Const);
 
         recv Recv5(Message : Field5 == 10);
 
@@ -47,7 +47,7 @@ protocol Protocol
 
         recv Recv10(Message : Field3 != Set.Value1);
 
-        recv Recv11(Message : Field4 != Const1);
+        recv Recv11(Message : Field4 != Const);
 
         recv Recv12(Message : Field5 != 10);
 
