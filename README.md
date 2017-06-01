@@ -2,7 +2,7 @@ The ambitious goal of RECSEN project is to provide a way to formalize definition
 
 The [RECSEN language](#language) (.rs file extension) is designed to express protocol data and control flows with a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedural manner.
 
-The [RECSEN compiler](#compiler) (rsc command) parses RECSEN files, processes protocol and produces either the XML protocol definition for further processing or the client-server protocol handlers ready for use in an application. 
+The [RECSEN compiler](#compiler) (rsc command) parses RECSEN files, processes protocol definition and produces either the XML definition file for further processing or the client-server protocol handlers ready for use in an application. 
 
 The [RECSEN handlers](#handlers) provide the application with all expected functionality including message encoding and decoding, sending and receiving messages, protocol state management, request-response correlation, event and message logging.
 
