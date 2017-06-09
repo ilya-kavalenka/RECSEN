@@ -2,7 +2,7 @@
     Adding secure login workflow
 */
 
-protocol SampleProtocol(3.0)
+protocol SampleProtocol(3,0)
 {
     message LoginPublicRequest
     {
@@ -59,26 +59,26 @@ protocol SampleProtocol(3.0)
 
     processor Client()
     {
-        send loginPublic(LoginPublicRequest)
+        send LoginPublic(LoginPublicRequest)
         {
-            recv onPublicLoginAccept(LoginAccept)
+            recv PublicLoginAccept(LoginAccept)
             {
             }
-            or recv onPublicLoginReject(LoginReject)
+            or recv PublicLoginReject(LoginReject)
             {
                 return;
             }
         }
-        or send loginPrivate(LoginPrivateRequest)
+        or send LoginPrivate(LoginPrivateRequest)
         {
-            recv onPassword(PasswordRequest)
+            recv Password(PasswordRequest)
             {
                 send (PasswordResponse)
                 {
-                    recv onPrivateLoginAccept(LoginAccept)
+                    recv PrivateLoginAccept(LoginAccept)
                     {
                     }
-                    or recv onPrivateLoginReject(LoginReject)
+                    or recv PrivateLoginReject(LoginReject)
                     {
                         return;
                     }
@@ -86,11 +86,11 @@ protocol SampleProtocol(3.0)
             }
         }
 
-        recv onSnapshot(SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or send logout(Logout)
+        or send Logout(Logout)
         {
             recv (SnapshotRefresh)
             {
@@ -98,16 +98,18 @@ protocol SampleProtocol(3.0)
             }
             or recv (Logout)
             {
+                return;
             }
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
+            return;
         }
     };
 
     processor Server()
     {
-        recv onLoginPublic(LoginPublicRequest)
+        recv LoginPublic(LoginPublicRequest)
         {
             send (LoginAccept)
             {
@@ -117,11 +119,11 @@ protocol SampleProtocol(3.0)
                 return;
             }
         }
-        or recv onLoginPrivate(LoginPrivateRequest)
+        or recv LoginPrivate(LoginPrivateRequest)
         {
             send (PasswordRequest)
             {
-                recv onPassword(PasswordResponse)
+                recv Password(PasswordResponse)
                 {
                     send (LoginAccept)
                     {
@@ -138,7 +140,7 @@ protocol SampleProtocol(3.0)
         {
             repeat;
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
             send (SnapshotRefresh)
             {
@@ -146,10 +148,12 @@ protocol SampleProtocol(3.0)
             }
             or send (Logout)
             {
+                return;
             }
         }
         or send (Logout)
         {
+            return;
         }
     }
 }

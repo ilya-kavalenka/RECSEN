@@ -2,7 +2,7 @@
     Adding news subscribe/unsubscribe workflow
 */
 
-protocol SampleProtocol(5.0)
+protocol SampleProtocol(5,0)
 {
     message LoginPublicRequest
     {
@@ -103,26 +103,26 @@ protocol SampleProtocol(5.0)
 
     processor Client()
     {
-        send loginPublic(LoginPublicRequest)
+        send LoginPublic(LoginPublicRequest)
         {
-            recv onPublicLoginAccept(LoginAccept)
+            recv PublicLoginAccept(LoginAccept)
             {
             }
-            or recv onPublicLoginReject(LoginReject)
+            or recv PublicLoginReject(LoginReject)
             {
                 return;
             }
         }
-        or send loginPrivate(LoginPrivateRequest)
+        or send LoginPrivate(LoginPrivateRequest)
         {
-            recv onPassword(PasswordRequest)
+            recv Password(PasswordRequest)
             {
                 send (PasswordResponse)
                 {
-                    recv onPrivateLoginAccept(LoginAccept)
+                    recv PrivateLoginAccept(LoginAccept)
                     {
                     }
-                    or recv onPrivateLoginReject(LoginReject)
+                    or recv PrivateLoginReject(LoginReject)
                     {
                         return;
                     }
@@ -146,10 +146,12 @@ protocol SampleProtocol(5.0)
             }
             or recv (Logout)
             {
+                return;
             }
         }
         or recv onLogout(Logout)
         {
+            return;
         }
     }
 
@@ -159,22 +161,22 @@ protocol SampleProtocol(5.0)
         SymbolResponse
     ) 
     {
-        send subscribeSymbol(SubscribeSymbolRequest)
+        send SubscribeSymbol(SubscribeSymbolRequest)
         {
-            recv onSymbolSubscribeAccept(SubscribeSymbolAccept)
+            recv SymbolSubscribeAccept(SubscribeSymbolAccept)
             {
             }
-            or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+            or recv SubscribeSymbolReject(SubscribeSymbolReject)
             {
                 return;
             }
         }
 
-        recv onSnapshot(SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+        or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
         {
             recv (SnapshotRefresh)
             {
@@ -182,6 +184,7 @@ protocol SampleProtocol(5.0)
             }
             or recv (UnsubscribeSymbolAccept)
             {
+                return;
             }
         }
     }
@@ -192,22 +195,22 @@ protocol SampleProtocol(5.0)
         NewsResponse
     ) 
     {
-        send subscribeNews(SubscribeNewsRequest)
+        send SsubscribeNews(SubscribeNewsRequest)
         {
-            recv onSubscribeNewsAccept(SubscribeNewsAccept)
+            recv SubscribeNewsAccept(SubscribeNewsAccept)
             {
             }
-            or recv onSubscribeNewsReject(SubscribeNewsReject)
+            or recv SubscribeNewsReject(SubscribeNewsReject)
             {
                 return;
             }
         }
 
-        recv onNews(NewsNotification)
+        recv News(NewsNotification)
         {
             repeat;
         }
-        or send unsubscribeNews(UnsubscribeNewsRequest)
+        or send UnsubscribeNews(UnsubscribeNewsRequest)
         {
             recv (NewsNotification)
             {
@@ -215,13 +218,14 @@ protocol SampleProtocol(5.0)
             }
             or recv (UnsubscribeNewsAccept)
             {
+                return;
             }
         }
     }
 
     processor Server()
     {
-        recv onLoginPublic(LoginPublicRequest)
+        recv LoginPublic(LoginPublicRequest)
         {
             send (LoginAccept)
             {
@@ -231,11 +235,11 @@ protocol SampleProtocol(5.0)
                 return;
             }
         }
-        or recv onLoginPrivate(LoginPrivateRequest)
+        or recv LoginPrivate(LoginPrivateRequest)
         {
             send (PasswordRequest)
             {
-                recv onPassword(PasswordResponse)
+                recv Password(PasswordResponse)
                 {
                     send (LoginAccept)
                     {
@@ -256,7 +260,7 @@ protocol SampleProtocol(5.0)
         {
             repeat;
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
             send (SymbolResponse, NewsResponse)
             {
@@ -264,10 +268,12 @@ protocol SampleProtocol(5.0)
             }
             or send (Logout)
             {
+                return;
             }
         }
         or send (Logout)
         {
+            return;
         }
     }
 
@@ -277,7 +283,7 @@ protocol SampleProtocol(5.0)
         SymbolResponse
     ) 
     {
-        recv onSubscribeSymbol(SubscribeSymbolRequest)
+        recv SubscribeSymbol(SubscribeSymbolRequest)
         {
             send (SubscribeSymbolAccept)
             {
@@ -292,7 +298,7 @@ protocol SampleProtocol(5.0)
         {
             repeat;
         }
-        or recv onUnsubscribeSymbol(UnsubscribeSymbolRequest)
+        or recv UnsubscribeSymbol(UnsubscribeSymbolRequest)
         {
             send (SnapshotRefresh)
             {
@@ -300,6 +306,7 @@ protocol SampleProtocol(5.0)
             }
             or send (UnsubscribeSymbolAccept)
             {
+                return;
             }
         }
     }
@@ -310,7 +317,7 @@ protocol SampleProtocol(5.0)
         NewsResponse
     ) 
     {
-        recv onSubscribeNews(SubscribeNewsRequest)
+        recv SubscribeNews(SubscribeNewsRequest)
         {
             send (SubscribeNewsAccept)
             {
@@ -325,7 +332,7 @@ protocol SampleProtocol(5.0)
         {
             repeat;
         }
-        or recv onUnsubscribeNews(UnsubscribeNewsRequest)
+        or recv UnsubscribeNews(UnsubscribeNewsRequest)
         {
             send (NewsNotification)
             {
@@ -333,6 +340,7 @@ protocol SampleProtocol(5.0)
             }
             or send (UnsubscribeNewsAccept)
             {
+                return;
             }
         }
     }

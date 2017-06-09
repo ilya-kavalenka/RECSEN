@@ -1,4 +1,4 @@
-<protocol name="SampleProtocol" majorVer="6" minorVer="0">
+<protocol name="SampleProtocol" majorVer="0" minorVer="0">
     <members>
         <message name="LoginPublicRequest" id="0" size="16">
             <fields>
@@ -126,119 +126,192 @@
             </fields>
         </message>
         <message name="Logout" id="22" size="8"/>
-        <processor name="Client" head="108_9">
+        <bloc name="ClientLoginPublic" head="108_9">
+            <states>
+                <state label="108_9">
+                    <operations>
+                        <recv name="PublicLoginAccept">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="PublicLoginReject" disconnect="">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+            </states>
+        </bloc>
+        <bloc name="ClientLoginPrivate" head="119_9">
+            <states>
+                <state label="119_9">
+                    <operations>
+                        <recv name="Password" next="121_13">
+                            <messages>
+                                <message name="PasswordRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="121_13">
+                    <operations>
+                        <send next="123_17">
+                            <messages>
+                                <message name="PasswordResponse"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="123_17">
+                    <operations>
+                        <recv name="PrivateLoginAccept">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </recv>
+                        <recv name="PrivateLoginReject" disconnect="">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+            </states>
+        </bloc>
+        <bloc name="ClientLogout" head="136_9">
+            <states>
+                <state label="136_9">
+                    <operations>
+                        <recv next="136_9">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </recv>
+                        <recv disconnect="">
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+            </states>
+        </bloc>
+        <processor name="Client" head="148_9">
             <subProcessors>
                 <subProcessor name="SymbolClient"/>
                 <subProcessor name="NewsClient"/>
             </subProcessors>
             <states>
-                <state label="108_9">
+                <state label="148_9">
                     <operations>
-                        <send name="loginPublic" next="110_13">
+                        <send name="LoginPublic" next="150_13_108_9">
                             <messages>
                                 <message name="LoginPublicRequest"/>
                             </messages>
                         </send>
-                        <send name="loginPrivate" next="120_13">
+                        <send name="LoginPrivate" next="154_13_119_9">
                             <messages>
                                 <message name="LoginPrivateRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="110_13">
+                <state label="150_13_108_9">
                     <operations>
-                        <recv name="onPublicLoginAccept" next="135_9">
+                        <recv name="PublicLoginAccept" next="157_9">
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onPublicLoginReject">
+                        <recv name="PublicLoginReject" disconnect="">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPublic"/>
+                        <context name="LoginPublic"/>
                     </contexts>
                 </state>
-                <state label="120_13">
+                <state label="154_13_119_9">
                     <operations>
-                        <recv name="onPassword" next="122_17">
+                        <recv name="Password" next="154_13_121_13">
                             <messages>
                                 <message name="PasswordRequest"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
-                <state label="122_17">
+                <state label="154_13_121_13">
                     <operations>
-                        <send next="124_21">
+                        <send next="154_13_123_17">
                             <messages>
                                 <message name="PasswordResponse"/>
                             </messages>
                         </send>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
-                <state label="124_21">
+                <state label="154_13_123_17">
                     <operations>
-                        <recv name="onPrivateLoginAccept" next="135_9">
+                        <recv name="PrivateLoginAccept" next="157_9">
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onPrivateLoginReject">
+                        <recv name="PrivateLoginReject" disconnect="">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
-                <state label="135_9">
+                <state label="157_9">
                     <operations>
-                        <send next="135_9">
+                        <send next="157_9">
                             <messages>
                                 <message name="SymbolRequest"/>
                                 <message name="NewsRequest"/>
                             </messages>
                         </send>
-                        <recv next="135_9">
+                        <recv next="157_9">
                             <messages>
                                 <message name="SymbolResponse"/>
                                 <message name="NewsResponse"/>
                             </messages>
                         </recv>
-                        <send name="Logout" next="145_13">
+                        <send name="Logout" next="167_13_136_9">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </send>
-                        <recv name="onLogout">
+                        <recv name="Logout">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="145_13">
+                <state label="167_13_136_9">
                     <operations>
-                        <recv next="145_13">
+                        <recv next="167_13_136_9">
                             <messages>
                                 <message name="SymbolResponse"/>
                                 <message name="NewsResponse"/>
                             </messages>
                         </recv>
-                        <recv>
+                        <recv disconnect="">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -250,55 +323,55 @@
                 </state>
             </states>
         </processor>
-        <processor name="SymbolClient" type="string" superProcessor="Client" head="164_9">
+        <processor name="SymbolClient" type="string" superProcessor="Client" head="181_9">
             <fields>
                 <field name="SymbolRequest.Symbol"/>
                 <field name="SymbolResponse.Symbol"/>
             </fields>
             <states>
-                <state label="164_9">
+                <state label="181_9">
                     <operations>
-                        <send name="subscribeSymbol" next="166_13">
+                        <send name="SubscribeSymbol" next="183_13">
                             <messages>
                                 <message name="SubscribeSymbolRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="166_13">
+                <state label="183_13">
                     <operations>
-                        <recv name="onSubscribeSymbolAccept" next="175_9">
+                        <recv name="SubscribeSymbolAccept" next="192_9">
                             <messages>
                                 <message name="SubscribeSymbolAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onSubscribeSymbolReject">
+                        <recv name="SubscribeSymbolReject">
                             <messages>
                                 <message name="SubscribeSymbolReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="subscribeSymbol"/>
+                        <context name="SubscribeSymbol"/>
                     </contexts>
                 </state>
-                <state label="175_9">
+                <state label="192_9">
                     <operations>
-                        <recv name="onSnapshot" next="175_9">
+                        <recv name="Snapshot" next="192_9">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>
                         </recv>
-                        <send name="unsubscribeSymbol" next="181_13">
+                        <send name="UnsubscribeSymbol" next="198_13">
                             <messages>
                                 <message name="UnsubscribeSymbolRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="181_13">
+                <state label="198_13">
                     <operations>
-                        <recv next="181_13">
+                        <recv next="198_13">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>
@@ -310,60 +383,60 @@
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="unsubscribeSymbol"/>
+                        <context name="UnsubscribeSymbol"/>
                     </contexts>
                 </state>
             </states>
         </processor>
-        <processor name="NewsClient" superProcessor="Client" head="197_9">
+        <processor name="NewsClient" superProcessor="Client" head="215_9">
             <messages>
                 <message name="NewsRequest"/>
                 <message name="NewsResponse"/>
             </messages>
             <states>
-                <state label="197_9">
+                <state label="215_9">
                     <operations>
-                        <send name="subscribeNews" next="199_13">
+                        <send name="SubscribeNews" next="217_13">
                             <messages>
                                 <message name="SubscribeNewsRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="199_13">
+                <state label="217_13">
                     <operations>
-                        <recv name="onSubscribeNewsAccept" next="208_9">
+                        <recv name="SubscribeNewsAccept" next="226_9">
                             <messages>
                                 <message name="SubscribeNewsAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onSubscribeNewsReject">
+                        <recv name="SubscribeNewsReject">
                             <messages>
                                 <message name="SubscribeNewsReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="subscribeNews"/>
+                        <context name="SubscribeNews"/>
                     </contexts>
                 </state>
-                <state label="208_9">
+                <state label="226_9">
                     <operations>
-                        <recv name="onNews" next="208_9">
+                        <recv name="News" next="226_9">
                             <messages>
                                 <message name="NewsNotification"/>
                             </messages>
                         </recv>
-                        <send name="unsubscribeNews" next="214_13">
+                        <send name="UnsubscribeNews" next="232_13">
                             <messages>
                                 <message name="UnsubscribeNewsRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="214_13">
+                <state label="232_13">
                     <operations>
-                        <recv next="214_13">
+                        <recv next="232_13">
                             <messages>
                                 <message name="NewsNotification"/>
                             </messages>
@@ -375,92 +448,165 @@
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="unsubscribeNews"/>
+                        <context name="UnsubscribeNews"/>
                     </contexts>
                 </state>
             </states>
         </processor>
-        <processor name="Server" head="226_9">
-            <subProcessors>
-                <subProcessor name="SymbolServer"/>
-                <subProcessor name="NewsServer"/>
-            </subProcessors>
+        <bloc name="ServerLoginPublic" head="245_9">
             <states>
-                <state label="226_9">
+                <state label="245_9">
                     <operations>
-                        <recv name="onLoginPublic" next="228_13">
-                            <messages>
-                                <message name="LoginPublicRequest"/>
-                            </messages>
-                        </recv>
-                        <recv name="onLoginPrivate" next="238_13">
-                            <messages>
-                                <message name="LoginPrivateRequest"/>
-                            </messages>
-                        </recv>
-                    </operations>
-                </state>
-                <state label="228_13">
-                    <operations>
-                        <send next="253_9">
+                        <send>
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </send>
-                        <send>
+                        <send disconnect="">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="238_13">
+            </states>
+        </bloc>
+        <bloc name="ServerLoginPrivate" head="256_9">
+            <states>
+                <state label="256_9">
                     <operations>
-                        <send next="240_17">
+                        <send next="258_13">
                             <messages>
                                 <message name="PasswordRequest"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="240_17">
+                <state label="258_13">
                     <operations>
-                        <recv name="onPassword" next="242_21">
+                        <recv name="Password" next="260_17">
                             <messages>
                                 <message name="PasswordResponse"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="242_21">
+                <state label="260_17">
                     <operations>
-                        <send next="253_9">
+                        <send>
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </send>
-                        <send>
+                        <send disconnect="">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </send>
                     </operations>
                 </state>
-                <state label="253_9">
+            </states>
+        </bloc>
+        <bloc name="ServerLogout" head="273_9">
+            <states>
+                <state label="273_9">
                     <operations>
-                        <recv next="253_9">
-                            <messages>
-                                <message name="SymbolRequest"/>
-                                <message name="NewsRequest"/>
-                            </messages>
-                        </recv>
-                        <send next="253_9">
+                        <send next="273_9">
                             <messages>
                                 <message name="SymbolResponse"/>
                                 <message name="NewsResponse"/>
                             </messages>
                         </send>
-                        <recv name="onLogout" next="263_13">
+                        <send disconnect="">
+                            <messages>
+                                <message name="Logout"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+            </states>
+        </bloc>
+        <processor name="Server" head="285_9">
+            <subProcessors>
+                <subProcessor name="SymbolServer"/>
+                <subProcessor name="NewsServer"/>
+            </subProcessors>
+            <states>
+                <state label="285_9">
+                    <operations>
+                        <recv name="LoginPublic" next="287_13_245_9">
+                            <messages>
+                                <message name="LoginPublicRequest"/>
+                            </messages>
+                        </recv>
+                        <recv name="LoginPrivate" next="291_13_256_9">
+                            <messages>
+                                <message name="LoginPrivateRequest"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="287_13_245_9">
+                    <operations>
+                        <send next="294_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </send>
+                        <send disconnect="">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="291_13_256_9">
+                    <operations>
+                        <send next="291_13_258_13">
+                            <messages>
+                                <message name="PasswordRequest"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="291_13_258_13">
+                    <operations>
+                        <recv name="Password" next="291_13_260_17">
+                            <messages>
+                                <message name="PasswordResponse"/>
+                            </messages>
+                        </recv>
+                    </operations>
+                </state>
+                <state label="291_13_260_17">
+                    <operations>
+                        <send next="294_9">
+                            <messages>
+                                <message name="LoginAccept"/>
+                            </messages>
+                        </send>
+                        <send disconnect="">
+                            <messages>
+                                <message name="LoginReject"/>
+                            </messages>
+                        </send>
+                    </operations>
+                </state>
+                <state label="294_9">
+                    <operations>
+                        <recv next="294_9">
+                            <messages>
+                                <message name="SymbolRequest"/>
+                                <message name="NewsRequest"/>
+                            </messages>
+                        </recv>
+                        <send next="294_9">
+                            <messages>
+                                <message name="SymbolResponse"/>
+                                <message name="NewsResponse"/>
+                            </messages>
+                        </send>
+                        <recv name="Logout" next="304_13_273_9">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -472,15 +618,15 @@
                         </send>
                     </operations>
                 </state>
-                <state label="263_13">
+                <state label="304_13_273_9">
                     <operations>
-                        <send next="263_13">
+                        <send next="304_13_273_9">
                             <messages>
                                 <message name="SymbolResponse"/>
                                 <message name="NewsResponse"/>
                             </messages>
                         </send>
-                        <send>
+                        <send disconnect="">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -489,24 +635,24 @@
                 </state>
             </states>
         </processor>
-        <processor name="SymbolServer" type="string" superProcessor="Server" head="282_9">
+        <processor name="SymbolServer" type="string" superProcessor="Server" head="318_9">
             <fields>
                 <field name="SymbolRequest.Symbol"/>
                 <field name="SymbolResponse.Symbol"/>
             </fields>
             <states>
-                <state label="282_9">
+                <state label="318_9">
                     <operations>
-                        <recv name="onSubscribeSymbol" next="284_13">
+                        <recv name="SubscribeSymbol" next="320_13">
                             <messages>
                                 <message name="SubscribeSymbolRequest"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="284_13">
+                <state label="320_13">
                     <operations>
-                        <send next="293_9">
+                        <send next="329_9">
                             <messages>
                                 <message name="SubscribeSymbolAccept"/>
                             </messages>
@@ -518,23 +664,23 @@
                         </send>
                     </operations>
                 </state>
-                <state label="293_9">
+                <state label="329_9">
                     <operations>
-                        <send next="293_9">
+                        <send next="329_9">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>
                         </send>
-                        <recv name="onUnsubscribeSymbol" next="299_13">
+                        <recv name="UnsubscribeSymbol" next="335_13">
                             <messages>
                                 <message name="UnsubscribeSymbolRequest"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="299_13">
+                <state label="335_13">
                     <operations>
-                        <send next="299_13">
+                        <send next="335_13">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>
@@ -548,24 +694,24 @@
                 </state>
             </states>
         </processor>
-        <processor name="NewsServer" superProcessor="Server" head="315_9">
+        <processor name="NewsServer" superProcessor="Server" head="352_9">
             <messages>
                 <message name="NewsRequest"/>
                 <message name="NewsResponse"/>
             </messages>
             <states>
-                <state label="315_9">
+                <state label="352_9">
                     <operations>
-                        <recv name="onSubscribeNews" next="317_13">
+                        <recv name="SubscribeNews" next="354_13">
                             <messages>
                                 <message name="SubscribeNewsRequest"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="317_13">
+                <state label="354_13">
                     <operations>
-                        <send next="326_9">
+                        <send next="363_9">
                             <messages>
                                 <message name="SubscribeNewsAccept"/>
                             </messages>
@@ -577,23 +723,23 @@
                         </send>
                     </operations>
                 </state>
-                <state label="326_9">
+                <state label="363_9">
                     <operations>
-                        <send next="326_9">
+                        <send next="363_9">
                             <messages>
                                 <message name="NewsNotification"/>
                             </messages>
                         </send>
-                        <recv name="onUnsubscribeNews" next="332_13">
+                        <recv name="UnsubscribeNews" next="369_13">
                             <messages>
                                 <message name="UnsubscribeNewsRequest"/>
                             </messages>
                         </recv>
                     </operations>
                 </state>
-                <state label="332_13">
+                <state label="369_13">
                     <operations>
-                        <send next="332_13">
+                        <send next="369_13">
                             <messages>
                                 <message name="NewsNotification"/>
                             </messages>

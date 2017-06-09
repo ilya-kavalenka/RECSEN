@@ -1,4 +1,4 @@
-<protocol name="SampleProtocol" majorVer="1" minorVer="0">
+<protocol name="SampleProtocol" majorVer="0" minorVer="0">
     <members>
         <enum name="Side" size="4">
             <members>
@@ -24,7 +24,7 @@
             <states>
                 <state label="29_9">
                     <operations>
-                        <recv name="onSnapshot" next="29_9">
+                        <recv name="Snapshot" next="29_9">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>

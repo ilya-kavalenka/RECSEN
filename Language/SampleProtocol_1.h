@@ -1,8 +1,11 @@
 #pragma once
 
+#include "Fbe/MessageData.h"
+#include "Context.h"
 #include "Common.h"
 
 #include <stdint.h>
+#include <vector>
 #include <string>
 
 namespace SampleProtocol
@@ -29,8 +32,8 @@ namespace SampleProtocol
     
     typedef recsen::array_ref_t<Side> SideArrayRef;
     typedef recsen::const_array_ref_t<Side> SideConstArrayRef;
-    typedef recsen::array_ref_t<recsen::null_t<Side>> SideNullArrayRef;
-    typedef recsen::const_array_ref_t<recsen::null_t<Side>> SideNullConstArrayRef;
+    typedef recsen::array_ref_t<recsen::Null<Side>> SideNullArrayRef;
+    typedef recsen::const_array_ref_t<recsen::Null<Side>> SideNullConstArrayRef;
     
     class SnapshotRefreshEntryRef;
     class SnapshotRefreshEntryConstRef;
@@ -39,7 +42,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryRef(recsen::MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryRef(recsen::fbe::MessageData& data, uint32_t offset);
         SnapshotRefreshEntryRef(const SnapshotRefreshEntryRef& group);
         
         void setSide(Side value);
@@ -58,12 +61,16 @@ namespace SampleProtocol
         
         recsen::int32_null_t getOrders() const;
         
-        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryConstRef& group);
-        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryRef& group);
+        recsen::fbe::MessageData& data();
+        const recsen::fbe::MessageData& data() const;
+        
+        uint32_t offset() const;
         
     private:
         
-        recsen::MessageData* data_;
+        SnapshotRefreshEntryRef& operator=(const SnapshotRefreshEntryRef& group);
+        
+        recsen::fbe::MessageData& data_;
         uint32_t offset_;
     };
     
@@ -73,7 +80,7 @@ namespace SampleProtocol
     {
     public:
         
-        SnapshotRefreshEntryConstRef(const recsen::MessageData* data, uint32_t offset);
+        SnapshotRefreshEntryConstRef(const recsen::fbe::MessageData& data, uint32_t offset);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryRef& group);
         SnapshotRefreshEntryConstRef(const SnapshotRefreshEntryConstRef& group);
         
@@ -85,13 +92,19 @@ namespace SampleProtocol
         
         recsen::int32_null_t getOrders() const;
         
+        const recsen::fbe::MessageData& data() const;
+        
+        uint32_t offset() const;
+        
     private:
         
-        const recsen::MessageData* data_;
+        SnapshotRefreshEntryConstRef& operator=(const SnapshotRefreshEntryConstRef& group);
+        
+        const recsen::fbe::MessageData& data_;
         uint32_t offset_;
     };
     
-    typedef recsen::group_array_ref_t<SnapshotRefreshEntryConstRef> SnapshotRefreshEntryConstArrayRef;
+    typedef recsen::group_const_array_ref_t<SnapshotRefreshEntryConstRef> SnapshotRefreshEntryConstArrayRef;
     
     class SnapshotRefresh;
     class SnapshotRefreshRef;
@@ -106,14 +119,19 @@ namespace SampleProtocol
         SnapshotRefresh(const SnapshotRefreshConstRef& message);
         SnapshotRefresh(const SnapshotRefresh& message);
         
-        ~SnapshotRefresh();
-        
         void setSymbol(const std::string& value);
         
         std::string getSymbol() const;
         
         SnapshotRefreshEntryArrayRef Entries();
         SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        size_t getSize() const;
+        
+        const recsen::MessageInfo* info() const;
+        
+        recsen::fbe::MessageData& data();
+        const recsen::fbe::MessageData& data() const;
         
         SnapshotRefresh& operator=(const SnapshotRefreshRef& message);
         SnapshotRefresh& operator=(const SnapshotRefreshConstRef& message);
@@ -129,16 +147,15 @@ namespace SampleProtocol
     private:
         
         const recsen::MessageInfo* info_;
-        recsen::MessageData data_;
+        recsen::fbe::MessageData data_;
     };
     
     class SnapshotRefreshRef
     {
     public:
         
-        SnapshotRefreshRef(const recsen::MessageInfo* info, recsen::MessageData* data);
-        SnapshotRefreshRef(const SnapshotRefresh& message);
-        SnapshotRefreshRef(const SnapshotRefreshConstRef& message);
+        SnapshotRefreshRef(const recsen::MessageInfo* info, recsen::fbe::MessageData& data);
+        SnapshotRefreshRef(SnapshotRefresh& message);
         SnapshotRefreshRef(const SnapshotRefreshRef& message);
         
         void setSymbol(const std::string& value);
@@ -147,6 +164,13 @@ namespace SampleProtocol
         
         SnapshotRefreshEntryArrayRef Entries();
         SnapshotRefreshEntryConstArrayRef Entries() const;
+        
+        size_t getSize() const;
+        
+        const recsen::MessageInfo* info() const;
+        
+        recsen::fbe::MessageData& data();
+        const recsen::fbe::MessageData& data() const;
         
         SnapshotRefreshRef& operator=(const SnapshotRefresh& message);
         SnapshotRefreshRef& operator=(const SnapshotRefreshConstRef& message);
@@ -162,14 +186,14 @@ namespace SampleProtocol
     private:
         
         const recsen::MessageInfo* info_;
-        recsen::MessageData* data_;
+        recsen::fbe::MessageData& data_;
     };
     
     class SnapshotRefreshConstRef
     {
     public:
         
-        SnapshotRefreshConstRef(const recsen::MessageInfo* info, const recsen::MessageData* data);
+        SnapshotRefreshConstRef(const recsen::MessageInfo* info, const recsen::fbe::MessageData& data);
         SnapshotRefreshConstRef(const SnapshotRefresh& message);
         SnapshotRefreshConstRef(const SnapshotRefreshRef& message);
         SnapshotRefreshConstRef(const SnapshotRefreshConstRef& message);
@@ -178,6 +202,12 @@ namespace SampleProtocol
         
         SnapshotRefreshEntryConstArrayRef Entries() const;
         
+        size_t getSize() const;
+        
+        const recsen::MessageInfo* info() const;
+        
+        const recsen::fbe::MessageData& data() const;
+        
         operator recsen::MessageConstRef() const;
         
         std::string toString() const;
@@ -185,7 +215,7 @@ namespace SampleProtocol
     private:
         
         const recsen::MessageInfo* info_;
-        const recsen::MessageData* data_;
+        const recsen::fbe::MessageData& data_;
     };
     
     template<> bool is<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
@@ -193,6 +223,12 @@ namespace SampleProtocol
     
     template<> SnapshotRefreshRef cast<SnapshotRefreshRef, recsen::MessageRef>(recsen::MessageRef message);
     template<> SnapshotRefreshConstRef cast<SnapshotRefreshConstRef, recsen::MessageConstRef>(recsen::MessageConstRef message);
+    
+    struct ClientContext : recsen::Context
+    {
+    };
+    
+    typedef std::vector<ClientContext*> ClientContextVector;
     
     class ClientSession
     {
@@ -216,7 +252,9 @@ namespace SampleProtocol
         
         bool waitDisconnect(int timeout);
         
-        bool wait(recsen::Context& context, int timeout);
+        bool waitSend(int timeout);
+        
+        bool wait(ClientContext& context, int timeout);
         
     private:
         
@@ -231,11 +269,23 @@ namespace SampleProtocol
         
         void virtual onConnectError(ClientSession* session, const std::exception& exception);
         
-        void virtual onDisconnect(ClientSession* session, const std::string& text);
+        void virtual onDisconnect(ClientSession* session, const ClientContextVector& contexts, const std::string& text);
         
         void virtual onSnapshot(ClientSession* session, SnapshotRefreshConstRef message);
         
         void virtual onReceive(ClientSession* session, recsen::MessageConstRef message);
+        
+        void virtual onSend(ClientSession* session);
+    };
+    
+    struct ClientLogOptions
+    {
+        ClientLogOptions();
+        
+        std::string directory;
+        bool events;
+        bool states;
+        bool messages;
     };
     
     struct ClientOptions
@@ -249,7 +299,8 @@ namespace SampleProtocol
         uint32_t maxSessionCount;
         uint32_t threadCount;
         uint32_t heartbeatInterval;
-        std::string logDirectory;
+        uint32_t sendBufferSize;
+        ClientLogOptions log;
     };
     
     class Client
@@ -279,6 +330,12 @@ namespace SampleProtocol
         ClientData* data_;
     };
     
+    struct ServerContext : recsen::Context
+    {
+    };
+    
+    typedef std::vector<ServerContext*> ServerContextVector;
+    
     class ServerSession
     {
     public:
@@ -290,6 +347,8 @@ namespace SampleProtocol
         void setData(void* data);
         
         void* getData() const;
+        
+        void disconnect(const std::string& text);
         
         void send(recsen::MessageRef message);
         
@@ -304,9 +363,21 @@ namespace SampleProtocol
         
         void virtual onConnect(ServerSession* session);
         
-        void virtual onDisconnect(ServerSession* session, const std::string& text);
+        void virtual onDisconnect(ServerSession* session, const ServerContextVector& contexts, const std::string& text);
         
         void virtual onReceive(ServerSession* session, recsen::MessageConstRef message);
+        
+        void virtual onSend(ServerSession* session);
+    };
+    
+    struct ServerLogOptions
+    {
+        ServerLogOptions();
+        
+        std::string directory;
+        bool events;
+        bool states;
+        bool messages;
     };
     
     struct ServerOptions
@@ -317,7 +388,8 @@ namespace SampleProtocol
         uint32_t maxSessionCount;
         uint32_t threadCount;
         uint32_t heartbeatInterval;
-        std::string logDirectory;
+        uint32_t sendBufferSize;
+        ServerLogOptions log;
     };
     
     class Server

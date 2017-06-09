@@ -1,4 +1,4 @@
-<protocol name="SampleProtocol" majorVer="4" minorVer="0">
+<protocol name="SampleProtocol" majorVer="0" minorVer="0">
     <members>
         <message name="LoginPublicRequest" id="0" size="16">
             <fields>
@@ -60,12 +60,12 @@
             <states>
                 <state label="83_9">
                     <operations>
-                        <send name="loginPublic" next="85_13">
+                        <send name="LoginPublic" next="85_13">
                             <messages>
                                 <message name="LoginPublicRequest"/>
                             </messages>
                         </send>
-                        <send name="loginPrivate" next="95_13">
+                        <send name="LoginPrivate" next="95_13">
                             <messages>
                                 <message name="LoginPrivateRequest"/>
                             </messages>
@@ -74,31 +74,31 @@
                 </state>
                 <state label="85_13">
                     <operations>
-                        <recv name="onPublicLoginAccept" next="L1">
+                        <recv name="PublicLoginAccept" next="L1">
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onPublicLoginReject">
+                        <recv name="PublicLoginReject">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPublic"/>
+                        <context name="LoginPublic"/>
                     </contexts>
                 </state>
                 <state label="95_13">
                     <operations>
-                        <recv name="onPassword" next="97_17">
+                        <recv name="Password" next="97_17">
                             <messages>
                                 <message name="PasswordRequest"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
                 <state label="97_17">
@@ -110,39 +110,39 @@
                         </send>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
                 <state label="99_21">
                     <operations>
-                        <recv name="onPrivateLoginAccept" next="L1">
+                        <recv name="PrivateLoginAccept" next="L1">
                             <messages>
                                 <message name="LoginAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onPrivateLoginReject">
+                        <recv name="PrivateLoginReject">
                             <messages>
                                 <message name="LoginReject"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="loginPrivate"/>
+                        <context name="LoginPrivate"/>
                     </contexts>
                 </state>
                 <state label="L1">
                     <operations>
-                        <send name="subscribe" next="114_17">
+                        <send name="Subscribe" next="114_17">
                             <messages>
                                 <message name="SubscribeRequest"/>
                             </messages>
                         </send>
-                        <send name="logout" next="128_17">
+                        <send name="Logout" next="128_17">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </send>
-                        <recv name="onLogout">
+                        <recv name="Logout">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -151,24 +151,24 @@
                 </state>
                 <state label="114_17">
                     <operations>
-                        <recv name="onSubscribeAccept" next="L2">
+                        <recv name="SubscribeAccept" next="L2">
                             <messages>
                                 <message name="SubscribeAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onSubscribeReject" next="L1">
+                        <recv name="SubscribeReject" next="L1">
                             <messages>
                                 <message name="SubscribeReject"/>
                             </messages>
                         </recv>
-                        <recv name="onLogout">
+                        <recv name="Logout">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="subscribe"/>
+                        <context name="Subscribe"/>
                     </contexts>
                 </state>
                 <state label="128_17">
@@ -180,27 +180,27 @@
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="logout"/>
+                        <context name="Logout"/>
                     </contexts>
                 </state>
                 <state label="L2">
                     <operations>
-                        <recv name="onSnapshot" next="L2">
+                        <recv name="Snapshot" next="L2">
                             <messages>
                                 <message name="SnapshotRefresh"/>
                             </messages>
                         </recv>
-                        <send name="unsubscribe" next="144_17">
+                        <send name="Unsubscribe" next="144_17">
                             <messages>
                                 <message name="UnsubscribeRequest"/>
                             </messages>
                         </send>
-                        <send name="logout" next="158_17">
+                        <send name="Logout" next="158_17">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </send>
-                        <recv name="onLogout">
+                        <recv name="Logout">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -219,14 +219,14 @@
                                 <message name="UnsubscribeAccept"/>
                             </messages>
                         </recv>
-                        <recv name="onLogout">
+                        <recv name="Logout">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="unsubscribe"/>
+                        <context name="Unsubscribe"/>
                     </contexts>
                 </state>
                 <state label="158_17">
@@ -243,7 +243,7 @@
                         </recv>
                     </operations>
                     <contexts>
-                        <context name="logout"/>
+                        <context name="Logout"/>
                     </contexts>
                 </state>
             </states>
@@ -252,12 +252,12 @@
             <states>
                 <state label="176_9">
                     <operations>
-                        <recv name="onLoginPublic" next="178_13">
+                        <recv name="LoginPublic" next="178_13">
                             <messages>
                                 <message name="LoginPublicRequest"/>
                             </messages>
                         </recv>
-                        <recv name="onLoginPrivate" next="188_13">
+                        <recv name="LoginPrivate" next="188_13">
                             <messages>
                                 <message name="LoginPrivateRequest"/>
                             </messages>
@@ -289,7 +289,7 @@
                 </state>
                 <state label="190_17">
                     <operations>
-                        <recv name="onPassword" next="192_21">
+                        <recv name="Password" next="192_21">
                             <messages>
                                 <message name="PasswordResponse"/>
                             </messages>
@@ -312,12 +312,12 @@
                 </state>
                 <state label="205_13">
                     <operations>
-                        <recv name="onSubscribe" next="207_17">
+                        <recv name="Subscribe" next="207_17">
                             <messages>
                                 <message name="SubscribeRequest"/>
                             </messages>
                         </recv>
-                        <recv name="onLogout" next="217_17">
+                        <recv name="Logout" next="217_17">
                             <messages>
                                 <message name="Logout"/>
                             </messages>
@@ -364,12 +364,12 @@
                                 <message name="Logout"/>
                             </messages>
                         </send>
-                        <recv name="onUnsubscribe" next="237_17">
+                        <recv name="Unsubscribe" next="237_17">
                             <messages>
                                 <message name="UnsubscribeRequest"/>
                             </messages>
                         </recv>
-                        <recv name="onLogout" next="250_17">
+                        <recv name="Logout" next="250_17">
                             <messages>
                                 <message name="Logout"/>
                             </messages>

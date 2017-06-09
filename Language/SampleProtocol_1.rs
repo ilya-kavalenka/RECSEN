@@ -2,7 +2,7 @@
     The basic protocol
 */
 
-protocol SampleProtocol(1.0)
+protocol SampleProtocol(1,0)
 {
     enum Side
     {
@@ -26,7 +26,7 @@ protocol SampleProtocol(1.0)
 
     processor Client()
     {
-        recv onSnapshot(SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
             repeat;
     }
 

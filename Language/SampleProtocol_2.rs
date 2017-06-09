@@ -2,7 +2,7 @@
     Adding login/logout workflow
 */
 
-protocol SampleProtocol(2.0)
+protocol SampleProtocol(2,0)
 {
     message LoginRequest
     {
@@ -44,22 +44,22 @@ protocol SampleProtocol(2.0)
 
     processor Client()
     {
-        send login(LoginRequest)
+        send Login(LoginRequest)
         {
-            recv onLoginAccept(LoginAccept)
+            recv LoginAccept(LoginAccept)
             {
             }
-            or recv onLoginReject(LoginReject)
+            or recv LoginReject(LoginReject)
             {
                 return;
             }
         }
 
-        recv onSnapshot(SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or send logout(Logout)
+        or send Logout(Logout)
         {
             recv (SnapshotRefresh)
             {
@@ -67,16 +67,18 @@ protocol SampleProtocol(2.0)
             }
             or recv (Logout)
             {
+                return;
             }
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
+            return;
         }
     }
 
     processor Server()
     {
-        recv onLogin(LoginRequest)
+        recv Login(LoginRequest)
         {
             send (LoginAccept)
             {
@@ -91,7 +93,7 @@ protocol SampleProtocol(2.0)
         {
             repeat;
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
             send (SnapshotRefresh)
             {
@@ -99,10 +101,12 @@ protocol SampleProtocol(2.0)
             }
             or send (Logout)
             {
+                return;
             }
         }
         or send (Logout)
         {
+            return;
         }
     }
 }

@@ -2,7 +2,7 @@
     Adding subscribe/unsubscribe workflow
 */
 
-protocol SampleProtocol(4.0)
+protocol SampleProtocol(4,0)
 {
     message LoginPublicRequest
     {
@@ -80,26 +80,26 @@ protocol SampleProtocol(4.0)
 
     processor Client()
     {
-        send loginPublic(LoginPublicRequest)
+        send LoginPublic(LoginPublicRequest)
         {
-            recv onPublicLoginAccept(LoginAccept)
+            recv PublicLoginAccept(LoginAccept)
             {
             }
-            or recv onPublicLoginReject(LoginReject)
+            or recv PublicLoginReject(LoginReject)
             {
                 return;
             }
         }
-        or send loginPrivate(LoginPrivateRequest)
+        or send LoginPrivate(LoginPrivateRequest)
         {
-            recv onPassword(PasswordRequest)
+            recv Password(PasswordRequest)
             {
                 send (PasswordResponse)
                 {
-                    recv onPrivateLoginAccept(LoginAccept)
+                    recv PrivateLoginAccept(LoginAccept)
                     {
                     }
-                    or recv onPrivateLoginReject(LoginReject)
+                    or recv PrivateLoginReject(LoginReject)
                     {
                         return;
                     }
@@ -109,37 +109,37 @@ protocol SampleProtocol(4.0)
 
         loop
         {
-            @L1 send subscribe(SubscribeRequest)
+            @L1 send Subscribe(SubscribeRequest)
             {
-                recv onSubscribeAccept(SubscribeAccept)
+                recv SubscribeAccept(SubscribeAccept)
                 {
                 }
-                or recv onSubscribeReject(SubscribeReject)
+                or recv SubscribeReject(SubscribeReject)
                 {
                     continue;
                 }
-                or recv onLogout(Logout)
+                or recv Logout(Logout)
                 {
                     return;
                 }
             }
-            or send logout(Logout)
+            or send Logout(Logout)
             {
                 recv (Logout)
                 {
                     return;
                 }
             }
-            or recv onLogout(Logout)
+            or recv Logout(Logout)
             {
                 return;
             }
 
-            @L2 recv onSnapshot(SnapshotRefresh)
+            @L2 recv Snapshot(SnapshotRefresh)
             {
                 repeat;
             }        
-            or send unsubscribe(UnsubscribeRequest)
+            or send Unsubscribe(UnsubscribeRequest)
             {
                 recv (SnapshotRefresh)
                 {
@@ -148,12 +148,12 @@ protocol SampleProtocol(4.0)
                 or recv (UnsubscribeAccept)
                 {
                 }
-                or recv onLogout(Logout)
+                or recv Logout(Logout)
                 {
                     return;
                 }
             }
-            or send logout(Logout)
+            or send Logout(Logout)
             {
                 recv (SnapshotRefresh)
                 {
@@ -164,7 +164,7 @@ protocol SampleProtocol(4.0)
                     return;
                 }
             }
-            or recv onLogout(Logout)
+            or recv Logout(Logout)
             {
                 return;
             }
@@ -173,7 +173,7 @@ protocol SampleProtocol(4.0)
 
     processor Server()
     {
-        recv onLoginPublic(LoginPublicRequest)
+        recv LoginPublic(LoginPublicRequest)
         {
             send (LoginAccept)
             {
@@ -183,11 +183,11 @@ protocol SampleProtocol(4.0)
                 return;
             }
         }
-        or recv onLoginPrivate(LoginPrivateRequest)
+        or recv LoginPrivate(LoginPrivateRequest)
         {
             send (PasswordRequest)
             {
-                recv onPassword(PasswordResponse)
+                recv Password(PasswordResponse)
                 {
                     send (LoginAccept)
                     {
@@ -202,7 +202,7 @@ protocol SampleProtocol(4.0)
      
         loop
         {
-            recv onSubscribe(SubscribeRequest)
+            recv Subscribe(SubscribeRequest)
             {
                 send (SubscribeAccept)
                 {
@@ -212,7 +212,7 @@ protocol SampleProtocol(4.0)
                     continue;
                 }
             }
-            or recv onLogout(Logout)
+            or recv Logout(Logout)
             {
                 send (Logout)
                 {
@@ -232,7 +232,7 @@ protocol SampleProtocol(4.0)
             {
                 return;
             }
-            or recv onUnsubscribe(UnsubscribeRequest)
+            or recv Unsubscribe(UnsubscribeRequest)
             {
                 send (SnapshotRefresh)
                 {
@@ -245,7 +245,7 @@ protocol SampleProtocol(4.0)
                 {
                 }
             }
-            or recv onLogout(Logout)
+            or recv Logout(Logout)
             {
                 send (SnapshotRefresh)
                 {

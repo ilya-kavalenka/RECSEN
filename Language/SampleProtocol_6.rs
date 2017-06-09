@@ -2,7 +2,7 @@
     Adding per-symbol subscribe/unsubscribe workflow
 */
 
-protocol SampleProtocol(6.0)
+protocol SampleProtocol(6,0)
 {
     message LoginPublicRequest
     {
@@ -103,33 +103,55 @@ protocol SampleProtocol(6.0)
 
     message Logout;
 
-    processor Client()
+    bloc ClientLoginPublic()
     {
-        send loginPublic(LoginPublicRequest)
+        recv PublicLoginAccept(LoginAccept)
         {
-            recv onPublicLoginAccept(LoginAccept)
-            {
-            }
-            or recv onPublicLoginReject(LoginReject)
-            {
-                return;
-            }
         }
-        or send loginPrivate(LoginPrivateRequest)
+        or recv PublicLoginReject(LoginReject)
         {
-            recv onPassword(PasswordRequest)
+            disconnect;
+        }
+    }
+
+    bloc ClientLoginPrivate()
+    {
+        recv Password(PasswordRequest)
+        {
+            send (PasswordResponse)
             {
-                send (PasswordResponse)
+                recv PrivateLoginAccept(LoginAccept)
                 {
-                    recv onPrivateLoginAccept(LoginAccept)
-                    {
-                    }
-                    or recv onPrivateLoginReject(LoginReject)
-                    {
-                        return;
-                    }
+                }
+                or recv PrivateLoginReject(LoginReject)
+                {
+                    disconnect;
                 }
             }
+        }
+    }
+
+    bloc ClientLogout()
+    {
+        recv (SymbolResponse, NewsResponse)
+        {
+            repeat;
+        }
+        or recv (Logout)
+        {
+            disconnect;
+        }
+    }
+
+    processor Client()
+    {
+        send LoginPublic(LoginPublicRequest)
+        {
+            ClientLoginPublic();
+        }
+        or send LoginPrivate(LoginPrivateRequest)
+        {
+            ClientLoginPrivate();
         }
 
         send (SymbolRequest, NewsRequest)
@@ -142,16 +164,11 @@ protocol SampleProtocol(6.0)
         }
         or send Logout(Logout)
         {
-            recv (SymbolResponse, NewsResponse)
-            {
-                repeat;
-            }
-            or recv (Logout)
-            {
-            }
+            ClientLogout();
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
+            return;
         }
     }
 
@@ -161,22 +178,22 @@ protocol SampleProtocol(6.0)
         SymbolResponse.Symbol
     ) 
     {
-        send subscribeSymbol(SubscribeSymbolRequest)
+        send SubscribeSymbol(SubscribeSymbolRequest)
         {
-            recv onSubscribeSymbolAccept(SubscribeSymbolAccept)
+            recv SubscribeSymbolAccept(SubscribeSymbolAccept)
             {
             }
-            or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+            or recv SubscribeSymbolReject(SubscribeSymbolReject)
             {
                 return;
             }
         }
 
-        recv onSnapshot(SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+        or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
         {
             recv (SnapshotRefresh)
             {
@@ -184,6 +201,7 @@ protocol SampleProtocol(6.0)
             }
             or recv (UnsubscribeSymbolAccept)
             {
+                return;
             }
         }
     }
@@ -194,22 +212,22 @@ protocol SampleProtocol(6.0)
         NewsResponse
     ) 
     {
-        send subscribeNews(SubscribeNewsRequest)
+        send SubscribeNews(SubscribeNewsRequest)
         {
-            recv onSubscribeNewsAccept(SubscribeNewsAccept)
+            recv SubscribeNewsAccept(SubscribeNewsAccept)
             {
             }
-            or recv onSubscribeNewsReject(SubscribeNewsReject)
+            or recv SubscribeNewsReject(SubscribeNewsReject)
             {
                 return;
             }
         }
 
-        recv onNews(NewsNotification)
+        recv News(NewsNotification)
         {
             repeat;
         }
-        or send unsubscribeNews(UnsubscribeNewsRequest)
+        or send UnsubscribeNews(UnsubscribeNewsRequest)
         {
             recv (NewsNotification)
             {
@@ -217,37 +235,60 @@ protocol SampleProtocol(6.0)
             }
             or recv (UnsubscribeNewsAccept)
             {
+                return;
             }
+        }
+    }
+
+    bloc ServerLoginPublic()
+    {
+        send (LoginAccept)
+        {
+        }
+        or send (LoginReject)
+        {
+            disconnect;
+        }
+    }
+
+    bloc ServerLoginPrivate()
+    {
+        send (PasswordRequest)
+        {
+            recv Password(PasswordResponse)
+            {
+                send (LoginAccept)
+                {
+                }
+                or send (LoginReject)
+                {
+                    disconnect;
+                }
+            }
+        }
+    }
+
+    bloc ServerLogout()
+    {
+        send (SymbolResponse, NewsResponse)
+        {
+            repeat;
+        }
+        or send (Logout)
+        {
+            disconnect;
         }
     }
 
     processor Server()
     {
-        recv onLoginPublic(LoginPublicRequest)
+        recv LoginPublic(LoginPublicRequest)
         {
-            send (LoginAccept)
-            {
-            }
-            or send (LoginReject)
-            {
-                return;
-            }
+            ServerLoginPublic();
         }
-        or recv onLoginPrivate(LoginPrivateRequest)
+        or recv LoginPrivate(LoginPrivateRequest)
         {
-            send (PasswordRequest)
-            {
-                recv onPassword(PasswordResponse)
-                {
-                    send (LoginAccept)
-                    {
-                    }
-                    or send (LoginReject)
-                    {
-                        return;
-                    }
-                }
-            }
+            ServerLoginPrivate();
         }
      
         recv (SymbolRequest, NewsRequest)
@@ -258,18 +299,13 @@ protocol SampleProtocol(6.0)
         {
             repeat;
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
-            send (SymbolResponse, NewsResponse)
-            {
-                repeat;
-            }
-            or send (Logout)
-            {
-            }
+            ServerLogout();
         }
         or send (Logout)
         {
+            return;
         }
     }
 
@@ -279,7 +315,7 @@ protocol SampleProtocol(6.0)
         SymbolResponse.Symbol
     ) 
     {
-        recv onSubscribeSymbol(SubscribeSymbolRequest)
+        recv SubscribeSymbol(SubscribeSymbolRequest)
         {
             send (SubscribeSymbolAccept)
             {
@@ -294,7 +330,7 @@ protocol SampleProtocol(6.0)
         {
             repeat;
         }
-        or recv onUnsubscribeSymbol(UnsubscribeSymbolRequest)
+        or recv UnsubscribeSymbol(UnsubscribeSymbolRequest)
         {
             send (SnapshotRefresh)
             {
@@ -302,6 +338,7 @@ protocol SampleProtocol(6.0)
             }
             or send (UnsubscribeSymbolAccept)
             {
+                return;
             }
         }
     }
@@ -312,7 +349,7 @@ protocol SampleProtocol(6.0)
         NewsResponse
     ) 
     {
-        recv onSubscribeNews(SubscribeNewsRequest)
+        recv SubscribeNews(SubscribeNewsRequest)
         {
             send (SubscribeNewsAccept)
             {
@@ -327,7 +364,7 @@ protocol SampleProtocol(6.0)
         {
             repeat;
         }
-        or recv onUnsubscribeNews(UnsubscribeNewsRequest)
+        or recv UnsubscribeNews(UnsubscribeNewsRequest)
         {
             send (NewsNotification)
             {
@@ -335,6 +372,7 @@ protocol SampleProtocol(6.0)
             }
             or send (UnsubscribeNewsAccept)
             {
+                return;
             }
         }
     }
