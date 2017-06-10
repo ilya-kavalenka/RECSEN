@@ -718,7 +718,7 @@ Messages are received via a client or server listener callback interface. Named 
 void AppClientListener::onSubscribeSymbolAccept
 (
     ClientSession* session, 
-    subscribeSymbolClientContext* context, 
+    SubscribeSymbolClientContext* context, 
     SubscribeSymbolAcceptConstRef message
 )
 {
@@ -742,7 +742,7 @@ void AppClientListener::onReceive
 Contexts is a mechanism to correlate send and receive operations. Each named send operation receives a pointer to a context data structure. The context pointer is then provided to all named receive operations defined within the scope of the send operation. The application is responsible for the context data structure allocation and deallocation.
 
 ```
-struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+struct AppSubscribeSymbolClientContext : SubscribeSymbolClientContext
 {
     Symbol* symbol;
 };
@@ -750,7 +750,7 @@ struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
 void AppClientListener::onSubscribeSymbolAccept
 (
     ClientSession* session, 
-    subscribeSymbolClientContext* context, 
+    SubscribeSymbolClientContext* context, 
     SubscribeSymbolAcceptConstRef message
 )
 {
@@ -762,7 +762,7 @@ void AppClientListener::onSubscribeSymbolAccept
 void AppClientListener::onSubscribeSymbolReject
 (
     ClientSession* session, 
-    subscribeSymbolClientContext* context, 
+    SubscribeSymbolClientContext* context, 
     SubscribeSymbolRejectConstRef message
 )
 {
@@ -797,7 +797,7 @@ void subscribeSymbolAsync(Symbol* symbol, ClientSession* session)
 An application thread can be blocked to wait for a completion of a send operation as defined by the scope of the send operation.
 
 ```
-struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
+struct AppSubscribeSymbolClientContext : SubscribeSymbolClientContext
 {
     bool success;
     string text;
@@ -806,7 +806,7 @@ struct AppSubscribeSymbolClientContext : subscribeSymbolClientContext
 void AppClientListener::onSubscribeSymbolAccept
 (
     ClientSession* session, 
-    subscribeSymbolClientContext* context, 
+    SubscribeSymbolClientContext* context, 
     SubscribeSymbolAcceptConstRef message
 )
 {
@@ -817,7 +817,7 @@ void AppClientListener::onSubscribeSymbolAccept
 void AppClientListener::onSubscribeSymbolReject
 (
     ClientSession* session, 
-    subscribeSymbolClientContext* context, 
+    SubscribeSymbolClientContext* context, 
     SubscribeSymbolRejectConstRef message
 )
 {
