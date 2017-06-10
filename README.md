@@ -46,12 +46,12 @@ enum Side
 }
 ```
 
-The Client processor defines a repeatable receive SnapshotRefresh message operation named onSnapshot. The client is not allowed to send messages.
+The Client processor defines a repeatable receive SnapshotRefresh message operation named Snapshot. The client is not allowed to send messages.
 
 ```
 processor Client()
 {
-    recv onSnapshot(SnapshotRefresh)
+    recv Snapshot(SnapshotRefresh)
         repeat;
 }
 ```
@@ -95,26 +95,26 @@ message Logout
 Initially the only thing the client is allowed to do is to send a LoginRequest message. Initially the client may not receive any messages. In response to the LoginRequest message the client may receive either a LoginAccept or LoginReject message from the server. The client is not allowed to send any messages until it receives a response. The return statement defines a termination of the control flow in response to the LoginReject message. The control flow continues outside the login operation if the LoginAccept message is received from the server. 
 
 ```
-send login(LoginRequest)
+send Login(LoginRequest)
 {
-    recv onLoginAccept(LoginAccept)
+    recv LoginAccept(LoginAccept)
     {
     }
-    or recv onLoginReject(LoginReject)
+    or recv LoginReject(LoginReject)
     {
         return;
     }
 }
 ```
 
-Once logged in the client may receive any number of SnapshotRefresh messages or a Logout message from the server. The client is also allowed to send own Logout message to the server. It is not allowed to receive or send other messages (e.g. LoginRequest) at this stage of the communication. After a Logout message is sent by the client it may still receive SnapshotRefresh messages until the confirming Logout message is received from the server. Upon receive of a Logout message from the server the client control flow finishes.
+Once logged in the client may receive any number of SnapshotRefresh messages or a Logout message from the server. The client is also allowed to send own Logout message to the server. It is not allowed to receive or send other messages (e.g. LoginRequest) at this stage of the communication. After a Logout message is sent by the client it may still receive SnapshotRefresh messages until the confirming Logout message is received from the server. Upon receive of a Logout message from the server the client control flow terminates.
 
 ```
-recv onSnapshot(SnapshotRefresh)
+recv Snapshot(SnapshotRefresh)
 {
     repeat;
 }
-or send logout(Logout)
+or send Logout(Logout)
 {
     recv (SnapshotRefresh)
     {
@@ -122,10 +122,12 @@ or send logout(Logout)
     }
     or recv (Logout)
     {
+        return;
     }
 }
-or recv onLogout(Logout)
+or recv Logout(Logout)
 {
+        return;
 }
 ```
 
@@ -155,26 +157,26 @@ message PasswordResponse
 The client now has a choice to initiate either a public or a private login operation. In response to the LoginPrivateRequest message the only message the client may receive is a PasswordRequest message containing an arbitrary binary token. The client has to encode the token with its private password and send the encoded binary token back to the server with a PasswordResponse message. It then receives either a LoginAccept or LoginReject message from the server as in the public login operation. Authenticated clients receive market data updates of additional symbols from the server.
 
 ```
-send loginPublic(LoginPublicRequest)
+send LoginPublic(LoginPublicRequest)
 {
-    recv onPublicLoginAccept(LoginAccept)
+    recv PublicLoginAccept(LoginAccept)
     {
     }
-    or recv onPublicLoginReject(LoginReject)
+    or recv PublicLoginReject(LoginReject)
     {
         return;
     }
 }
-or send loginPrivate(LoginPrivateRequest)
+or send LoginPrivate(LoginPrivateRequest)
 {
-    recv onPassword(PasswordRequest)
+    recv Password(PasswordRequest)
     {
         send (PasswordResponse)
         {
-            recv onPrivateLoginAccept(LoginAccept)
+            recv PrivateLoginAccept(LoginAccept)
             {
             }
-            or recv onPrivateLoginReject(LoginReject)
+            or recv PrivateLoginReject(LoginReject)
             {
                 return;
             }
@@ -219,37 +221,37 @@ Once subscribed (@L2) the client may receive multiple SnapshotRefresh messages o
 ```
 loop
 {
-    @L1 send subscribe(SubscribeRequest)
+    @L1 send Subscribe(SubscribeRequest)
     {
-        recv onSubscribeAccept(SubscribeAccept)
+        recv SubscribeAccept(SubscribeAccept)
         {
         }
-        or recv onSubscribeReject(SubscribeReject)
+        or recv SubscribeReject(SubscribeReject)
         {
             continue;
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
             return;
         }
     }
-    or send logout(Logout)
+    or send Logout(Logout)
     {
         recv (Logout)
         {
             return;
         }
     }
-    or recv onLogout(Logout)
+    or recv Logout(Logout)
     {
         return;
     }
 
-    @L2 recv onSnapshot(SnapshotRefresh)
+    @L2 recv Snapshot(SnapshotRefresh)
     {
         repeat;
     }        
-    or send unsubscribe(UnsubscribeRequest)
+    or send Unsubscribe(UnsubscribeRequest)
     {
         recv (SnapshotRefresh)
         {
@@ -258,12 +260,12 @@ loop
         or recv (UnsubscribeAccept)
         {
         }
-        or recv onLogout(Logout)
+        or recv Logout(Logout)
         {
             return;
         }
     }
-    or send logout(Logout)
+    or send Logout(Logout)
     {
         recv (SnapshotRefresh)
         {
@@ -274,7 +276,7 @@ loop
             return;
         }
     }
-    or recv onLogout(Logout)
+    or recv Logout(Logout)
     {
         return;
     }
@@ -366,22 +368,22 @@ processor SymbolClient() : Client
     SymbolResponse
 ) 
 {
-    send subscribeSymbol(SubscribeSymbolRequest)
+    send SubscribeSymbol(SubscribeSymbolRequest)
     {
-        recv onSubscribeSymbolAccept(SubscribeSymbolAccept)
+        recv SubscribeSymbolAccept(SubscribeSymbolAccept)
         {
         }
-        or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+        or recv SubscribeSymbolReject(SubscribeSymbolReject)
         {
             return;
         }
     }
 
-    recv onSnapshot(SnapshotRefresh)
+    recv Snapshot(SnapshotRefresh)
     {
         repeat;
     }
-    or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+    or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
     {
         recv (SnapshotRefresh)
         {
@@ -389,6 +391,7 @@ processor SymbolClient() : Client
         }
         or recv (UnsubscribeSymbolAccept)
         {
+            return;
         }
     }
 }
@@ -399,22 +402,22 @@ processor NewsClient() : Client
     NewsResponse
 ) 
 {
-    send subscribeNews(SubscribeNewsRequest)
+    send SubscribeNews(SubscribeNewsRequest)
     {
-        recv onSubscribeNewsAccept(SubscribeNewsAccept)
+        recv SubscribeNewsAccept(SubscribeNewsAccept)
         {
         }
-        or recv onSubscribeNewsReject(SubscribeNewsReject)
+        or recv SubscribeNewsReject(SubscribeNewsReject)
         {
             return;
         }
     }
 
-    recv onNews(NewsNotification)
+    recv News(NewsNotification)
     {
         repeat;
     }
-    or send unsubscribeNews(UnsubscribeNewsRequest)
+    or send UnsubscribeNews(UnsubscribeNewsRequest)
     {
         recv (NewsNotification)
         {
@@ -422,6 +425,7 @@ processor NewsClient() : Client
         }
         or recv (UnsubscribeNewsAccept)
         {
+            return;
         }
     }
 }
@@ -458,7 +462,7 @@ message SymbolResponse
 }
 ```
 
-It also modifies the SymbolClient processor to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
+The SymbolClient processor is modified to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
 
 ```
 processor SymbolClient(string) : Client
@@ -467,22 +471,22 @@ processor SymbolClient(string) : Client
     SymbolResponse.Symbol
 ) 
 {
-    send subscribeSymbol(SubscribeSymbolRequest)
+    send SubscribeSymbol(SubscribeSymbolRequest)
     {
-        recv onSubscribeSymbolAccept(SubscribeSymbolAccept)
+        recv SubscribeSymbolAccept(SubscribeSymbolAccept)
         {
         }
-        or recv onSubscribeSymbolReject(SubscribeSymbolReject)
+        or recv SubscribeSymbolReject(SubscribeSymbolReject)
         {
             return;
         }
     }
 
-    recv onSnapshot(SnapshotRefresh)
+    recv Snapshot(SnapshotRefresh)
     {
         repeat;
     }
-    or send unsubscribeSymbol(UnsubscribeSymbolRequest)
+    or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
     {
         recv (SnapshotRefresh)
         {
@@ -493,6 +497,79 @@ processor SymbolClient(string) : Client
         }
     }
 }
+```
+
+It also makes use of inlinable blocs to share common sequences of statements or improve code readibility.
+
+```
+    bloc ClientLoginPublic()
+    {
+        recv PublicLoginAccept(LoginAccept)
+        {
+        }
+        or recv PublicLoginReject(LoginReject)
+        {
+            disconnect;
+        }
+    }
+
+    bloc ClientLoginPrivate()
+    {
+        recv Password(PasswordRequest)
+        {
+            send (PasswordResponse)
+            {
+                recv PrivateLoginAccept(LoginAccept)
+                {
+                }
+                or recv PrivateLoginReject(LoginReject)
+                {
+                    disconnect;
+                }
+            }
+        }
+    }
+
+    bloc ClientLogout()
+    {
+        recv (SymbolResponse, NewsResponse)
+        {
+            repeat;
+        }
+        or recv (Logout)
+        {
+            disconnect;
+        }
+    }
+
+    processor Client()
+    {
+        send LoginPublic(LoginPublicRequest)
+        {
+            ClientLoginPublic();
+        }
+        or send LoginPrivate(LoginPrivateRequest)
+        {
+            ClientLoginPrivate();
+        }
+
+        send (SymbolRequest, NewsRequest)
+        {
+            repeat;
+        }
+        or recv (SymbolResponse, NewsResponse)
+        {
+            repeat;
+        }
+        or send Logout(Logout)
+        {
+            ClientLogout();
+        }
+        or recv Logout(Logout)
+        {
+            return;
+        }
+    }
 ```
 
 In this version of the protocol the client and server implement multiple independent parallel workflows.
@@ -620,7 +697,7 @@ Messages are sent via a client or server session object. Named operation message
 ```
 void subscribeSymbol(ClinetSession* session, SubscribeSymbolRequestRef subscribeSymbolRequest)
 {
-    session->subscribeSymbol(0, subscribeSymbolRequest);
+    session->sendSubscribeSymbol(0, subscribeSymbolRequest);
 }
 ```
 
@@ -705,7 +782,7 @@ void subscribeSymbolAsync(Symbol* symbol, ClientSession* session)
 
         SubscribeSymbolRequest subscribeSymbolRequest;
         subscribeSymbolRequest.setSymbol(symbol->getName());
-        session->subscribeSymbol(appContext, subscribeSymbolRequest);
+        session->sendSubscribeSymbol(appContext, subscribeSymbolRequest);
     }
     catch (...)
     {
@@ -755,7 +832,7 @@ void subscribeSymbolSync(Symbol* symbol, ClientSession* session)
 
     SubscribeSymbolRequest subscribeSymbolRequest;
     subscribeSymbolRequest.setSymbol(symbol->getName());
-    session->subscribeSymbol(&appContext, subscribeSymbolRequest);
+    session->sendSubscribeSymbol(&appContext, subscribeSymbolRequest);
 
     session->wait(appContext);
 
