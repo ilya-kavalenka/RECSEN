@@ -494,6 +494,7 @@ processor SymbolClient(string) : Client
         }
         or recv (UnsubscribeSymbolAccept)
         {
+            return;
         }
     }
 }
