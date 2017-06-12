@@ -127,7 +127,7 @@ or send Logout(Logout)
 }
 or recv Logout(Logout)
 {
-        return;
+    return;
 }
 ```
 
@@ -503,81 +503,81 @@ processor SymbolClient(string) : Client
 It also makes use of inlinable blocs to share common sequences of statements or improve code readibility.
 
 ```
-    bloc ClientLoginPublic()
+bloc ClientLoginPublic()
+{
+    recv PublicLoginAccept(LoginAccept)
     {
-        recv PublicLoginAccept(LoginAccept)
-        {
-        }
-        or recv PublicLoginReject(LoginReject)
-        {
-            disconnect;
-        }
     }
-
-    bloc ClientLoginPrivate()
+    or recv PublicLoginReject(LoginReject)
     {
-        recv Password(PasswordRequest)
+        disconnect;
+    }
+}
+
+bloc ClientLoginPrivate()
+{
+    recv Password(PasswordRequest)
+    {
+        send (PasswordResponse)
         {
-            send (PasswordResponse)
+            recv PrivateLoginAccept(LoginAccept)
             {
-                recv PrivateLoginAccept(LoginAccept)
-                {
-                }
-                or recv PrivateLoginReject(LoginReject)
-                {
-                    disconnect;
-                }
+            }
+            or recv PrivateLoginReject(LoginReject)
+            {
+                disconnect;
             }
         }
     }
+}
 
-    bloc ClientLogout()
+bloc ClientLogout()
+{
+    recv (SymbolResponse, NewsResponse)
     {
-        recv (SymbolResponse, NewsResponse)
-        {
-            repeat;
-        }
-        or recv (Logout)
-        {
-            disconnect;
-        }
+        repeat;
+    }
+    or recv (Logout)
+    {
+        disconnect;
+    }
+}
+
+processor Client()
+{
+    send LoginPublic(LoginPublicRequest)
+    {
+        ClientLoginPublic();
+    }
+    or send LoginPrivate(LoginPrivateRequest)
+    {
+        ClientLoginPrivate();
     }
 
-    processor Client()
+    send (SymbolRequest, NewsRequest)
     {
-        send LoginPublic(LoginPublicRequest)
-        {
-            ClientLoginPublic();
-        }
-        or send LoginPrivate(LoginPrivateRequest)
-        {
-            ClientLoginPrivate();
-        }
-
-        send (SymbolRequest, NewsRequest)
-        {
-            repeat;
-        }
-        or recv (SymbolResponse, NewsResponse)
-        {
-            repeat;
-        }
-        or send Logout(Logout)
-        {
-            ClientLogout();
-        }
-        or recv Logout(Logout)
-        {
-            return;
-        }
+        repeat;
     }
+    or recv (SymbolResponse, NewsResponse)
+    {
+        repeat;
+    }
+    or send Logout(Logout)
+    {
+        ClientLogout();
+    }
+    or recv Logout(Logout)
+    {
+        return;
+    }
+}
 ```
 
 In this version of the protocol the client and server implement multiple independent parallel workflows.
 
 ## RECSEN Compiler<a name="compiler"/>
 
-Two targets currently supportyed by the compiler are XML and C++.
+Two targets currently supportyed by RECSEN compiler are XML and C++.
 
 ```
 rsc -t <target> -o <output_filename> <input_filename>
