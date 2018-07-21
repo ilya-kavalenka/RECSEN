@@ -1,4 +1,4 @@
-The ambitious goal of RECSEN project is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for cross-platform, network software communication.
+The goal of RECSEN language is to provide a way to formalize definition of custom message-oriented communication protocols and automate creation of client-server protocol handlers for network software communication.
 
 The [RECSEN language](#language) (.rs file extension) is designed to express protocol data and control flows in a high level of detail. The language is used to define protocol messages and fields in a type-safe manner as well as protocol states and state transitions from the client and server side perspectives in a procedural manner.
 
