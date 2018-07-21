@@ -1,4 +1,4 @@
-#Introduction
+# Introduction
 
 The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow and control flow. It is useful to introduce language [features](https://github.com/ilya-kavalenka/RECSEN/tree/master/Language/Features) through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
