@@ -8,13 +8,17 @@ Single-line comments start with //. Multi-line comments start with /* and end wi
 
 ### Protocols
 
-<pre>protocol = 'protocol' identifier ['(' major_version ',' minor_version ')'] {note} ('{' {protocol_member | ';'} '}' | ';');</pre>
+```
+protocol = 'protocol' identifier ['(' major_version ',' minor_version ')'] 
+    {note} 
+    ('{' {protocol_member | ';'} '}' | ';');
 
 major_version = unsigned_integer_literal;
 
 minor_version = unsigned_integer_literal;
 
-<pre>protocol_member = const | enum | set | group | message | bloc | proc;</pre>
+protocol_member = const | enum | set | group | message | bloc | proc;
+```
 
 ### Constants
 
