@@ -89,8 +89,7 @@ string_const =
 
 ```
 enum =
-    'enum' identifier
-    {note}
+    'enum' identifier {note}
     ('{' [enum_member {',' enum_member}] '}' | ';');
 
 enum_member =
