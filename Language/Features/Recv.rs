@@ -4,7 +4,7 @@ protocol Protocol
 
     message Message2;
 
-    processor Processor1()
+    proc Processor1()
     {
         recv;            
         recv (Message1);
@@ -12,7 +12,7 @@ protocol Protocol
         recv ();
     }
 
-    processor Processor2()
+    proc Processor2()
     {
         recv Recv1;
         recv Recv2(Message2);
@@ -20,7 +20,7 @@ protocol Protocol
         recv Recv4();
     }
 
-    processor Processor3()
+    proc Processor3()
     {
         recv Recv1
         {
@@ -39,17 +39,17 @@ protocol Protocol
         }
     }
 
-    processor Processor4()
+    proc Processor4()
     {
         recv Recv1 recv Recv2(Message2) recv Recv3(Message1, Message2) recv Recv4();
     }
 
-    processor Processor5()
+    proc Processor5()
     {
         recv Recv1 recv Recv2(Message2) recv Recv3(Message1, Message2) recv Recv4() {}
     }
 
-    processor Processor6()
+    proc Processor6()
     {
         recv Recv1
         {
@@ -65,19 +65,19 @@ protocol Protocol
         }
     }
 
-    processor Processor7()
+    proc Processor7()
     {
         recv Recv1 recv Recv2(Message2); 
         recv Recv3(Message1, Message2) recv Recv4();
     }
 
-    processor Processor8()
+    proc Processor8()
     {
         recv Recv1 recv Recv2(Message2) {}
         recv Recv3(Message1, Message2) recv Recv4() {}
     }
 
-    processor Processor9()
+    proc Processor9()
     {
         recv Recv1 
         {
@@ -94,17 +94,17 @@ protocol Protocol
         }
     }
 
-    processor Processor10()
+    proc Processor10()
     {
         recv Recv1 { recv Recv2(Message2); recv Recv3(Message1, Message2) recv Recv4(); }
     }
 
-    processor Processor11()
+    proc Processor11()
     {
         recv Recv1 { recv Recv2(Message2) {} recv Recv3(Message1, Message2) recv Recv4() {} }
     }
 
-    processor Processor12()
+    proc Processor12()
     {
         recv Recv1 
         {

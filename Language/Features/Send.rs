@@ -4,7 +4,7 @@ protocol Protocol
 
     message Message2;
 
-    processor Processor1()
+    proc Processor1()
     {
         send;            
         send (Message1);
@@ -12,7 +12,7 @@ protocol Protocol
         send ();
     }
 
-    processor Processor2()
+    proc Processor2()
     {
         send Send1;
         send Send2(Message2);
@@ -20,7 +20,7 @@ protocol Protocol
         send Send4();
     }
 
-    processor Processor3()
+    proc Processor3()
     {
         send Send1
         {
@@ -39,17 +39,17 @@ protocol Protocol
         }
     }
 
-    processor Processor4()
+    proc Processor4()
     {
         send Send1 send Send2(Message2) send Send3(Message1, Message2) send Send4();
     }
 
-    processor Processor5()
+    proc Processor5()
     {
         send Send1 send Send2(Message2) send Send3(Message1, Message2) send Send4() {}
     }
 
-    processor Processor6()
+    proc Processor6()
     {
         send Send1
         {
@@ -65,19 +65,19 @@ protocol Protocol
         }
     }
 
-    processor Processor7()
+    proc Processor7()
     {
         send Send1 send Send2(Message2); 
         send Send3(Message1, Message2) send Send4();
     }
 
-    processor Processor8()
+    proc Processor8()
     {
         send Send1 send Send2(Message2) {}
         send Send3(Message1, Message2) send Send4() {}
     }
 
-    processor Processor9()
+    proc Processor9()
     {
         send Send1 
         {
@@ -94,17 +94,17 @@ protocol Protocol
         }
     }
 
-    processor Processor10()
+    proc Processor10()
     {
         send Send1 { send Send2(Message2); send Send3(Message1, Message2) send Send4(); }
     }
 
-    processor Processor11()
+    proc Processor11()
     {
         send Send1 { send Send2(Message2) {} send Send3(Message1, Message2) send Send4() {} }
     }
 
-    processor Processor12()
+    proc Processor12()
     {
         send Send1 
         {

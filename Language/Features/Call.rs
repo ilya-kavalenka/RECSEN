@@ -12,7 +12,7 @@ protocol Protocol
         recv Recv2;
     }
 
-    processor Processor()
+    proc Processor()
     {
         Bloc2();
 

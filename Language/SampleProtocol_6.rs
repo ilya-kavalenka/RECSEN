@@ -143,15 +143,19 @@ protocol SampleProtocol(6,0)
         }
     }
 
-    processor Client()
+    proc Client()
     {
-        send LoginPublic(LoginPublicRequest)
+        ClientLoginPublic()
         {
-            ClientLoginPublic();
         }
-        or send LoginPrivate(LoginPrivateRequest)
+        or ClientLoginPrivate();
+
+        recv R()
         {
-            ClientLoginPrivate();
+        }
+
+        Bloc()
+        {
         }
 
         send (SymbolRequest, NewsRequest)
@@ -162,9 +166,9 @@ protocol SampleProtocol(6,0)
         {
             repeat;
         }
-        or send Logout(Logout)
+        or ClientLogout()
         {
-            ClientLogout();
+            return;
         }
         or recv Logout(Logout)
         {

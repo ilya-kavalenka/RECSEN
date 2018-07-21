@@ -1,11 +1,11 @@
 protocol Protocol
 {
-    processor Processor1()
+    proc Processor1()
     {
         recv Recv repeat;
     }
 
-    processor Processor2()
+    proc Processor2()
     {
         recv Recv1
         {
@@ -16,7 +16,7 @@ protocol Protocol
         }
     }
 
-    processor Processor3()
+    proc Processor3()
     {
         @L recv Recv1
         {

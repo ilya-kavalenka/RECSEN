@@ -11,13 +11,13 @@ protocol Protocol
         }
     }
 
-    processor Processor()
+    proc Processor()
     {
         Bloc();
 
         recv Recv2
         {
-            disconnect "text";
+            disconnect;
         }
         or send Send2
         {

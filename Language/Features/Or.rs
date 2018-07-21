@@ -1,11 +1,21 @@
 protocol Protocol
 {
-    processor Processor1()
+    bloc Bloc()
     {
-        recv Recv or send Send;
+        recv Recv
+        {
+        }
+        or send Send
+        {
+        }        
     }
 
-    processor Processor2()
+    proc Processor1()
+    {
+        recv Recv1 or send Send1 or Bloc() or Bloc();
+    }
+
+    proc Processor2()
     {
         recv Recv
         {
@@ -13,5 +23,11 @@ protocol Protocol
         or send Send
         {
         }
+        or Bloc
+        (
+        )
+        or Bloc
+        (
+        );    
     }
 }

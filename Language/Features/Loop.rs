@@ -1,11 +1,11 @@
 protocol Protocol
 {
-    processor Processor1()
+    proc Processor1()
     {
         loop recv Recv;
     }
 
-    processor Processor2()
+    proc Processor2()
     {
         loop 
         {
@@ -14,7 +14,7 @@ protocol Protocol
         }
     }
 
-    processor Processor3()
+    proc Processor3()
     {
         loop 
         {
@@ -35,7 +35,7 @@ protocol Protocol
         }
     }
 
-    processor Processor4()
+    proc Processor4()
     {
         @L loop 
         {

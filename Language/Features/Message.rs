@@ -10,7 +10,7 @@ protocol Protocol
     {
         int32 Field1;
         int32 Field2;
-        @32 int32 Field3;
+        int32 Field3(32);
         int32 Field4;
     }
 
@@ -18,7 +18,7 @@ protocol Protocol
     {
         int32 Field5;
         int32 Field6;
-        @64 int32 Field7;
+        int32 Field7(64);
         int32 Field8;
     }
 }

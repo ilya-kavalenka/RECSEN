@@ -25,7 +25,7 @@ protocol Protocol
         double Field7;
     }
 
-    processor Processor()
+    proc Processor()
     {
         recv Recv1(Message : Field1);
 

@@ -18,7 +18,7 @@ protocol Protocol
         }
     }
 
-    processor Processor()
+    proc Processor()
     {
         recv Recv3
         {
