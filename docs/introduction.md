@@ -1,10 +1,10 @@
 # Introduction
 
-The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow and control flow. It is useful to introduce language [features](https://github.com/ilya-kavalenka/RECSEN/tree/master/Language/Features) through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
+The RECSEN language is designed to serve as a protocol definition. The protocol workflow essentially consists of data flow and control flow. It is useful to introduce language features through an evolution of a sample communication protocol from its basic form to a real-life version. The sample protocol is used by market data subscribers to receive updates from a market data publisher.
 
 ### Sample Protocol 1
 
-[SampleProtocol_1.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_1.rs?raw=true) represents the most basic version of the protocol. The only message type defined is SnapshotRefresh which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
+[SampleProtocol_1.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_1.rs?raw=true) represents the most basic version of the protocol. The only message type defined is SnapshotRefresh which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
@@ -39,7 +39,7 @@ enum Side
 The Client processor defines a repeatable receive SnapshotRefresh message operation named Snapshot. The client is not allowed to send messages.
 
 ```
-processor Client()
+proc Client()
 {
     recv Snapshot(SnapshotRefresh)
         repeat;
@@ -49,7 +49,7 @@ processor Client()
 Similarly the Server processor defines an unnamed repeatable send SnapshotRefresh message operation. The server may not receive messages.
 
 ```
-processor Server()
+proc Server()
 {
     send (SnapshotRefresh)
         repeat;
@@ -60,7 +60,7 @@ In this version of the protocol the client connects to the server and the server
 
 ### Sample Protocol 2
 
-Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
+Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
 
 ```
 message LoginRequest
@@ -68,9 +68,7 @@ message LoginRequest
     string Name;
 }
 
-message LoginAccept
-{
-}
+message LoginAccept;
 
 message LoginReject
 {
@@ -79,6 +77,7 @@ message LoginReject
 
 message Logout
 {
+    string Text;
 }
 ```
 
@@ -106,11 +105,11 @@ recv Snapshot(SnapshotRefresh)
 }
 or send Logout(Logout)
 {
-    recv (SnapshotRefresh)
+    recv Snapshot(SnapshotRefresh)
     {
         repeat;
     }
-    or recv (Logout)
+    or recv Logout(Logout)
     {
         return;
     }
@@ -125,7 +124,7 @@ In this version of the protocol the client and server may send and receive messa
 
 ### Sample Protocol 3
 
-Now let us add a client authentication workflow to receive sensitive market data updates. [SampleProtocol_3.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_3.rs?raw=true) renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
+Now let us add a client authentication workflow to receive sensitive market data updates. [SampleProtocol_3.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_3.rs?raw=true) renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
 
 ```
 message LoginPrivateRequest
@@ -161,7 +160,7 @@ or send LoginPrivate(LoginPrivateRequest)
 {
     recv Password(PasswordRequest)
     {
-        send (PasswordResponse)
+        send PasswordResponse(PasswordResponse)
         {
             recv PrivateLoginAccept(LoginAccept)
             {
@@ -179,29 +178,21 @@ In this version of the protocol the server sends a secondary request to the clie
 
 ### Sample Protocol 4
 
-Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
+Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
 
 ```
-message SubscribeRequest
-{
-}
+message SubscribeRequest;
 
-message SubscribeAccept
-{
-}
+message SubscribeAccept;
 
 message SubscribeReject
 {
     string Text;
 }
 
-message UnsubscribeRequest
-{
-}
+message UnsubscribeRequest;
 
-message UnsubscribeAccept
-{
-}
+message UnsubscribeAccept;
 ```
 
 Note that once logged in (@L1) the client may only receive a Logout message from the server, it may not receive SnapshotRefresh messages yet. It is allowed to either send a SubscribeRequest or Logout message to the server at this stage. In response to a SubscribeRequest message the client may receive a SubscribeAccept or SubscribeReject message from the server. The continue statement defines a repetition of the subscribe procedure in response to the SubscribeReject message. The control flow continues outside the subscribe operation upon receive of a SubscribeAccept message.
@@ -243,11 +234,11 @@ loop
     }        
     or send Unsubscribe(UnsubscribeRequest)
     {
-        recv (SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or recv (UnsubscribeAccept)
+        or recv UnsubscribeAccept(UnsubscribeAccept)
         {
         }
         or recv Logout(Logout)
@@ -257,11 +248,11 @@ loop
     }
     or send Logout(Logout)
     {
-        recv (SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or recv (Logout)
+        or recv Logout(Logout)
         {
             return;
         }
@@ -277,7 +268,7 @@ In this version of the protocol the client and server implement an additional re
 
 ### Sample Protocol 5
 
-Let us add another type of subscription to market news to the protocol. News subscription is independent from the symbol snapshot subscription, both workflows may overlap in time and are to be handled in parallel. [SampleProtocol_5.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_5.rs?raw=true) introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
+Let us add another type of subscription to market news to the protocol. News subscription is separate from the symbol snapshot subscription, both workflows may overlap in time and are to be handled independently. [SampleProtocol_5.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_5.rs?raw=true) introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
 
 ```
 message SymbolRequest;
@@ -349,10 +340,10 @@ message NewsNotification : NewsResponse
 }
 ```
 
-The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a parallel control flow for a set of messages of the super processor. 
+The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a control flow for a subset of messages of the super processor. 
 
 ```
-processor SymbolClient() : Client
+proc SymbolClient() : Client
 (
     SymbolRequest,
     SymbolResponse
@@ -375,18 +366,18 @@ processor SymbolClient() : Client
     }
     or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
     {
-        recv (SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or recv (UnsubscribeSymbolAccept)
+        or recv UnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
         {
             return;
         }
     }
 }
 
-processor NewsClient() : Client
+proc NewsClient() : Client
 (
     NewsRequest,
     NewsResponse
@@ -409,11 +400,11 @@ processor NewsClient() : Client
     }
     or send UnsubscribeNews(UnsubscribeNewsRequest)
     {
-        recv (NewsNotification)
+        recv News(NewsNotification)
         {
             repeat;
         }
-        or recv (UnsubscribeNewsAccept)
+        or recv UnsubscribeNewsAccept(UnsubscribeNewsAccept)
         {
             return;
         }
@@ -434,11 +425,11 @@ or recv (SymbolResponse, NewsResponse)
 }
 ```
 
-In this version of the protocol the client and server implement two independent parallel workflows.
+In this version of the protocol the client and server implement two independent workflows.
 
 ### Sample Protocol 6
 
-Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled in parallel. [SampleProtocol_6.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/Language/SampleProtocol_6.rs?raw=true) adds a string Symbol field to the SymbolRequest and SymbolResponse message type to be inherited by all symbol messages. 
+Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled independently. [SampleProtocol_6.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_6.rs?raw=true) adds a string Symbol field to the SymbolRequest and SymbolResponse message types to be inherited by all the symbol messages. 
 
 ```
 message SymbolRequest
@@ -452,10 +443,10 @@ message SymbolResponse
 }
 ```
 
-The SymbolClient processor is modified to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
+The SymbolClient processor is updated to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
 
 ```
-processor SymbolClient(string) : Client
+proc SymbolClient(string) : Client
 (
     SymbolRequest.Symbol,
     SymbolResponse.Symbol
@@ -478,11 +469,11 @@ processor SymbolClient(string) : Client
     }
     or send UnsubscribeSymbol(UnsubscribeSymbolRequest)
     {
-        recv (SnapshotRefresh)
+        recv Snapshot(SnapshotRefresh)
         {
             repeat;
         }
-        or recv (UnsubscribeSymbolAccept)
+        or recv UnsubscribeSymbolAccept(UnsubscribeSymbolAccept)
         {
             return;
         }
@@ -508,7 +499,7 @@ bloc ClientLoginPrivate()
 {
     recv Password(PasswordRequest)
     {
-        send (PasswordResponse)
+        send PasswordResponse(PasswordResponse)
         {
             recv PrivateLoginAccept(LoginAccept)
             {
@@ -527,13 +518,13 @@ bloc ClientLogout()
     {
         repeat;
     }
-    or recv (Logout)
+    or recv Logout(Logout)
     {
         disconnect;
     }
 }
 
-processor Client()
+proc Client()
 {
     send LoginPublic(LoginPublicRequest)
     {
@@ -563,4 +554,4 @@ processor Client()
 }
 ```
 
-In this version of the protocol the client and server implement multiple independent parallel workflows.
+In this version of the protocol the client and server implement multiple independent workflows.
