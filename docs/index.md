@@ -3,3 +3,5 @@ The goal of RECSEN language is to provide a way to formalize definition of custo
 [Introduction](introduction.md)
 
 [Specification](specification.md)
+
+[Compiler](compiler.md)
