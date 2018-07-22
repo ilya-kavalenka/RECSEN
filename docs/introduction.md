@@ -4,7 +4,7 @@ The RECSEN language is designed to serve as a protocol definition. The protocol 
 
 ### Sample Protocol 1
 
-[SampleProtocol_1.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_1.rs?raw=true) represents the most basic version of the protocol. The only message type defined is SnapshotRefresh which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
+[SampleProtocol_1.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_1.rs?raw=true) represents the most basic version of the protocol. The only message type defined is SnapshotRefresh which has two fields. The string Symbol field contains id of the symbol the snapshot message relates to and the Entries field contains the symbol bids and asks (or the order book).
 
 ```
 message SnapshotRefresh
@@ -60,7 +60,7 @@ In this version of the protocol the client connects to the server and the server
 
 ### Sample Protocol 2
 
-Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
+Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
 
 ```
 message LoginRequest
@@ -124,7 +124,7 @@ In this version of the protocol the client and server may send and receive messa
 
 ### Sample Protocol 3
 
-Now let us add a client authentication workflow to receive sensitive market data updates. [SampleProtocol_3.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_3.rs?raw=true) renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
+Now let us add a client authentication workflow to receive sensitive market data updates. [SampleProtocol_3.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_3.rs?raw=true) renames LoginRequest to LoginPublicRequest message type and adds LoginPrivateRequest, PasswordRequest and PasswordResponse message types.
 
 ```
 message LoginPrivateRequest
@@ -178,7 +178,7 @@ In this version of the protocol the server sends a secondary request to the clie
 
 ### Sample Protocol 4
 
-Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
+Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
 
 ```
 message SubscribeRequest;
@@ -268,7 +268,7 @@ In this version of the protocol the client and server implement an additional re
 
 ### Sample Protocol 5
 
-Let us add another type of subscription to market news to the protocol. News subscription is separate from the symbol snapshot subscription, both workflows may overlap in time and are to be handled independently. [SampleProtocol_5.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_5.rs?raw=true) introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
+Let us add another type of subscription to market news to the protocol. News subscription is separate from the symbol snapshot subscription, both workflows may overlap in time and are to be handled independently. [SampleProtocol_5.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_5.rs?raw=true) introduces four base synthetic message types SymbolRequest, SymbolResponse, NewsRequest, NewsResponse and derives all the other symbol and news message types from them. A derived message includes all the fields of its base message and is compatible with the base message. Message type subclassing is used to group message types for common referencing and processing.
 
 ```
 message SymbolRequest;
@@ -429,7 +429,7 @@ In this version of the protocol the client and server implement two independent 
 
 ### Sample Protocol 6
 
-Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled independently. [SampleProtocol_6.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocols/SampleProtocol_6.rs?raw=true) adds a string Symbol field to the SymbolRequest and SymbolResponse message types to be inherited by all the symbol messages. 
+Finally let us improve the symbol snapshot subscription mechanism to allow the client subscribe to / unsubscribe from market data snapshots by symbol, making the subscription mechanism selective. Per-symbol subscription means subscription workflows of different symbols may overlap in time and are to be handled independently. [SampleProtocol_6.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_6.rs?raw=true) adds a string Symbol field to the SymbolRequest and SymbolResponse message types to be inherited by all the symbol messages. 
 
 ```
 message SymbolRequest
