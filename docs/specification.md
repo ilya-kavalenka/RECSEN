@@ -1,6 +1,6 @@
 # Specification
 
-Below is a formal language specification provided in a EBNF-like notation.
+Below is a formal language specification provided in a EBNF-like notation. 
 
 ### Comments
 
