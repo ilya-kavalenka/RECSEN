@@ -172,7 +172,7 @@ bloc =
     ('{' {statement | ';'} '}' | ';');
 ```
 
-### Processors
+### Procedures
 
 ```
 proc = 

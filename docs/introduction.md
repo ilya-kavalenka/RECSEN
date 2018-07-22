@@ -36,7 +36,7 @@ enum Side
 }
 ```
 
-The Client processor defines a repeatable receive SnapshotRefresh message operation named Snapshot. The client is not allowed to send messages.
+The Client procedure defines a repeatable receive SnapshotRefresh message operation named Snapshot. The client is not allowed to send messages.
 
 ```
 proc Client()
@@ -46,7 +46,7 @@ proc Client()
 }
 ```
 
-Similarly the Server processor defines an unnamed repeatable send SnapshotRefresh message operation. The server may not receive messages.
+Similarly the Server procedure defines an unnamed repeatable send SnapshotRefresh message operation. The server may not receive messages.
 
 ```
 proc Server()
@@ -60,7 +60,7 @@ In this version of the protocol the client connects to the server and the server
 
 ### Sample Protocol 2
 
-Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server processors. 
+Let us add a basic client login/logout workflow to the protocol. [SampleProtocol_2.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_2.rs?raw=true) adds four new message types as well as additional statements to the Client and Server procedures. 
 
 ```
 message LoginRequest
@@ -120,7 +120,7 @@ or recv Logout(Logout)
 }
 ```
 
-In this version of the protocol the client and server may send and receive messages. The client and server processors define what messages are allowed to send and may be received at every stage of the client and server communication.
+In this version of the protocol the client and server may send and receive messages. The client and server procedures define what messages are allowed to send and may be received at every stage of the client and server communication.
 
 ### Sample Protocol 3
 
@@ -178,7 +178,7 @@ In this version of the protocol the server sends a secondary request to the clie
 
 ### Sample Protocol 4
 
-Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server processors.
+Now we would like to add a subscription mechanism to allow the client start and stop receiving market data updates while staying logged-in and connected. [SampleProtocol_4.rs](http://github.com/ilya-kavalenka/RECSEN/blob/master/docs/SampleProtocol/SampleProtocol_4.rs?raw=true) introduces five new subscription message types and additional statments in the Client and Server procedures.
 
 ```
 message SubscribeRequest;
@@ -340,7 +340,7 @@ message NewsNotification : NewsResponse
 }
 ```
 
-The client symbol snapshot control flow is defined by the SymbolClient processor and the client news control flow is defined by the NewsClient processor. Both processors subclass the Client processor. A subclass processor defines a control flow for a subset of messages of the super processor. 
+The client symbol snapshot control flow is defined by the SymbolClient procedure and the client news control flow is defined by the NewsClient procedure. Both procedures subclass the Client procedure. A subclass procedure defines a control flow for a subset of messages of the super procedure. 
 
 ```
 proc SymbolClient() : Client
@@ -412,7 +412,7 @@ proc NewsClient() : Client
 }
 ```
 
-The Client processor now simply defines a send SymbolRequest and NewsRequest messages operation and a receive SymbolResponse and NewsResponse messages operation in-between the login and logout operations.
+The Client procedure now simply defines a send SymbolRequest and NewsRequest messages operation and a receive SymbolResponse and NewsResponse messages operation in-between the login and logout operations.
 
 ```
 send (SymbolRequest, NewsRequest)
@@ -443,7 +443,7 @@ message SymbolResponse
 }
 ```
 
-The SymbolClient processor is updated to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
+The SymbolClient procedure is updated to have an id of string type to define a control flow for a subset of messages having the same value of SymbolRequest.Symbol and SymbolResponse.Symbol fields.
 
 ```
 proc SymbolClient(string) : Client
