@@ -5,9 +5,9 @@ RECSEN language compiler was developed to parse protocol files and automatically
 Client-server protocol handlers produced include features like:
 
 * typesafe message classes
-* message dynamic cast operations
 * message runtime type information
+* message dynamic cast operations
 * typesafe send methods and receive events
 * request-response message correlation
 * protocol control flow validation
-* built-in documentation
+* inline documentation
