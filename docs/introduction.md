@@ -481,7 +481,24 @@ proc SymbolClient(string) : Client
 }
 ```
 
-It also makes use of inlinable blocs to share common sequences of statements or improve code readibility.
+It also makes use of message expressions to define control flow based on message field values in addition to message type.
+
+```
+recv NewsCritical(NewsNotification : Severity == NewsSeverity.Critical)
+{
+    repeat;
+}
+or recv NewsWarning(NewsNotification : Severity == NewsSeverity.Warning)
+{
+    repeat;
+}
+or recv NewsInformation(NewsNotification : Severity == NewsSeverity.Information)
+{
+    repeat;
+}
+```
+
+As well as inlinable blocs to share common sequences of statements or improve code readibility.
 
 ```
 bloc ClientLoginPublic()

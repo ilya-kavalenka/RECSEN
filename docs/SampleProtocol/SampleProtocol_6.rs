@@ -226,13 +226,29 @@ protocol SampleProtocol(6,0)
             }
         }
 
-        recv News(NewsNotification)
+        recv NewsCritical(NewsNotification : Severity == NewsSeverity.Critical)
+        {
+            repeat;
+        }
+        or recv NewsWarning(NewsNotification : Severity == NewsSeverity.Warning)
+        {
+            repeat;
+        }
+        or recv NewsInformation(NewsNotification : Severity == NewsSeverity.Information)
         {
             repeat;
         }
         or send UnsubscribeNews(UnsubscribeNewsRequest)
         {
-            recv News(NewsNotification)
+            recv NewsCritical(NewsNotification : Severity == NewsSeverity.Critical)
+            {
+                repeat;
+            }
+            or recv NewsWarning(NewsNotification : Severity == NewsSeverity.Warning)
+            {
+                repeat;
+            }
+            or recv NewsInformation(NewsNotification : Severity == NewsSeverity.Information)
             {
                 repeat;
             }
@@ -363,13 +379,29 @@ protocol SampleProtocol(6,0)
             }
         }
 
-        send (NewsNotification)
+        send (NewsNotification : Severity == NewsSeverity.Critical)
+        {
+            repeat;
+        }
+        or send (NewsNotification : Severity == NewsSeverity.Warning)
+        {
+            repeat;
+        }
+        or send (NewsNotification : Severity == NewsSeverity.Information)
         {
             repeat;
         }
         or recv UnsubscribeNews(UnsubscribeNewsRequest)
         {
-            send (NewsNotification)
+            send (NewsNotification : Severity == NewsSeverity.Critical)
+            {
+                repeat;
+            }
+            or send (NewsNotification : Severity == NewsSeverity.Warning)
+            {
+                repeat;
+            }
+            or send (NewsNotification : Severity == NewsSeverity.Information)
             {
                 repeat;
             }
