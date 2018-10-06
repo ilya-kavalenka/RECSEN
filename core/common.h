@@ -2,4 +2,5 @@
 
 namespace recsen::core
 {
+    void sleep(uint32_t timeout);
 }
