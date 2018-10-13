@@ -26,7 +26,7 @@ namespace recsen::core
 
         void join();
 
-    protected:      
+    protected:
 
     };
 

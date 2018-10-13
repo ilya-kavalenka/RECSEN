@@ -2,6 +2,8 @@
 
 #include "connection.h"
 
+#include <string>
+
 namespace recsen::core
 {
     struct client_connection_options_t : connection_options_t
@@ -19,11 +21,10 @@ namespace recsen::core
 
         client_connection_t(const client_connection_options_t& options);
 
-        ~client_connection_t();
-
-        bool connect(const string_t& address, uint16_t port);
+        bool connect(const std::string& address, uint16_t port);
 
     private:
 
+        client_connection_options_t options_;
     };
 }
