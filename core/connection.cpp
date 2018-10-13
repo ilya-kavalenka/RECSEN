@@ -122,7 +122,7 @@ namespace recsen::core
 
     void connection_t::set_options(int socket, const connection_options_t& options)
     {
-        int value = 1;
+        int value = options.no_delay ? 1 : 0;
         int result = setsockopt(socket, IPPROTO_TCP, TCP_NODELAY, &value, sizeof(value));
 
         if (result == -1)

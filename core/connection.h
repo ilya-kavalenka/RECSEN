@@ -12,11 +12,13 @@ namespace recsen::core
     {
         inline connection_options_t();
 
+        bool no_delay;
         size_t send_buffer_size;
         size_t recv_buffer_size;
     };
 
     inline connection_options_t::connection_options_t():
+        no_delay(true),
         send_buffer_size(0),
         recv_buffer_size(0)
     {
@@ -38,6 +40,7 @@ namespace recsen::core
         static const size_t END_OF_FILE = -2;
 
         connection_t();
+        connection_t(const connection_t&) = delete;
 
         ~connection_t();
 
@@ -50,6 +53,8 @@ namespace recsen::core
         size_t send(const uint8_t* buffer, size_t size);
 
         size_t recv(uint8_t* buffer, size_t size);
+
+        connection_t& operator=(const connection_t&) = delete;
 
     protected:
 

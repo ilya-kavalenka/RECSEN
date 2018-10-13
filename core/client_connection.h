@@ -20,8 +20,11 @@ namespace recsen::core
     public:
 
         client_connection_t(const client_connection_options_t& options);
+        client_connection_t(const client_connection_t&) = delete;
 
         bool connect(const std::string& address, uint16_t port);
+
+        client_connection_t& operator=(const client_connection_t&) = delete;
 
     private:
 

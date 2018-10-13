@@ -5,6 +5,7 @@
 #include <netdb.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <netinet/ip.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
@@ -21,7 +22,7 @@ namespace recsen::core
     {
     }
 
-    void server_connection_t::listen(uint16_t port)
+    void server_connection_t::listen(const string& address, uint16_t port)
     {
         int socket = ::socket(AF_INET, SOCK_STREAM, 0);
 
@@ -34,7 +35,7 @@ namespace recsen::core
 
             sockaddr_in addr;
             addr.sin_family = AF_INET;
-            addr.sin_addr.s_addr = INADDR_ANY;
+            addr.sin_addr.s_addr = address.size() ? inet_addr(address.c_str()) : INADDR_ANY;
             addr.sin_port = htons(port);
 
             int result = bind(socket, (const sockaddr *) &addr, sizeof(addr));
@@ -87,6 +88,20 @@ namespace recsen::core
             close(socket);
 
             throw;
+        }
+    }
+
+    void server_connection_t::set_options(int socket, const server_connection_options_t& options)
+    {
+        connection_t::set_options(socket, options);
+
+        if (options.reuse_address)
+        {
+            int value = 1;
+            int result = setsockopt(socket, SOL_SOCKET, SO_REUSEADDR, &value, sizeof(value));
+
+            if (result == -1)
+                throw runtime_error("Could not set socket SO_REUSEADDR option");
         }
     }
 }
