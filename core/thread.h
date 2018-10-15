@@ -29,7 +29,7 @@ namespace recsen::core
 
         thread_listener_t* get_listener() const;
 
-        void start(thread_procedure_t procedure, void* args);
+        void run(thread_procedure_t procedure, void* args);
 
         int join();
 

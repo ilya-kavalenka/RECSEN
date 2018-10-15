@@ -16,13 +16,11 @@ namespace recsen::core
         name_(name),
         thread_(0)
     {
-        start(procedure, args);
+        run(procedure, args);
     }
 
     thread_t::~thread_t()
     {
-        join();
-
         if (thread_)
         {
             void* retval;
@@ -50,7 +48,7 @@ namespace recsen::core
         return listner_;
     }
 
-    void thread_t::start(thread_procedure_t procedure, void* args)
+    void thread_t::run(thread_procedure_t procedure, void* args)
     {
         if (thread_)
         {
@@ -65,24 +63,20 @@ namespace recsen::core
         procedure_ = procedure;
         args_ = args;
 
-        pthread_mutex_t mutex;
-        int result = pthread_mutex_init(&mutex, 0);
+        int result = pthread_mutex_init(&mutex_, 0);
 
         if (result)
             throw runtime_error("Could not create mutex instance");
 
         try
         {
-            pthread_cond_t cond;
-            result = pthread_cond_init(&cond, 0);
+            result = pthread_cond_init(&cond_, 0);
 
             if (result)
                 throw runtime_error("Could not create condition variable instance");
 
             try
             {
-                mutex_ = mutex;
-                cond_ = cond;
                 status_ = STATUS_UNKNOWN;
         
                 pthread_t thread;
@@ -95,14 +89,14 @@ namespace recsen::core
             }
             catch (...)
             {
-                pthread_cond_destroy(&cond);
+                pthread_cond_destroy(&cond_);
 
                 throw;
             }
         }
         catch (...)
         {
-            pthread_mutex_destroy(&mutex);
+            pthread_mutex_destroy(&mutex_);
 
             throw;
         }
@@ -175,7 +169,7 @@ namespace recsen::core
 
                 thread->set_status(status);
 
-                return 0;
+                return NULL;
             }
             catch (...)
             {
@@ -186,7 +180,7 @@ namespace recsen::core
         }
         catch (...)
         {
-            return 0;
+            return NULL;
         }
     }
 
