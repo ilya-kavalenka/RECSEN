@@ -79,7 +79,7 @@ namespace recsen::core
         int result = epoll_ctl(epoll_, EPOLL_CTL_MOD, connection->socket_, &epoll_event);
 
         if (result == -1)
-          throw runtime_error("Could not modify connection to epoll instance");
+          throw runtime_error("Could not modify connection in epoll instance");
     }
 
     void selector_t::remove(connection_t* connection)
