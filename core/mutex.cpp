@@ -25,7 +25,7 @@ namespace recsen::core
     void mutex_t::open(int)
     {
         if (opened_)
-            throw rutime_error("Mutex is already opened");
+            throw runtime_error("Mutex is already opened");
 
         int result = pthread_mutex_init(&mutex_, 0);
 
