@@ -8,21 +8,23 @@ namespace recsen::core
 {
     thread_t::thread_t(const string& name):
         name_(name),
-        thread_(0)
+        running_(false)
     {
     }
 
     thread_t(const std::string& name, thread_procedure_t procedure, void* args) :
         name_(name),
-        thread_(0)
+        running_(false)
     {
         run(procedure, args);
     }
 
     thread_t::~thread_t()
     {
-        if (thread_)
+        if (running_)
         {
+            running_ = false;
+
             void* retval;
             pthread_join(thread_, &retval);
             pthread_cond_destroy(&cond_);
@@ -37,8 +39,8 @@ namespace recsen::core
 
     void thread_t::set_listener(thread_listener_t* listener)
     {
-        if (thread_)
-            throw runtime_error("Thread is started");
+        if (running_)
+            throw runtime_error("Thread is running");
 
         listner_ = listener;
     }
@@ -50,18 +52,19 @@ namespace recsen::core
 
     void thread_t::run(thread_procedure_t procedure, void* args)
     {
-        if (thread_)
+        if (running_)
         {
+            running_ = false;
+
             void* retval;
             pthread_join(thread_, &retval);
             pthread_cond_destroy(&cond_);
             pthread_mutex_destroy(&mutex_);
-
-            thread_ = 0;
         }
 
         procedure_ = procedure;
         args_ = args;
+        status_ = STATUS_UNKNOWN;
 
         int result = pthread_mutex_init(&mutex_, 0);
 
@@ -73,19 +76,16 @@ namespace recsen::core
             result = pthread_cond_init(&cond_, 0);
 
             if (result)
-                throw runtime_error("Could not create condition variable instance");
+                throw runtime_error("Could not create condition instance");
 
             try
-            {
-                status_ = STATUS_UNKNOWN;
-        
-                pthread_t thread;
-                result = pthread_create(&thread, 0, procedure, this);
+            {       
+                result = pthread_create(&thread_, 0, procedure, this);
 
                 if (result)
                     throw runtime_error("Could not create thread instance");
 
-                thread_ = thread;
+                running_ = true;
             }
             catch (...)
             {
@@ -106,7 +106,7 @@ namespace recsen::core
     {
         int status;
     
-        if (thread_)
+        if (running_)
         {
             int result = pthread_mutex_lock(&mutex_);
 
@@ -121,7 +121,7 @@ namespace recsen::core
                 {
                     pthread_mutex_unlock(&mutex_);
 
-                    throw runtime_error("Could not wait for condition variable");
+                    throw runtime_error("Could not wait for condition");
                 }
             }
 

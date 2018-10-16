@@ -9,12 +9,12 @@ using namespace std;
 namespace recsen::core
 {
     selector_t::selector_t() :
-        epoll_(-1)
+        opened_(false)
     {
     }
 
     selector_t::selector_t(int size) :
-        epoll_(-1)
+        opened_(false)
     {
         open(size);
     }
@@ -26,19 +26,23 @@ namespace recsen::core
 
     void selector_t::open(int size)
     {
-        if (epoll_ != -1)
+        if (opened_)
             throw runtime_error("Selector is already opened");
 
         epoll_ = epoll_create(size);
 
         if (epoll_ == -1)
           throw runtime_error("Could not create epoll instance");
+
+        opened_ = true;
     }
 
     void selector_t::close()
     {
-        if (epoll_ != -1)
+        if (opened_)
         {
+            opened_ = false;
+
             ::close(epoll_);
             epoll_ = -1;
         }

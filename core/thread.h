@@ -20,6 +20,7 @@ namespace recsen::core
         
         thread_t(const std::string& name);
         thread_t(const std::string& name, thread_procedure_t procedure, void* args);
+        thread_t(const thread_t&) = delete;
 
         ~thread_t();
 
@@ -33,6 +34,8 @@ namespace recsen::core
 
         int join();
 
+        thread_t& operator=(const thread_t&) = delete;
+
     private:
 
         static void* procedure(void* args);
@@ -40,17 +43,16 @@ namespace recsen::core
         void set_status(int status);
 
         std::string name_;
-
         thread_listener_t listener_;
 
         thread_procedure_t procedure_;
         void* args_;
+        int status_;
 
+        bool running_;
         pthread_mutex_t mutex_;
         pthread_cond_t cond_;
         pthread_t thread_;
-
-        int status_;
     };
 
     class thread_listener_t

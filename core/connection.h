@@ -32,8 +32,6 @@ namespace recsen::core
 
     class connection_t
     {
-        friend class selector_t;
-
     public:
 
         static const size_t WOULD_BLOCK = -1;
@@ -57,6 +55,8 @@ namespace recsen::core
         connection_t& operator=(const connection_t&) = delete;
 
     protected:
+
+        friend class selector_t;
 
         void set_options(int socket, const connection_options_t& options);
 

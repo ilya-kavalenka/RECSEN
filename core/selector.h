@@ -52,7 +52,7 @@ namespace recsen::core
 
     private:
 
+        bool opened_;
         int epoll_;
-        epoll_event epoll_events_[EVENT_INFO_SIZE];
     };
 }
