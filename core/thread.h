@@ -43,7 +43,7 @@ namespace recsen::core
         void set_status(int status);
 
         std::string name_;
-        thread_listener_t listener_;
+        thread_listener_t* listener_;
 
         thread_procedure_t procedure_;
         void* args_;

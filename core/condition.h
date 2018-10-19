@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mutex_t.h"
+#include "mutex.h"
 
 #include <pthread.h>
 

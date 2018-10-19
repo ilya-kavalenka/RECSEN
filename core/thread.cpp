@@ -1,6 +1,6 @@
 #include "thread.h"
 
-#include <stdexcept.h>
+#include <stdexcept>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ namespace recsen::core
     {
     }
 
-    thread_t(const std::string& name, thread_procedure_t procedure, void* args) :
+    thread_t::thread_t(const string& name, thread_procedure_t procedure, void* args) :
         name_(name),
         running_(false)
     {
@@ -42,12 +42,12 @@ namespace recsen::core
         if (running_)
             throw runtime_error("Thread is running");
 
-        listner_ = listener;
+        listener_ = listener;
     }
 
     thread_listener_t* thread_t::get_listener() const
     {
-        return listner_;
+        return listener_;
     }
 
     void thread_t::run(thread_procedure_t procedure, void* args)
@@ -80,7 +80,7 @@ namespace recsen::core
 
             try
             {       
-                result = pthread_create(&thread_, 0, procedure, this);
+                result = pthread_create(&thread_, 0, thread_t::procedure, this);
 
                 if (result)
                     throw runtime_error("Could not create thread instance");
@@ -143,24 +143,24 @@ namespace recsen::core
 
             try
             {
-                if (listener_)
+                if (thread->listener_)
                 {
                     try
                     {
-                        listener_->on_begin(thread);
+                        thread->listener_->on_begin(thread);
                     }
                     catch (...)
                     {
                     }
                 }
 
-                int status = thread->procedure_(thread->agrs_);
+                int status = thread->procedure_(thread->args_);
 
-                if (listener_)
+                if (thread->listener_)
                 {
                     try
                     {
-                        listener_->on_end(thread);
+                        thread->listener_->on_end(thread);
                     }
                     catch (...)
                     {
