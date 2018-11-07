@@ -29,7 +29,7 @@ namespace recsen::core
 
         size_t write(const uint8_t* buffer, size_t size);
 
-        size_t read(const uint8_t* buffer, size_t size);
+        size_t read(uint8_t* buffer, size_t size);
 
         void seek(size_t offset);
 

@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <errno.h>
 
@@ -16,7 +17,7 @@ namespace recsen::core
 
         while (pos != string::npos)
         {
-            string_t name = path.substr(0, pos);
+            string name = path.substr(0, pos);
 
             int result = mkdir(name.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
@@ -61,7 +62,7 @@ namespace recsen::core
 
         path_ = path;
 
-        file_ = ::open(path.c_str(), O_CREAT | O_RDWR);
+        file_ = ::open(path.c_str(), O_CREAT | O_RDWR, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
         if (file_ == -1)
             throw runtime_error("Could not open file: " + path);
@@ -106,7 +107,7 @@ namespace recsen::core
         return (size_t) result;
     }            
 
-    size_t file_t::read(const uint8_t* buffer, size_t size)
+    size_t file_t::read(uint8_t* buffer, size_t size)
     {
         READ:
 
