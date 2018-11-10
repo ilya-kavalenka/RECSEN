@@ -123,9 +123,31 @@ namespace recsen::core
 
         std::optional<timestamp_t> get_timestamp_optional(size_t offset) const;
 
+        void set_string(size_t offset, const std::string& value);
+
+        std::string get_string(size_t offset) const;
+        void get_string(size_t offset, std::string& value) const;
+
+        void set_string_optional(size_t offset, const std::optional<std::string>& value);
+
+        std::optional<std::string> get_string_optional(size_t offset) const;
+        void get_string_optional(size_t offset, std::optional<std::string>& value) const;
+
+        void set_ustring(size_t offset, const std::wstring& value);
+
+        std::wstring get_ustring(size_t offset) const;
+        void get_ustring(size_t offset, std::wstring& value) const;
+
+        void set_ustring_optional(size_t offset, const std::optional<std::wstring>& value);
+
+        std::optional<std::wstring> get_ustring_optional(size_t offset) const;
+        void get_ustring_optional(size_t offset, std::optional<std::wstring>& value) const;
+
     private:
 
-        static size_t get_cappacity(size_t size);
+        static size_t get_capacity(size_t size);
+
+        size_t allocate(size_t size);
 
         size_t capacity_;
         uint8_t* data_;

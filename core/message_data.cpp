@@ -1,4 +1,6 @@
 #include "message_data.h"
+#include "ascii_encoding.h"
+#include "utf8_encoding.h"
 
 #include <string.h>
 
@@ -8,17 +10,17 @@ namespace recsen::core
 {
     message_data_t::message_data_t()
     {
-      capacity_ = get_cappacity(0);
+      capacity_ = get_capacity(0);
       data_ = (uint8_t*) malloc(capacity_);
-      set_uint32(0, 8);
-      set_uint32(4, 0);
+      *(uint32_t*) (data_) = 8;
+      *(uint32_t*) (data_ + 4) = 0;
     }
 
     message_data_t::message_data_t(size_t size)
     {
-      capacity_ = get_cappacity(size);
+      capacity_ = get_capacity(size);
       data_ = (uint8_t*) malloc(capacity_);
-      set_uint32(0, (uint32_t) size);
+      *(uint32_t*) (data_) = size;
       memset(data_ + 4, 0, size - 4);
     }
 
@@ -588,8 +590,235 @@ namespace recsen::core
       return optional<timestamp_t>(timestamp_t(timestamp_t::duration(data)));
     }
 
-    size_t message_data_t::get_cappacity(size_t size)
+    void message_data_t::set_string(size_t offset, const string& value)
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset)
+        throw runtime_error("String field is already set");
+
+      size_t new_data_size = get_ascii_encode_size(value);
+      size_t new_data_offset = allocate(new_data_size);
+
+      *(uint32_t*) (data_ + offset) = (uint32_t) new_data_size;
+      *(uint32_t*) (data_ + offset + 4) = (uint32_t) new_data_offset;
+
+      encode_ascii(data_ + new_data_offset, new_data_size, value);
+    }
+
+    string message_data_t::get_string(size_t offset) const
+    {
+      string value;
+      get_string(offset, value);
+
+      return value;
+    }
+
+    void message_data_t::get_string(size_t offset, string& value) const
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_size = *(uint32_t*) (data_ + offset);
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset + data_size > capacity_)
+        throw runtime_error("Invalid string field offset");
+
+      size_t data_length = get_ascii_decode_length(data_ + data_offset, data_size);
+      value.resize(data_length);
+
+      decode_ascii(value, data_ + data_offset, data_size);
+    }
+
+    void message_data_t::set_string_optional(size_t offset, const optional<string>& value)
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset)
+        throw runtime_error("String field is already set");
+
+      if (value.has_value()) {
+        size_t new_data_size = get_ascii_encode_size(value.value());
+        size_t new_data_offset = allocate(new_data_size);
+
+        *(uint32_t *) (data_ + offset) = (uint32_t) new_data_size;
+        *(uint32_t *) (data_ + offset + 4) = (uint32_t) new_data_offset;
+
+        encode_ascii(data_ + new_data_offset, new_data_size, value.value());
+      }
+      else
+      {
+        *(uint32_t *) (data_ + offset) = 0;
+        *(uint32_t *) (data_ + offset + 4) = 0;
+      }
+    }
+
+    optional<string> message_data_t::get_string_optional(size_t offset) const
+    {
+      optional<string> value;
+      get_string_optional(offset, value);
+
+      return value;
+    }
+
+    void message_data_t::get_string_optional(size_t offset, optional<string>& value) const
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_size = *(uint32_t*) (data_ + offset);
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (! data_size && ! data_offset)
+      {
+        value.reset();
+
+        return;
+      }
+
+      if (data_offset + data_size > capacity_)
+        throw runtime_error("Invalid string field offset");
+
+      size_t data_length = get_ascii_decode_length(data_ + data_offset, data_size);
+      value = string();
+      value.value().resize(data_length);
+
+      decode_ascii(value.value(), data_ + data_offset, data_size);
+    }
+
+    void message_data_t::set_ustring(size_t offset, const wstring& value)
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset)
+        throw runtime_error("String field is already set");
+
+      size_t new_data_size = get_utf8_encode_size(value);
+      size_t new_data_offset = allocate(new_data_size);
+
+      *(uint32_t*) (data_ + offset) = (uint32_t) new_data_size;
+      *(uint32_t*) (data_ + offset + 4) = (uint32_t) new_data_offset;
+
+      encode_utf8(data_ + new_data_offset, new_data_size, value);
+    }
+
+    wstring message_data_t::get_ustring(size_t offset) const
+    {
+      wstring value;
+      get_ustring(offset, value);
+
+      return value;
+    }
+
+    void message_data_t::get_ustring(size_t offset, wstring& value) const
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_size = *(uint32_t*) (data_ + offset);
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset + data_size > capacity_)
+        throw runtime_error("Invalid string field offset");
+
+      size_t data_length = get_utf8_decode_length(data_ + data_offset, data_size);
+      value.resize(data_length);
+
+      decode_utf8(value, data_ + data_offset, data_size);
+    }
+
+    void message_data_t::set_ustring_optional(size_t offset, const optional<wstring>& value)
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (data_offset)
+        throw runtime_error("String field is already set");
+
+      if (value.has_value()) {
+        size_t new_data_size = get_utf8_encode_size(value.value());
+        size_t new_data_offset = allocate(new_data_size);
+
+        *(uint32_t *) (data_ + offset) = (uint32_t) new_data_size;
+        *(uint32_t *) (data_ + offset + 4) = (uint32_t) new_data_offset;
+
+        encode_utf8(data_ + new_data_offset, new_data_size, value.value());
+      }
+      else
+      {
+        *(uint32_t *) (data_ + offset) = 0;
+        *(uint32_t *) (data_ + offset + 4) = 0;
+      }
+    }
+
+    optional<wstring> message_data_t::get_ustring_optional(size_t offset) const
+    {
+      optional<wstring> value;
+      get_ustring_optional(offset, value);
+
+      return value;
+    }
+
+    void message_data_t::get_ustring_optional(size_t offset, optional<wstring>& value) const
+    {
+      if (offset + 8 > capacity_)
+        throw runtime_error("Invalid field offset");
+
+      uint32_t data_size = *(uint32_t*) (data_ + offset);
+      uint32_t data_offset = *(uint32_t*) (data_ + offset + 4);
+
+      if (! data_size && ! data_offset)
+      {
+        value.reset();
+
+        return;
+      }
+
+      if (data_offset + data_size > capacity_)
+        throw runtime_error("Invalid string field offset");
+
+      size_t data_length = get_utf8_decode_length(data_ + data_offset, data_size);
+      value = wstring();
+      value.value().resize(data_length);
+
+      decode_utf8(value.value(), data_ + data_offset, data_size);
+    }
+
+    size_t message_data_t::get_capacity(size_t size)
     {
       return (size + 0xFF) & ~0xFF;
+    }
+
+    size_t message_data_t::allocate(size_t size)
+    {
+      size_t message_size = *(uint32_t*) (data_);
+      size_t new_message_size = message_size + size;
+
+      if (new_message_size > capacity_)
+      {
+        size_t new_capacity = get_capacity(new_message_size);
+        uint8_t* new_data = (uint8_t*) malloc(new_capacity);
+        memcpy(new_data, data_, message_size);
+
+        free(data_);
+        capacity_ = new_capacity;
+        data_ = new_data;
+      }
+
+      *(uint32_t*) (data_) = (uint32_t) new_message_size;
+
+      return message_size;
     }
 }
