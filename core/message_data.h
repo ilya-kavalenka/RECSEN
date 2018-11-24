@@ -1,7 +1,6 @@
 #pragma once
 
 #include "common.h"
-#include "message_info.h"
 
 #include <sstream>
 #include <string>
@@ -143,6 +142,39 @@ namespace recsen::core
         std::optional<std::wstring> get_ustring_optional(size_t offset) const;
         void get_ustring_optional(size_t offset, std::optional<std::wstring>& value) const;
 
+        void set_bytes(size_t offset, const uint8_t* value_data, size_t value_size);
+
+        size_t get_bytes(size_t offset, uint8_t* value_data, size_t value_size) const;
+
+        size_t get_bytes_size(size_t offset) const;
+
+        void set_bytes_optional(size_t offset, const std::optional<uint8_t*> value_data, std::optional<size_t> value_size);
+
+        std::optional<size_t> get_bytes_optional(size_t offset, uint8_t* value_data, size_t value_size) const;
+
+        std::optional<size_t> get_bytes_size_optional(size_t offset) const;
+
+        size_t new_group(size_t offset, size_t size);
+
+        void set_array_length(size_t offset, size_t length, size_t item_size);
+
+        size_t get_array_length(size_t offset) const;
+
+        size_t get_array_item_offset(size_t offset, size_t index, size_t item_size) const;
+
+        size_t get_size() const;
+
+        uint8_t* get_data();
+        const uint8_t* get_data() const;
+
+        void resize(size_t size);
+
+        void copy(const message_data_t& message_data);
+
+        void reset(size_t size);
+
+        inline message_data_t& operator=(const message_data_t& message_data);
+
     private:
 
         static size_t get_capacity(size_t size);
@@ -152,4 +184,11 @@ namespace recsen::core
         size_t capacity_;
         uint8_t* data_;
     };
+
+    inline message_data_t& message_data_t::operator=(const message_data_t& message_data)
+    {
+        copy(message_data);
+
+        return *this;
+    }
 }

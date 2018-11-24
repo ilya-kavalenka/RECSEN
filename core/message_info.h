@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.h"
+#include "message_data.h"
 
 #include <string>
 
@@ -65,7 +66,7 @@ namespace recsen::core
     {
         const char* name;
         size_t size;
-        size_t member_length;
+        size_t field_length;
         const field_info_t* fields;
     };
 
@@ -94,7 +95,5 @@ namespace recsen::core
     // returns true if message_info2 is derived from message_info1 or the same
     bool is_message_info(const message_info_t* message_info1, const message_info_t* message_info2);
 
-    std::string get_enum_value_name(const enum_info_t& enum_info, uint8_t value);
-
-    std::string get_set_value_name(const set_info_t& set_info, uint32_t value);
+    std::string get_message_string(const message_info_t& message_info, const message_data_t& message_data);
 }
