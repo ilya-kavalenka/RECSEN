@@ -120,8 +120,7 @@ group =
 
 ```
 message = 
-    'message' identifier 
-    ['@' message_id]
+    ['@' message_id] 'message' identifier 
     [':' super_message_reference] {note} 
     ('{' {field | ';'} '}' | ';');
 
@@ -136,8 +135,7 @@ super_message_reference =
 
 ```
 field = 
-    field_type ['?'] ['[' ']'] identifier 
-    ['@' field_id] {note} ';';
+    ['@' field_id] field_type ['?'] ['[' ']'] identifier {note} ';';
 
 field_type = 
     'bool' |
