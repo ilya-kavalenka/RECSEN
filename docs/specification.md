@@ -177,8 +177,8 @@ bloc =
 ```
 proc = 
     'proc' identifier '(' [proc_id_type] ')' 
-    [':' super_proc_reference '(' [message_reference_expression {',' message_reference_expression} | field_reference_expression {',' field_reference_expression}] ')'] {note} 
-    ('{' {statement | ';'} '}' | '=!' complement_proc_reference | ';');
+    [':' proc_reference '(' [message_reference_expression {',' message_reference_expression} | field_reference_expression {',' field_reference_expression}] ')'] {note} 
+    ('{' {statement | ';'} '}' | '=' proc_reference  | '=!' proc_reference | ';');
 
 proc_id_type = 
     'int8' | 
@@ -191,12 +191,6 @@ proc_id_type =
     'uint64' | 
     'string' | 
     'ustring';
-
-super_proc_reference = 
-    proc_reference;
-
-complement_proc_reference = 
-    proc_reference;
 ```
 
 ### Statements
@@ -242,8 +236,8 @@ disconnect =
 
 ```
 operation = 
-    ('recv' | 'send') [identifier] 
-    ['(' [message_reference_expression {',' message_reference_expression}] ')'] {note} 
+    (('recv' | 'send') [identifier] ['(' [message_reference_expression {',' message_reference_expression}] ')'] {note}) |
+    (block_reference '(' ')')
     (statement | '{' {statement} '}' | ';');
 ```
 
@@ -303,7 +297,7 @@ expression_1 =
     expression_2 | expression_1 '&&' expression_2;
 
 expression_2 = 
-    expression_3 | expression_2 ('==' | '!=') expression_3;
+    expression_3 | expression_2 ('==' | '!=' | '<' | '<=' | '>' | '>=') expression_3;
 
 expression_3 = 
     expression_4 | '!' expression_4;

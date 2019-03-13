@@ -108,27 +108,33 @@ protocol SampleProtocol(6,0)
 
     bloc ClientLoginPublic()
     {
-        recv PublicLoginAccept(LoginAccept)
+        send LoginPublic(LoginPublicRequest)
         {
-        }
-        or recv PublicLoginReject(LoginReject)
-        {
-            disconnect;
+            recv PublicLoginAccept(LoginAccept)
+            {
+            }
+            or recv PublicLoginReject(LoginReject)
+            {
+                disconnect;
+            }
         }
     }
 
     bloc ClientLoginPrivate()
     {
-        recv Password(PasswordRequest)
+        send LoginPrivate(LoginPrivateRequest)
         {
-            send PasswordResponse(PasswordResponse)
+            recv Password(PasswordRequest)
             {
-                recv PrivateLoginAccept(LoginAccept)
+                send PasswordResponse(PasswordResponse)
                 {
-                }
-                or recv PrivateLoginReject(LoginReject)
-                {
-                    disconnect;
+                    recv PrivateLoginAccept(LoginAccept)
+                    {
+                    }
+                    or recv PrivateLoginReject(LoginReject)
+                    {
+                        disconnect;
+                    }
                 }
             }
         }
@@ -136,25 +142,26 @@ protocol SampleProtocol(6,0)
 
     bloc ClientLogout()
     {
-        recv (SymbolResponse, NewsResponse)
+        send Logout(Logout)
         {
-            repeat;
-        }
-        or recv Logout(Logout)
-        {
-            disconnect;
+            recv (SymbolResponse, NewsResponse)
+            {
+                repeat;
+            }
+            or recv Logout(Logout)
+            {
+                disconnect;
+            }
         }
     }
 
     proc Client()
     {
-        send LoginPublic(LoginPublicRequest)
+        ClientLoginPublic()
         {
-            ClientLoginPublic();
         }
-        or send LoginPrivate(LoginPrivateRequest)
+        or ClientLoginPrivate()
         {
-            ClientLoginPrivate();
         }
 
         send (SymbolRequest, NewsRequest)
@@ -165,9 +172,8 @@ protocol SampleProtocol(6,0)
         {
             repeat;
         }
-        or send Logout(Logout)
+        or ClientLogout()
         {
-            ClientLogout();
         }
         or recv Logout(Logout)
         {
@@ -261,27 +267,33 @@ protocol SampleProtocol(6,0)
 
     bloc ServerLoginPublic()
     {
-        send (LoginAccept)
+        recv LoginPublic(LoginPublicRequest)
         {
-        }
-        or send (LoginReject)
-        {
-            disconnect;
+            send (LoginAccept)
+            {
+            }
+            or send (LoginReject)
+            {
+                disconnect;
+            }
         }
     }
 
     bloc ServerLoginPrivate()
     {
-        send (PasswordRequest)
+        recv LoginPrivate(LoginPrivateRequest)
         {
-            recv Password(PasswordResponse)
+            send (PasswordRequest)
             {
-                send (LoginAccept)
+                recv Password(PasswordResponse)
                 {
-                }
-                or send (LoginReject)
-                {
-                    disconnect;
+                    send (LoginAccept)
+                    {
+                    }
+                    or send (LoginReject)
+                    {
+                        disconnect;
+                    }
                 }
             }
         }
@@ -289,25 +301,26 @@ protocol SampleProtocol(6,0)
 
     bloc ServerLogout()
     {
-        send (SymbolResponse, NewsResponse)
+        recv Logout(Logout)
         {
-            repeat;
-        }
-        or send (Logout)
-        {
-            disconnect;
+            send (SymbolResponse, NewsResponse)
+            {
+                repeat;
+            }
+            or send (Logout)
+            {
+                disconnect;
+            }
         }
     }
 
     proc Server()
     {
-        recv LoginPublic(LoginPublicRequest)
-        {
-            ServerLoginPublic();
+        ServerLoginPublic()
+        {            
         }
-        or recv LoginPrivate(LoginPrivateRequest)
-        {
-            ServerLoginPrivate();
+        or ServerLoginPrivate()
+        {            
         }
      
         recv (SymbolRequest, NewsRequest)
@@ -318,9 +331,8 @@ protocol SampleProtocol(6,0)
         {
             repeat;
         }
-        or recv Logout(Logout)
+        or ServerLogout()
         {
-            ServerLogout();
         }
         or send (Logout)
         {

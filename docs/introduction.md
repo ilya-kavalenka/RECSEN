@@ -498,32 +498,38 @@ or recv NewsInformation(NewsNotification : Severity == NewsSeverity.Information)
 }
 ```
 
-As well as inlinable blocs to share common sequences of statements or improve code readibility.
+As well as inlinable blocs to share common sequences of statements and improve code readibility.
 
 ```
 bloc ClientLoginPublic()
 {
-    recv PublicLoginAccept(LoginAccept)
+    send LoginPublic(LoginPublicRequest)
     {
-    }
-    or recv PublicLoginReject(LoginReject)
-    {
-        disconnect;
+        recv PublicLoginAccept(LoginAccept)
+        {
+        }
+        or recv PublicLoginReject(LoginReject)
+        {
+            disconnect;
+        }
     }
 }
 
 bloc ClientLoginPrivate()
 {
-    recv Password(PasswordRequest)
+    send LoginPrivate(LoginPrivateRequest)
     {
-        send PasswordResponse(PasswordResponse)
+        recv Password(PasswordRequest)
         {
-            recv PrivateLoginAccept(LoginAccept)
+            send PasswordResponse(PasswordResponse)
             {
-            }
-            or recv PrivateLoginReject(LoginReject)
-            {
-                disconnect;
+                recv PrivateLoginAccept(LoginAccept)
+                {
+                }
+                or recv PrivateLoginReject(LoginReject)
+                {
+                    disconnect;
+                }
             }
         }
     }
@@ -531,25 +537,26 @@ bloc ClientLoginPrivate()
 
 bloc ClientLogout()
 {
-    recv (SymbolResponse, NewsResponse)
+    send Logout(Logout)
     {
-        repeat;
-    }
-    or recv Logout(Logout)
-    {
-        disconnect;
+        recv (SymbolResponse, NewsResponse)
+        {
+            repeat;
+        }
+        or recv Logout(Logout)
+        {
+            disconnect;
+        }
     }
 }
 
 proc Client()
-{
-    send LoginPublic(LoginPublicRequest)
+{   
+    ClientLoginPublic()
     {
-        ClientLoginPublic();
     }
-    or send LoginPrivate(LoginPrivateRequest)
+    or ClientLoginPrivate()
     {
-        ClientLoginPrivate();
     }
 
     send (SymbolRequest, NewsRequest)
@@ -560,9 +567,8 @@ proc Client()
     {
         repeat;
     }
-    or send Logout(Logout)
+    or ClientLogout()
     {
-        ClientLogout();
     }
     or recv Logout(Logout)
     {
