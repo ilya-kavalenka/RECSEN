@@ -7,7 +7,7 @@ Client-server protocol handlers produced include features like:
 * typesafe message classes
 * message runtime type information
 * message dynamic cast operations
-* asynchronous thread-safe api
+* asynchronous api
 * typesafe send and receive functions
 * request-response correlation and closer
 * protocol workflow validation
