@@ -1,15 +1,16 @@
 # Compiler
 
-RECSEN language compiler was developed to parse protocol files and automatically generate client-server protocol handlers over TCP/IP for a number of platforms - C++/Linux, .NET and Java.
+RECSEN language compiler was developed to parse protocol files and generate client-server protocol handlers over TCP/IP for a number of platforms - C++/Linux, .NET and Java.
 
 Client-server protocol handlers produced include features like:
 
 * typesafe message classes
 * message runtime type information
 * message dynamic cast operations
-* typesafe send methods and receive events
-* request-response message correlation
-* protocol control flow validation
 * asynchronous thread-safe api
+* typesafe send and receive functions
+* request-response correlation and closer
+* protocol workflow validation
+* source file positioning in case of workflow violation
 * detailed message logging
-* inline documentation
+* inlined documentation
